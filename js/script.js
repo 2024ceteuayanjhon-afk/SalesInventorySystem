@@ -1,1 +1,0 @@
-console.log("Sales and Inventory System Loaded Successfully");
