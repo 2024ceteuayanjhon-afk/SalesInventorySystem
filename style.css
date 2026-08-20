@@ -34,12 +34,14 @@ body {
 
 
 /* =========================
-   MAIN INTERFACE
+   LOGIN OVERLAY
    ========================= */
 
 .overlay {
 
     width: 100%;
+
+    min-height: 700px;
 
     display: flex;
 
@@ -49,6 +51,10 @@ body {
 
 }
 
+
+/* =========================
+   LOGIN CARD
+   ========================= */
 
 .card {
 
@@ -67,6 +73,10 @@ body {
 }
 
 
+/* =========================
+   LOGO
+   ========================= */
+
 .logo {
 
     width: 200px;
@@ -77,6 +87,10 @@ body {
 
 }
 
+
+/* =========================
+   CARD TITLE
+   ========================= */
 
 .card h1 {
 
@@ -142,7 +156,94 @@ button:hover {
 
 
 /* =========================
-   TASK 4 TABLE SECTION
+   LOGIN FORM
+   ========================= */
+
+.login-form {
+
+    display: none;
+
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #ddd;
+
+}
+
+
+.login-form h2 {
+
+    color: #630303;
+
+    margin-bottom: 15px;
+
+}
+
+
+.login-form input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    outline: none;
+
+}
+
+
+.login-form input:focus {
+
+    border-color: #ef0707;
+
+    box-shadow: 0 0 5px rgba(239, 7, 7, 0.25);
+
+}
+
+
+.login-form button {
+
+    margin-top: 5px;
+
+}
+
+
+#loginMessage {
+
+    margin-top: 15px;
+
+    margin-bottom: 0;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================
+   MAIN SYSTEM
+   ========================= */
+
+#mainSystem {
+
+    display: none;
+
+    width: 100%;
+
+}
+
+
+/* =========================
+   TABLE SECTION
    ========================= */
 
 .table-section {
@@ -262,6 +363,8 @@ button:hover {
 
 footer {
 
+    display: none;
+
     margin-top: 40px;
 
     color: white;
@@ -284,6 +387,13 @@ footer {
         width: 90%;
 
         padding: 30px;
+
+    }
+
+
+    .overlay {
+
+        min-height: 600px;
 
     }
 
@@ -320,6 +430,13 @@ footer {
     body {
 
         padding-top: 20px;
+
+    }
+
+
+    .overlay {
+
+        min-height: 550px;
 
     }
 
