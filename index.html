@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,17 @@
 
     <link rel="stylesheet" href="css/style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
 
     <!-- =========================
-         MAIN SYSTEM INTERFACE
+         LOGIN INTERFACE
          ========================= -->
 
-    <div class="overlay">
+    <div class="overlay" id="loginOverlay">
 
         <div class="card">
 
@@ -33,7 +35,37 @@
                 in one centralized system.
             </p>
 
-            <button>Login</button>
+            <!-- Login Button -->
+            <button id="loginBtn" type="button">
+                Login
+            </button>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="login-form">
+
+                <h2>Admin Login</h2>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    autocomplete="username"
+                >
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                >
+
+                <button id="submitLogin" type="button">
+                    Sign In
+                </button>
+
+                <p id="loginMessage"></p>
+
+            </div>
 
         </div>
 
@@ -41,217 +73,225 @@
 
 
     <!-- =========================
-         TASK 4 - PRODUCT INVENTORY
+         MAIN SYSTEM
          ========================= -->
 
-    <section class="table-section">
+    <main id="mainSystem">
 
-        <h2>Product Inventory</h2>
+        <!-- =========================
+             PRODUCT INVENTORY
+             ========================= -->
 
-        <table>
+        <section class="table-section">
 
-            <thead>
-                <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Stock Quantity</th>
-                </tr>
-            </thead>
+            <h2>Product Inventory</h2>
 
-            <tbody>
+            <table>
 
-                <tr>
-                    <td>P001</td>
-                    <td>Fried Itik Original</td>
-                    <td>Food</td>
-                    <td>₱350</td>
-                    <td>25</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock Quantity</th>
+                    </tr>
+                </thead>
 
-                <tr>
-                    <td>P002</td>
-                    <td>Fried Itik Spicy</td>
-                    <td>Food</td>
-                    <td>₱375</td>
-                    <td>20</td>
-                </tr>
+                <tbody>
 
-                <tr>
-                    <td>P003</td>
-                    <td>Fried Itik Family Pack</td>
-                    <td>Food</td>
-                    <td>₱650</td>
-                    <td>15</td>
-                </tr>
+                    <tr>
+                        <td>P001</td>
+                        <td>Fried Itik Original</td>
+                        <td>Food</td>
+                        <td>₱350</td>
+                        <td>25</td>
+                    </tr>
 
-                <tr>
-                    <td>P004</td>
-                    <td>Itik Special Sauce</td>
-                    <td>Sauce</td>
-                    <td>₱120</td>
-                    <td>30</td>
-                </tr>
+                    <tr>
+                        <td>P002</td>
+                        <td>Fried Itik Spicy</td>
+                        <td>Food</td>
+                        <td>₱375</td>
+                        <td>20</td>
+                    </tr>
 
-                <tr>
-                    <td>P005</td>
-                    <td>Itik Meal Combo</td>
-                    <td>Meal</td>
-                    <td>₱450</td>
-                    <td>18</td>
-                </tr>
+                    <tr>
+                        <td>P003</td>
+                        <td>Fried Itik Family Pack</td>
+                        <td>Food</td>
+                        <td>₱650</td>
+                        <td>15</td>
+                    </tr>
 
-            </tbody>
+                    <tr>
+                        <td>P004</td>
+                        <td>Itik Special Sauce</td>
+                        <td>Sauce</td>
+                        <td>₱120</td>
+                        <td>30</td>
+                    </tr>
 
-        </table>
+                    <tr>
+                        <td>P005</td>
+                        <td>Itik Meal Combo</td>
+                        <td>Meal</td>
+                        <td>₱450</td>
+                        <td>18</td>
+                    </tr>
 
-    </section>
+                </tbody>
 
+            </table>
 
-    <!-- =========================
-         TASK 4 - CUSTOMER INFORMATION
-         ========================= -->
-
-    <section class="table-section">
-
-        <h2>Customer Information</h2>
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>Customer ID</th>
-                    <th>Customer Name</th>
-                    <th>Contact Number</th>
-                    <th>Email</th>
-                    <th>City</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td>C001</td>
-                    <td>Juan Dela Cruz</td>
-                    <td>09171234567</td>
-                    <td>juan@gmail.com</td>
-                    <td>Oroquieta</td>
-                </tr>
-
-                <tr>
-                    <td>C002</td>
-                    <td>Maria Santos</td>
-                    <td>09281234567</td>
-                    <td>maria@gmail.com</td>
-                    <td>Ozamis</td>
-                </tr>
-
-                <tr>
-                    <td>C003</td>
-                    <td>Mark Reyes</td>
-                    <td>09391234567</td>
-                    <td>mark@gmail.com</td>
-                    <td>Tangub</td>
-                </tr>
-
-                <tr>
-                    <td>C004</td>
-                    <td>Anna Garcia</td>
-                    <td>09451234567</td>
-                    <td>anna@gmail.com</td>
-                    <td>Pagadian</td>
-                </tr>
-
-                <tr>
-                    <td>C005</td>
-                    <td>Pedro Ramos</td>
-                    <td>09561234567</td>
-                    <td>pedro@gmail.com</td>
-                    <td>Iligan</td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </section>
+        </section>
 
 
-    <!-- =========================
-         TASK 4 - SALES TRANSACTIONS
-         ========================= -->
+        <!-- =========================
+             CUSTOMER INFORMATION
+             ========================= -->
 
-    <section class="table-section">
+        <section class="table-section">
 
-        <h2>Sales Transactions</h2>
+            <h2>Customer Information</h2>
 
-        <table>
+            <table>
 
-            <thead>
-                <tr>
-                    <th>Sale ID</th>
-                    <th>Customer</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Total Amount</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Email</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
 
-            <tbody>
+                <tbody>
 
-                <tr>
-                    <td>S001</td>
-                    <td>Juan Dela Cruz</td>
-                    <td>Fried Itik Original</td>
-                    <td>2</td>
-                    <td>₱700</td>
-                </tr>
+                    <tr>
+                        <td>C001</td>
+                        <td>Juan Dela Cruz</td>
+                        <td>09171234567</td>
+                        <td>juan@gmail.com</td>
+                        <td>Oroquieta</td>
+                    </tr>
 
-                <tr>
-                    <td>S002</td>
-                    <td>Maria Santos</td>
-                    <td>Fried Itik Spicy</td>
-                    <td>1</td>
-                    <td>₱375</td>
-                </tr>
+                    <tr>
+                        <td>C002</td>
+                        <td>Maria Santos</td>
+                        <td>09281234567</td>
+                        <td>maria@gmail.com</td>
+                        <td>Ozamis</td>
+                    </tr>
 
-                <tr>
-                    <td>S003</td>
-                    <td>Mark Reyes</td>
-                    <td>Fried Itik Family Pack</td>
-                    <td>1</td>
-                    <td>₱650</td>
-                </tr>
+                    <tr>
+                        <td>C003</td>
+                        <td>Mark Reyes</td>
+                        <td>09391234567</td>
+                        <td>mark@gmail.com</td>
+                        <td>Tangub</td>
+                    </tr>
 
-                <tr>
-                    <td>S004</td>
-                    <td>Anna Garcia</td>
-                    <td>Itik Special Sauce</td>
-                    <td>3</td>
-                    <td>₱360</td>
-                </tr>
+                    <tr>
+                        <td>C004</td>
+                        <td>Anna Garcia</td>
+                        <td>09451234567</td>
+                        <td>anna@gmail.com</td>
+                        <td>Pagadian</td>
+                    </tr>
 
-                <tr>
-                    <td>S005</td>
-                    <td>Pedro Ramos</td>
-                    <td>Itik Meal Combo</td>
-                    <td>2</td>
-                    <td>₱900</td>
-                </tr>
+                    <tr>
+                        <td>C005</td>
+                        <td>Pedro Ramos</td>
+                        <td>09561234567</td>
+                        <td>pedro@gmail.com</td>
+                        <td>Iligan</td>
+                    </tr>
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
-    </section>
+        </section>
+
+
+        <!-- =========================
+             SALES TRANSACTIONS
+             ========================= -->
+
+        <section class="table-section">
+
+            <h2>Sales Transactions</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Sale ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>S001</td>
+                        <td>Juan Dela Cruz</td>
+                        <td>Fried Itik Original</td>
+                        <td>2</td>
+                        <td>₱700</td>
+                    </tr>
+
+                    <tr>
+                        <td>S002</td>
+                        <td>Maria Santos</td>
+                        <td>Fried Itik Spicy</td>
+                        <td>1</td>
+                        <td>₱375</td>
+                    </tr>
+
+                    <tr>
+                        <td>S003</td>
+                        <td>Mark Reyes</td>
+                        <td>Fried Itik Family Pack</td>
+                        <td>1</td>
+                        <td>₱650</td>
+                    </tr>
+
+                    <tr>
+                        <td>S004</td>
+                        <td>Anna Garcia</td>
+                        <td>Itik Special Sauce</td>
+                        <td>3</td>
+                        <td>₱360</td>
+                    </tr>
+
+                    <tr>
+                        <td>S005</td>
+                        <td>Pedro Ramos</td>
+                        <td>Itik Meal Combo</td>
+                        <td>2</td>
+                        <td>₱900</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
 
 
     <!-- =========================
          FOOTER
          ========================= -->
 
-    <footer>
+    <footer id="footer">
 
         © 2026 Sales and Inventory System
 
@@ -262,7 +302,9 @@
     </footer>
 
 
+    <!-- JavaScript -->
     <script src="js/script.js"></script>
 
 </body>
+
 </html>
