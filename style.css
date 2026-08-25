@@ -10,25 +10,121 @@
 }
 
 
-/* =========================
-   BODY
-   ========================= */
+html {
+    scroll-behavior: smooth;
+}
+
 
 body {
 
     min-height: 100vh;
 
-    background: linear-gradient(135deg, #630303, #f90909);
+    background:
+        linear-gradient(
+            135deg,
+            #450000,
+            #8b0000,
+            #e30606
+        );
+
+    color: #222;
+
+    padding-bottom: 50px;
+
+}
+
+
+/* =========================
+   SYSTEM HEADER
+   ========================= */
+
+.system-header {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    padding: 18px 6%;
 
     display: flex;
 
     align-items: center;
 
-    flex-direction: column;
+    justify-content: space-between;
 
-    padding-top: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 
-    padding-bottom: 40px;
+}
+
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.header-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+}
+
+
+.brand h1 {
+
+    color: #630303;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+}
+
+
+.brand p {
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+.header-status {
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.status-dot {
+
+    display: inline-block;
+
+    width: 10px;
+
+    height: 10px;
+
+    background: #18a558;
+
+    border-radius: 50%;
+
+    margin-right: 7px;
 
 }
 
@@ -37,17 +133,28 @@ body {
    LOGIN OVERLAY
    ========================= */
 
-.overlay {
+.login-overlay {
 
-    width: 100%;
+    position: fixed;
 
-    min-height: 700px;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(69,0,0,0.96),
+            rgba(227,6,6,0.94)
+        );
 
     display: flex;
 
+    align-items: center;
+
     justify-content: center;
 
-    align-items: center;
+    z-index: 9999;
+
+    padding: 20px;
 
 }
 
@@ -56,90 +163,195 @@ body {
    LOGIN CARD
    ========================= */
 
-.card {
+.login-card {
 
-    width: 450px;
-
-    background: white;
-
-    padding: 45px;
-
-    border-radius: 15px;
-
-    text-align: center;
-
-    box-shadow: 0 15px 35px rgba(5, 5, 5, 0.25);
-
-}
-
-
-/* =========================
-   LOGO
-   ========================= */
-
-.logo {
-
-    width: 200px;
+    width: 430px;
 
     max-width: 100%;
 
+    background: #ffffff;
+
+    padding: 40px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+
+}
+
+
+.login-logo {
+
+    width: 130px;
+
+    height: 130px;
+
+    object-fit: contain;
+
     margin-bottom: 10px;
 
 }
 
 
-/* =========================
-   CARD TITLE
-   ========================= */
+.login-card h1 {
 
-.card h1 {
+    color: #630303;
 
-    color: #0b0b0b;
+    font-size: 27px;
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 
 }
 
 
-.card h3 {
+.login-subtitle {
 
-    color: #706b6b;
+    color: #777;
 
-    margin-bottom: 25px;
-
-}
-
-
-.card p {
-
-    color: #666;
+    font-size: 14px;
 
     line-height: 1.6;
 
-    margin-bottom: 35px;
+    margin-bottom: 28px;
 
 }
 
 
 /* =========================
-   LOGIN BUTTON
+   FORM GROUP
    ========================= */
 
-button {
+.form-group {
+
+    margin-bottom: 18px;
+
+    text-align: left;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+
+}
+
+
+.form-group input,
+.form-group select {
 
     width: 100%;
 
-    padding: 15px;
+    padding: 13px 14px;
 
-    font-size: 18px;
+    border: 1px solid #d5d5d5;
 
-    background: #ef0707;
+    border-radius: 8px;
 
-    color: white;
+    font-size: 14px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    transition: 0.3s;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: #e30606;
+
+    box-shadow: 0 0 0 3px rgba(227,6,6,0.10);
+
+}
+
+
+/* =========================
+   REMEMBER ME
+   ========================= */
+
+.remember-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin: 5px 0 20px;
+
+}
+
+
+.checkbox-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #555;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+
+.checkbox-label input {
+
+    width: 16px;
+
+    height: 16px;
+
+    accent-color: #e30606;
+
+}
+
+
+.login-help {
+
+    color: #8b0000;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.primary-btn,
+.secondary-btn,
+.logout-btn {
 
     border: none;
 
     border-radius: 8px;
+
+    padding: 13px 20px;
+
+    font-size: 14px;
+
+    font-weight: 600;
 
     cursor: pointer;
 
@@ -148,81 +360,73 @@ button {
 }
 
 
-button:hover {
+.primary-btn {
 
-    background: #0c0c0c;
+    width: 100%;
+
+    background: #e30606;
+
+    color: white;
+
+}
+
+
+.primary-btn:hover {
+
+    background: #630303;
+
+    transform: translateY(-1px);
+
+}
+
+
+.secondary-btn {
+
+    background: #eeeeee;
+
+    color: #444;
+
+}
+
+
+.secondary-btn:hover {
+
+    background: #dddddd;
+
+}
+
+
+.logout-btn {
+
+    width: auto;
+
+    background: #630303;
+
+    color: white;
+
+}
+
+
+.logout-btn:hover {
+
+    background: #e30606;
 
 }
 
 
 /* =========================
-   LOGIN FORM
+   LOGIN MESSAGE
    ========================= */
 
-.login-form {
-
-    display: none;
-
-    margin-top: 20px;
-
-    padding-top: 20px;
-
-    border-top: 1px solid #ddd;
-
-}
-
-
-.login-form h2 {
-
-    color: #630303;
-
-    margin-bottom: 15px;
-
-}
-
-
-.login-form input {
-
-    width: 100%;
-
-    padding: 13px;
-
-    margin-bottom: 12px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 8px;
-
-    font-size: 16px;
-
-    outline: none;
-
-}
-
-
-.login-form input:focus {
-
-    border-color: #ef0707;
-
-    box-shadow: 0 0 5px rgba(239, 7, 7, 0.25);
-
-}
-
-
-.login-form button {
-
-    margin-top: 5px;
-
-}
-
-
-#loginMessage {
+#loginMessage,
+#userMessage,
+#accessMessage {
 
     margin-top: 15px;
 
-    margin-bottom: 0;
+    text-align: center;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
@@ -243,41 +447,392 @@ button:hover {
 
 
 /* =========================
-   TABLE SECTION
+   DASHBOARD
    ========================= */
 
-.table-section {
+.dashboard {
 
     width: 90%;
 
-    max-width: 1100px;
+    max-width: 1200px;
 
-    margin: 40px auto 0 auto;
+    margin: 35px auto 0;
 
-    background-color: white;
+}
 
-    padding: 25px;
+
+.dashboard-title {
+
+    background: rgba(255,255,255,0.97);
+
+    padding: 25px 30px;
 
     border-radius: 15px;
 
-    box-shadow: 0 15px 35px rgba(5, 5, 5, 0.20);
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+
+.dashboard-title h2 {
+
+    color: #630303;
+
+    font-size: 27px;
+
+}
+
+
+.dashboard-title p {
+
+    color: #777;
+
+    margin-top: 5px;
+
+    font-size: 14px;
 
 }
 
 
 /* =========================
-   TABLE TITLE
+   SUMMARY CARDS
    ========================= */
 
-.table-section h2 {
+.summary-grid {
 
-    text-align: center;
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-top: 20px;
+
+}
+
+
+.summary-card {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+}
+
+
+.summary-icon {
+
+    width: 50px;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #fff0f0;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+
+}
+
+
+.summary-card h3 {
 
     color: #630303;
 
-    margin-bottom: 20px;
+    font-size: 22px;
 
-    font-size: 24px;
+}
+
+
+.summary-card p {
+
+    color: #777;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================
+   FORM AND TABLE SECTIONS
+   ========================= */
+
+.form-section,
+.table-section {
+
+    width: 90%;
+
+    max-width: 1200px;
+
+    margin: 25px auto 0;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+
+/* =========================
+   SECTION HEADER
+   ========================= */
+
+.section-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    padding-bottom: 18px;
+
+}
+
+
+.section-header h2 {
+
+    color: #630303;
+
+    font-size: 22px;
+
+}
+
+
+.section-header p {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+.form-number {
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #630303;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================
+   FORM GRID
+   ========================= */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 5px 25px;
+
+}
+
+
+/* =========================
+   FORM ACTIONS
+   ========================= */
+
+.form-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+}
+
+
+.form-btn {
+
+    width: auto;
+
+    min-width: 150px;
+
+}
+
+
+/* =========================
+   ACCESS AREA
+   ========================= */
+
+.access-area {
+
+    margin-top: 10px;
+
+    padding: 20px;
+
+    background: #fafafa;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 12px;
+
+}
+
+
+.access-area h3 {
+
+    color: #630303;
+
+    font-size: 17px;
+
+}
+
+
+.access-area > p {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin: 3px 0 18px;
+
+}
+
+
+/* =========================
+   ACCESS GRID
+   ========================= */
+
+.access-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+}
+
+
+.access-card {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    background: white;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+.access-card:hover {
+
+    border-color: #e30606;
+
+    background: #fff8f8;
+
+}
+
+
+.access-card input {
+
+    width: 17px;
+
+    height: 17px;
+
+    accent-color: #e30606;
+
+}
+
+
+.access-icon {
+
+    font-size: 20px;
+
+}
+
+
+.access-card strong {
+
+    display: block;
+
+    color: #333;
+
+    font-size: 14px;
+
+}
+
+
+.access-card small {
+
+    display: block;
+
+    color: #888;
+
+    font-size: 10px;
+
+    margin-top: 2px;
 
 }
 
@@ -286,24 +841,27 @@ button:hover {
    TABLE
    ========================= */
 
-.table-section table {
+.table-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+table {
 
     width: 100%;
 
     border-collapse: collapse;
 
-    background-color: white;
-
 }
 
 
-/* =========================
-   TABLE HEADER
-   ========================= */
+th {
 
-.table-section th {
-
-    background-color: #630303;
+    background: #630303;
 
     color: white;
 
@@ -311,48 +869,36 @@ button:hover {
 
     text-align: center;
 
-    border: 1px solid #4a0202;
-
-    font-weight: 600;
+    font-size: 13px;
 
 }
 
 
-/* =========================
-   TABLE DATA
-   ========================= */
+td {
 
-.table-section td {
-
-    padding: 12px;
+    padding: 13px;
 
     text-align: center;
 
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #eeeeee;
 
-    color: #333;
+    color: #444;
 
-}
-
-
-/* =========================
-   ALTERNATE ROW COLORS
-   ========================= */
-
-.table-section tr:nth-child(even) {
-
-    background-color: #f8f8f8;
+    font-size: 13px;
 
 }
 
 
-/* =========================
-   TABLE HOVER EFFECT
-   ========================= */
+tbody tr:nth-child(even) {
 
-.table-section tr:hover {
+    background: #fafafa;
 
-    background-color: #ffe5e5;
+}
+
+
+tbody tr:hover {
+
+    background: #fff0f0;
 
 }
 
@@ -365,13 +911,17 @@ footer {
 
     display: none;
 
-    margin-top: 40px;
-
-    color: white;
+    width: 100%;
 
     text-align: center;
 
-    font-size: 14px;
+    color: white;
+
+    margin-top: 35px;
+
+    font-size: 13px;
+
+    line-height: 1.8;
 
 }
 
@@ -380,45 +930,109 @@ footer {
    RESPONSIVE DESIGN
    ========================= */
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
 
-    .card {
+    .summary-grid {
 
-        width: 90%;
-
-        padding: 30px;
-
-    }
-
-
-    .overlay {
-
-        min-height: 600px;
+        grid-template-columns:
+            repeat(2, 1fr);
 
     }
 
 
+    .access-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .system-header {
+
+        padding: 15px 4%;
+
+    }
+
+
+    .brand h1 {
+
+        font-size: 18px;
+
+    }
+
+
+    .brand p {
+
+        font-size: 11px;
+
+    }
+
+
+    .header-status {
+
+        display: none;
+
+    }
+
+
+    .dashboard,
+    .form-section,
     .table-section {
 
-        width: 95%;
+        width: 94%;
 
-        padding: 15px;
-
-        overflow-x: auto;
+        padding: 20px;
 
     }
 
 
-    .table-section table {
+    .dashboard-title {
 
-        min-width: 700px;
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
 
     }
 
 
-    .table-section h2 {
+    .summary-grid {
 
-        font-size: 20px;
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .access-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .form-actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .form-actions button {
+
+        width: 100%;
 
     }
 
@@ -427,44 +1041,37 @@ footer {
 
 @media screen and (max-width: 480px) {
 
-    body {
+    .login-card {
 
-        padding-top: 20px;
-
-    }
-
-
-    .overlay {
-
-        min-height: 550px;
+        padding: 28px 20px;
 
     }
 
 
-    .card {
+    .login-logo {
 
-        width: 95%;
+        width: 100px;
 
-        padding: 25px;
-
-    }
-
-
-    .logo {
-
-        width: 160px;
+        height: 100px;
 
     }
 
 
-    .card h1 {
+    .login-card h1 {
 
-        font-size: 24px;
+        font-size: 23px;
 
     }
 
 
-    .card h3 {
+    .dashboard-title h2 {
+
+        font-size: 22px;
+
+    }
+
+
+    .section-header h2 {
 
         font-size: 18px;
 
