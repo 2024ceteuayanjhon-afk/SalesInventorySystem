@@ -9,63 +9,117 @@
 
     <link rel="stylesheet" href="css/style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
 
     <!-- =========================
-         LOGIN INTERFACE
+         SYSTEM HEADER
          ========================= -->
 
-    <div class="overlay" id="loginOverlay">
+    <header class="system-header">
 
-        <div class="card">
+        <div class="brand">
 
-            <img src="images/logo.jpg" class="logo" alt="Company Logo">
+            <img src="images/logo.jpg" class="header-logo" alt="Company Logo">
 
-            <h1>Sales and Inventory System</h1>
+            <div>
+                <h1>Sales & Inventory System</h1>
+                <p>Marcelino's Fried Itik</p>
+            </div>
 
-            <h3>Marcelino's Fried Itik</h3>
+        </div>
 
-            <p>
-                Manage your products, inventory levels,
-                sales transactions, and reports efficiently
-                in one centralized system.
+        <div class="header-status">
+            <span class="status-dot"></span>
+            System Online
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         LOGIN FORM
+         FORM 3
+         ========================= -->
+
+    <div class="login-overlay" id="loginOverlay">
+
+        <div class="login-card">
+
+            <img src="images/logo.jpg" class="login-logo" alt="Company Logo">
+
+            <h1>Welcome Back</h1>
+
+            <p class="login-subtitle">
+                Sign in to access the Sales and Inventory System
             </p>
 
-            <!-- Login Button -->
-            <button id="loginBtn" type="button">
-                Login
-            </button>
 
-            <!-- Login Form -->
-            <div id="loginForm" class="login-form">
+            <form id="loginForm">
 
-                <h2>Admin Login</h2>
+                <div class="form-group">
 
-                <input
-                    type="text"
-                    id="username"
-                    placeholder="Username"
-                    autocomplete="username"
-                >
+                    <label for="loginUsername">
+                        Username / Email
+                    </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    autocomplete="current-password"
-                >
+                    <input
+                        type="text"
+                        id="loginUsername"
+                        placeholder="Enter username or email"
+                        required
+                    >
 
-                <button id="submitLogin" type="button">
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="remember-row">
+
+                    <label class="checkbox-label">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        <span>Remember Me</span>
+
+                    </label>
+
+                    <span class="login-help">
+                        Admin Access
+                    </span>
+
+                </div>
+
+
+                <button type="submit" class="primary-btn">
                     Sign In
                 </button>
 
+
                 <p id="loginMessage"></p>
 
-            </div>
+            </form>
 
         </div>
 
@@ -78,71 +132,570 @@
 
     <main id="mainSystem">
 
+
+        <!-- =========================
+             DASHBOARD
+             ========================= -->
+
+        <section class="dashboard">
+
+            <div class="dashboard-title">
+
+                <div>
+                    <h2>Dashboard</h2>
+
+                    <p>
+                        Manage users, access rights, products,
+                        inventory, customers, and sales.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn">
+                    Logout
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY CARDS -->
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        👤
+                    </div>
+
+                    <div>
+                        <h3>5</h3>
+                        <p>Total Users</p>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        📦
+                    </div>
+
+                    <div>
+                        <h3>5</h3>
+                        <p>Products</p>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        🛒
+                    </div>
+
+                    <div>
+                        <h3>5</h3>
+                        <p>Sales Today</p>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+                        💰
+                    </div>
+
+                    <div>
+                        <h3>₱2,985</h3>
+                        <p>Total Sales</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             USER MANAGEMENT
+             ========================= -->
+
+        <section class="form-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Form 1 — Add User</h2>
+
+                    <p>
+                        Create a new system user account.
+                    </p>
+                </div>
+
+                <span class="form-number">
+                    01
+                </span>
+
+            </div>
+
+
+            <form id="addUserForm" class="system-form">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="example@email.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="department">
+                            Department
+                        </label>
+
+                        <select
+                            id="department"
+                            name="department"
+                            required
+                        >
+
+                            <option value="">
+                                Select Department
+                            </option>
+
+                            <option value="Management">
+                                Management
+                            </option>
+
+                            <option value="Sales">
+                                Sales
+                            </option>
+
+                            <option value="Inventory">
+                                Inventory
+                            </option>
+
+                            <option value="Accounting">
+                                Accounting
+                            </option>
+
+                            <option value="IT">
+                                IT
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="initialPassword">
+                            Initial Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="initialPassword"
+                            name="initialPassword"
+                            placeholder="Enter initial password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="userStatus">
+                            Status
+                        </label>
+
+                        <select
+                            id="userStatus"
+                            name="userStatus"
+                            required
+                        >
+
+                            <option value="">
+                                Select Status
+                            </option>
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                            <option value="Suspended">
+                                Suspended
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="reset"
+                        class="secondary-btn">
+                        Clear
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn form-btn">
+                        Add User
+                    </button>
+
+                </div>
+
+
+                <p id="userMessage"></p>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             ROLE AND ACCESS ASSIGNMENT
+             FORM 2
+             ========================= -->
+
+        <section class="form-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Form 2 — Role & Access Assignment</h2>
+
+                    <p>
+                        Assign access rights and expiration date to a user.
+                    </p>
+                </div>
+
+                <span class="form-number">
+                    02
+                </span>
+
+            </div>
+
+
+            <form id="accessForm" class="system-form">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="userId">
+                            User ID
+                        </label>
+
+                        <select
+                            id="userId"
+                            name="userId"
+                            required
+                        >
+
+                            <option value="">
+                                Select User ID
+                            </option>
+
+                            <option value="U001">
+                                U001 — Admin
+                            </option>
+
+                            <option value="U002">
+                                U002 — Sales User
+                            </option>
+
+                            <option value="U003">
+                                U003 — Inventory User
+                            </option>
+
+                            <option value="U004">
+                                U004 — Accounting User
+                            </option>
+
+                            <option value="U005">
+                                U005 — Manager
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="expirationDate">
+                            Expiration Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="expirationDate"
+                            name="expirationDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACCESS RIGHTS -->
+
+                <div class="access-area">
+
+                    <h3>Access Rights</h3>
+
+                    <p>
+                        Select the permissions assigned to this user.
+                    </p>
+
+
+                    <div class="access-grid">
+
+
+                        <label class="access-card">
+
+                            <input
+                                type="checkbox"
+                                name="accessRights"
+                                value="Read"
+                            >
+
+                            <span class="access-icon">
+                                👁
+                            </span>
+
+                            <span>
+                                <strong>Read</strong>
+                                <small>View system information</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="access-card">
+
+                            <input
+                                type="checkbox"
+                                name="accessRights"
+                                value="Write"
+                            >
+
+                            <span class="access-icon">
+                                ✏️
+                            </span>
+
+                            <span>
+                                <strong>Write</strong>
+                                <small>Add and modify records</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="access-card">
+
+                            <input
+                                type="checkbox"
+                                name="accessRights"
+                                value="Execute"
+                            >
+
+                            <span class="access-icon">
+                                ▶
+                            </span>
+
+                            <span>
+                                <strong>Execute</strong>
+                                <small>Perform system operations</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="access-card">
+
+                            <input
+                                type="checkbox"
+                                name="accessRights"
+                                value="Admin"
+                            >
+
+                            <span class="access-icon">
+                                ⚙
+                            </span>
+
+                            <span>
+                                <strong>Admin</strong>
+                                <small>Full system administration</small>
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="reset"
+                        class="secondary-btn">
+                        Clear
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn form-btn">
+                        Assign Access
+                    </button>
+
+                </div>
+
+
+                <p id="accessMessage"></p>
+
+            </form>
+
+        </section>
+
+
         <!-- =========================
              PRODUCT INVENTORY
              ========================= -->
 
         <section class="table-section">
 
-            <h2>Product Inventory</h2>
+            <div class="section-header">
 
-            <table>
+                <div>
+                    <h2>Product Inventory</h2>
 
-                <thead>
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock Quantity</th>
-                    </tr>
-                </thead>
+                    <p>
+                        Current products and available stock.
+                    </p>
+                </div>
 
-                <tbody>
+            </div>
 
-                    <tr>
-                        <td>P001</td>
-                        <td>Fried Itik Original</td>
-                        <td>Food</td>
-                        <td>₱350</td>
-                        <td>25</td>
-                    </tr>
 
-                    <tr>
-                        <td>P002</td>
-                        <td>Fried Itik Spicy</td>
-                        <td>Food</td>
-                        <td>₱375</td>
-                        <td>20</td>
-                    </tr>
+            <div class="table-container">
 
-                    <tr>
-                        <td>P003</td>
-                        <td>Fried Itik Family Pack</td>
-                        <td>Food</td>
-                        <td>₱650</td>
-                        <td>15</td>
-                    </tr>
+                <table>
 
-                    <tr>
-                        <td>P004</td>
-                        <td>Itik Special Sauce</td>
-                        <td>Sauce</td>
-                        <td>₱120</td>
-                        <td>30</td>
-                    </tr>
+                    <thead>
 
-                    <tr>
-                        <td>P005</td>
-                        <td>Itik Meal Combo</td>
-                        <td>Meal</td>
-                        <td>₱450</td>
-                        <td>18</td>
-                    </tr>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock Quantity</th>
+                        </tr>
 
-                </tbody>
+                    </thead>
 
-            </table>
+
+                    <tbody>
+
+                        <tr>
+                            <td>P001</td>
+                            <td>Fried Itik Original</td>
+                            <td>Food</td>
+                            <td>₱350</td>
+                            <td>25</td>
+                        </tr>
+
+                        <tr>
+                            <td>P002</td>
+                            <td>Fried Itik Spicy</td>
+                            <td>Food</td>
+                            <td>₱375</td>
+                            <td>20</td>
+                        </tr>
+
+                        <tr>
+                            <td>P003</td>
+                            <td>Fried Itik Family Pack</td>
+                            <td>Food</td>
+                            <td>₱650</td>
+                            <td>15</td>
+                        </tr>
+
+                        <tr>
+                            <td>P004</td>
+                            <td>Itik Special Sauce</td>
+                            <td>Sauce</td>
+                            <td>₱120</td>
+                            <td>30</td>
+                        </tr>
+
+                        <tr>
+                            <td>P005</td>
+                            <td>Itik Meal Combo</td>
+                            <td>Meal</td>
+                            <td>₱450</td>
+                            <td>18</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </section>
 
@@ -153,65 +706,83 @@
 
         <section class="table-section">
 
-            <h2>Customer Information</h2>
+            <div class="section-header">
 
-            <table>
+                <div>
+                    <h2>Customer Information</h2>
 
-                <thead>
-                    <tr>
-                        <th>Customer ID</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Email</th>
-                        <th>City</th>
-                    </tr>
-                </thead>
+                    <p>
+                        Registered customer information.
+                    </p>
+                </div>
 
-                <tbody>
+            </div>
 
-                    <tr>
-                        <td>C001</td>
-                        <td>Juan Dela Cruz</td>
-                        <td>09171234567</td>
-                        <td>juan@gmail.com</td>
-                        <td>Oroquieta</td>
-                    </tr>
 
-                    <tr>
-                        <td>C002</td>
-                        <td>Maria Santos</td>
-                        <td>09281234567</td>
-                        <td>maria@gmail.com</td>
-                        <td>Ozamis</td>
-                    </tr>
+            <div class="table-container">
 
-                    <tr>
-                        <td>C003</td>
-                        <td>Mark Reyes</td>
-                        <td>09391234567</td>
-                        <td>mark@gmail.com</td>
-                        <td>Tangub</td>
-                    </tr>
+                <table>
 
-                    <tr>
-                        <td>C004</td>
-                        <td>Anna Garcia</td>
-                        <td>09451234567</td>
-                        <td>anna@gmail.com</td>
-                        <td>Pagadian</td>
-                    </tr>
+                    <thead>
 
-                    <tr>
-                        <td>C005</td>
-                        <td>Pedro Ramos</td>
-                        <td>09561234567</td>
-                        <td>pedro@gmail.com</td>
-                        <td>Iligan</td>
-                    </tr>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
+                            <th>Contact Number</th>
+                            <th>Email</th>
+                            <th>City</th>
+                        </tr>
 
-                </tbody>
+                    </thead>
 
-            </table>
+
+                    <tbody>
+
+                        <tr>
+                            <td>C001</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>09171234567</td>
+                            <td>juan@gmail.com</td>
+                            <td>Oroquieta</td>
+                        </tr>
+
+                        <tr>
+                            <td>C002</td>
+                            <td>Maria Santos</td>
+                            <td>09281234567</td>
+                            <td>maria@gmail.com</td>
+                            <td>Ozamis</td>
+                        </tr>
+
+                        <tr>
+                            <td>C003</td>
+                            <td>Mark Reyes</td>
+                            <td>09391234567</td>
+                            <td>mark@gmail.com</td>
+                            <td>Tangub</td>
+                        </tr>
+
+                        <tr>
+                            <td>C004</td>
+                            <td>Anna Garcia</td>
+                            <td>09451234567</td>
+                            <td>anna@gmail.com</td>
+                            <td>Pagadian</td>
+                        </tr>
+
+                        <tr>
+                            <td>C005</td>
+                            <td>Pedro Ramos</td>
+                            <td>09561234567</td>
+                            <td>pedro@gmail.com</td>
+                            <td>Iligan</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </section>
 
@@ -222,65 +793,83 @@
 
         <section class="table-section">
 
-            <h2>Sales Transactions</h2>
+            <div class="section-header">
 
-            <table>
+                <div>
+                    <h2>Sales Transactions</h2>
 
-                <thead>
-                    <tr>
-                        <th>Sale ID</th>
-                        <th>Customer</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Total Amount</th>
-                    </tr>
-                </thead>
+                    <p>
+                        Recent sales transaction records.
+                    </p>
+                </div>
 
-                <tbody>
+            </div>
 
-                    <tr>
-                        <td>S001</td>
-                        <td>Juan Dela Cruz</td>
-                        <td>Fried Itik Original</td>
-                        <td>2</td>
-                        <td>₱700</td>
-                    </tr>
 
-                    <tr>
-                        <td>S002</td>
-                        <td>Maria Santos</td>
-                        <td>Fried Itik Spicy</td>
-                        <td>1</td>
-                        <td>₱375</td>
-                    </tr>
+            <div class="table-container">
 
-                    <tr>
-                        <td>S003</td>
-                        <td>Mark Reyes</td>
-                        <td>Fried Itik Family Pack</td>
-                        <td>1</td>
-                        <td>₱650</td>
-                    </tr>
+                <table>
 
-                    <tr>
-                        <td>S004</td>
-                        <td>Anna Garcia</td>
-                        <td>Itik Special Sauce</td>
-                        <td>3</td>
-                        <td>₱360</td>
-                    </tr>
+                    <thead>
 
-                    <tr>
-                        <td>S005</td>
-                        <td>Pedro Ramos</td>
-                        <td>Itik Meal Combo</td>
-                        <td>2</td>
-                        <td>₱900</td>
-                    </tr>
+                        <tr>
+                            <th>Sale ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Amount</th>
+                        </tr>
 
-                </tbody>
+                    </thead>
 
-            </table>
+
+                    <tbody>
+
+                        <tr>
+                            <td>S001</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>Fried Itik Original</td>
+                            <td>2</td>
+                            <td>₱700</td>
+                        </tr>
+
+                        <tr>
+                            <td>S002</td>
+                            <td>Maria Santos</td>
+                            <td>Fried Itik Spicy</td>
+                            <td>1</td>
+                            <td>₱375</td>
+                        </tr>
+
+                        <tr>
+                            <td>S003</td>
+                            <td>Mark Reyes</td>
+                            <td>Fried Itik Family Pack</td>
+                            <td>1</td>
+                            <td>₱650</td>
+                        </tr>
+
+                        <tr>
+                            <td>S004</td>
+                            <td>Anna Garcia</td>
+                            <td>Itik Special Sauce</td>
+                            <td>3</td>
+                            <td>₱360</td>
+                        </tr>
+
+                        <tr>
+                            <td>S005</td>
+                            <td>Pedro Ramos</td>
+                            <td>Itik Meal Combo</td>
+                            <td>2</td>
+                            <td>₱900</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </section>
 
@@ -293,16 +882,23 @@
 
     <footer id="footer">
 
-        © 2026 Sales and Inventory System
+        <strong>Sales and Inventory System</strong>
 
         <br>
 
-        Developed by: Jhon Mark C. Uayan
+        Marcelino's Fried Itik
+
+        <br>
+
+        © 2026 | Developed by Jhon Mark C. Uayan
 
     </footer>
 
 
-    <!-- JavaScript -->
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
     <script src="js/script.js"></script>
 
 </body>
