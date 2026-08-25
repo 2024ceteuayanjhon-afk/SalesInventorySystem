@@ -2,95 +2,150 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sales and Inventory System</title>
 
     <link rel="stylesheet" href="css/style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
 </head>
+
 
 <body>
 
-    <!-- =========================
+
+    <!-- =====================================================
          SYSTEM HEADER
-         ========================= -->
+         ===================================================== -->
 
     <header class="system-header">
 
         <div class="brand">
 
-            <img src="images/logo.jpg" class="header-logo" alt="Company Logo">
+            <img
+                src="images/logo.jpg"
+                class="header-logo"
+                alt="Company Logo">
 
             <div>
-                <h1>Sales & Inventory System</h1>
-                <p>Marcelino's Fried Itik</p>
+
+                <h1>
+                    Sales & Inventory System
+                </h1>
+
+                <p>
+                    Marcelino's Fried Itik
+                </p>
+
             </div>
 
         </div>
 
+
         <div class="header-status">
+
             <span class="status-dot"></span>
+
             System Online
+
         </div>
 
     </header>
 
 
-    <!-- =========================
-         LOGIN FORM
-         FORM 3
-         ========================= -->
 
-    <div class="login-overlay" id="loginOverlay">
+    <!-- =====================================================
+         AUTHENTICATION AREA
+         SIGN IN / SIGN UP
+         ===================================================== -->
 
-        <div class="login-card">
+    <div
+        class="login-overlay"
+        id="loginOverlay">
 
-            <img src="images/logo.jpg" class="login-logo" alt="Company Logo">
 
-            <h1>Welcome Back</h1>
+        <!-- =================================================
+             SIGN IN FORM
+             ================================================= -->
+
+        <div
+            class="auth-card"
+            id="signInCard">
+
+
+            <img
+                src="images/logo.jpg"
+                class="login-logo"
+                alt="Company Logo">
+
+
+            <h1>
+                Welcome Back
+            </h1>
+
 
             <p class="login-subtitle">
-                Sign in to access the Sales and Inventory System
+
+                Sign in to access the
+                Sales and Inventory System
+
             </p>
+
 
 
             <form id="loginForm">
 
+
+                <!-- USERNAME / EMAIL -->
+
                 <div class="form-group">
 
                     <label for="loginUsername">
+
                         Username / Email
+
                     </label>
 
                     <input
                         type="text"
                         id="loginUsername"
                         placeholder="Enter username or email"
-                        required
-                    >
+                        autocomplete="username"
+                        required>
 
                 </div>
 
 
+
+                <!-- PASSWORD -->
+
                 <div class="form-group">
 
                     <label for="loginPassword">
+
                         Password
+
                     </label>
 
                     <input
                         type="password"
                         id="loginPassword"
                         placeholder="Enter password"
-                        required
-                    >
+                        autocomplete="current-password"
+                        required>
 
                 </div>
 
+
+
+                <!-- REMEMBER ME -->
 
                 <div class="remember-row">
 
@@ -98,71 +153,343 @@
 
                         <input
                             type="checkbox"
-                            id="rememberMe"
-                        >
+                            id="rememberMe">
 
-                        <span>Remember Me</span>
+                        <span>
+                            Remember Me
+                        </span>
 
                     </label>
 
+
                     <span class="login-help">
-                        Admin Access
+                        Secure Login
                     </span>
 
                 </div>
 
 
-                <button type="submit" class="primary-btn">
+
+                <!-- SIGN IN -->
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
                     Sign In
+
                 </button>
 
 
                 <p id="loginMessage"></p>
 
+
             </form>
 
-        </div>
-
-    </div>
 
 
-    <!-- =========================
-         MAIN SYSTEM
-         ========================= -->
+            <!-- SIGN UP LINK -->
 
-    <main id="mainSystem">
+            <div class="auth-switch">
 
-
-        <!-- =========================
-             DASHBOARD
-             ========================= -->
-
-        <section class="dashboard">
-
-            <div class="dashboard-title">
-
-                <div>
-                    <h2>Dashboard</h2>
-
-                    <p>
-                        Manage users, access rights, products,
-                        inventory, customers, and sales.
-                    </p>
-                </div>
+                <span>
+                    Don't have an account?
+                </span>
 
                 <button
                     type="button"
-                    class="logout-btn"
-                    id="logoutBtn">
-                    Logout
+                    id="showSignUp"
+                    class="link-btn">
+
+                    Sign Up
+
                 </button>
 
             </div>
 
 
+        </div>
+
+
+
+        <!-- =================================================
+             SIGN UP FORM
+             ================================================= -->
+
+        <div
+            class="auth-card"
+            id="signUpCard"
+            style="display: none;">
+
+
+            <img
+                src="images/logo.jpg"
+                class="login-logo small-logo"
+                alt="Company Logo">
+
+
+            <h1>
+                Create Account
+            </h1>
+
+
+            <p class="login-subtitle">
+
+                Register a new system user
+
+            </p>
+
+
+
+            <form id="signUpForm">
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="signUpUsername">
+
+                        Username
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signUpUsername"
+                        placeholder="Create username"
+                        required>
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="signUpEmail">
+
+                        Email Address
+
+                    </label>
+
+                    <input
+                        type="email"
+                        id="signUpEmail"
+                        placeholder="example@email.com"
+                        required>
+
+                </div>
+
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="form-group">
+
+                    <label for="signUpDepartment">
+
+                        Department
+
+                    </label>
+
+                    <select
+                        id="signUpDepartment"
+                        required>
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        <option value="Management">
+                            Management
+                        </option>
+
+                        <option value="Sales">
+                            Sales
+                        </option>
+
+                        <option value="Inventory">
+                            Inventory
+                        </option>
+
+                        <option value="Accounting">
+                            Accounting
+                        </option>
+
+                        <option value="IT">
+                            IT
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="signUpPassword">
+
+                        Password
+
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signUpPassword"
+                        placeholder="Create password"
+                        required>
+
+                </div>
+
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+
+                        Confirm Password
+
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        required>
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label for="signUpStatus">
+
+                        Status
+
+                    </label>
+
+                    <select
+                        id="signUpStatus"
+                        required>
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- SIGN UP BUTTON -->
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    Sign Up
+
+                </button>
+
+
+                <p id="signUpMessage"></p>
+
+
+            </form>
+
+
+
+            <!-- SIGN IN LINK -->
+
+            <div class="auth-switch">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <button
+                    type="button"
+                    id="showSignIn"
+                    class="link-btn">
+
+                    Sign In
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MAIN SYSTEM
+         ===================================================== -->
+
+    <main id="mainSystem">
+
+
+
+        <!-- =================================================
+             DASHBOARD
+             ================================================= -->
+
+        <section class="dashboard">
+
+
+            <div class="dashboard-title">
+
+
+                <div>
+
+                    <h2>
+                        Dashboard
+                    </h2>
+
+                    <p>
+                        Welcome to the Sales and Inventory System.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn">
+
+                    Logout
+
+                </button>
+
+
+            </div>
+
+
+
             <!-- SUMMARY CARDS -->
 
             <div class="summary-grid">
+
 
                 <div class="summary-card">
 
@@ -171,11 +498,19 @@
                     </div>
 
                     <div>
-                        <h3>5</h3>
-                        <p>Total Users</p>
+
+                        <h3 id="totalUsers">
+                            5
+                        </h3>
+
+                        <p>
+                            Total Users
+                        </p>
+
                     </div>
 
                 </div>
+
 
 
                 <div class="summary-card">
@@ -185,11 +520,19 @@
                     </div>
 
                     <div>
-                        <h3>5</h3>
-                        <p>Products</p>
+
+                        <h3>
+                            5
+                        </h3>
+
+                        <p>
+                            Products
+                        </p>
+
                     </div>
 
                 </div>
+
 
 
                 <div class="summary-card">
@@ -199,11 +542,19 @@
                     </div>
 
                     <div>
-                        <h3>5</h3>
-                        <p>Sales Today</p>
+
+                        <h3>
+                            5
+                        </h3>
+
+                        <p>
+                            Sales Today
+                        </p>
+
                     </div>
 
                 </div>
+
 
 
                 <div class="summary-card">
@@ -213,31 +564,46 @@
                     </div>
 
                     <div>
-                        <h3>₱2,985</h3>
-                        <p>Total Sales</p>
+
+                        <h3>
+                            ₱2,985
+                        </h3>
+
+                        <p>
+                            Total Sales
+                        </p>
+
                     </div>
 
                 </div>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- =========================
-             USER MANAGEMENT
-             ========================= -->
+
+        <!-- =================================================
+             FORM 1 - ADD USER
+             ================================================= -->
 
         <section class="form-section">
+
 
             <div class="section-header">
 
                 <div>
-                    <h2>Form 1 — Add User</h2>
+
+                    <h2>
+                        Form 1 — Add User
+                    </h2>
 
                     <p>
                         Create a new system user account.
                     </p>
+
                 </div>
 
                 <span class="form-number">
@@ -247,7 +613,11 @@
             </div>
 
 
-            <form id="addUserForm" class="system-form">
+
+            <form
+                id="addUserForm"
+                class="system-form">
+
 
                 <div class="form-grid">
 
@@ -261,12 +631,11 @@
                         <input
                             type="text"
                             id="username"
-                            name="username"
                             placeholder="Enter username"
-                            required
-                        >
+                            required>
 
                     </div>
+
 
 
                     <div class="form-group">
@@ -278,12 +647,11 @@
                         <input
                             type="email"
                             id="email"
-                            name="email"
                             placeholder="example@email.com"
-                            required
-                        >
+                            required>
 
                     </div>
+
 
 
                     <div class="form-group">
@@ -294,9 +662,7 @@
 
                         <select
                             id="department"
-                            name="department"
-                            required
-                        >
+                            required>
 
                             <option value="">
                                 Select Department
@@ -327,6 +693,7 @@
                     </div>
 
 
+
                     <div class="form-group">
 
                         <label for="initialPassword">
@@ -336,12 +703,11 @@
                         <input
                             type="password"
                             id="initialPassword"
-                            name="initialPassword"
                             placeholder="Enter initial password"
-                            required
-                        >
+                            required>
 
                     </div>
+
 
 
                     <div class="form-group">
@@ -352,9 +718,7 @@
 
                         <select
                             id="userStatus"
-                            name="userStatus"
-                            required
-                        >
+                            required>
 
                             <option value="">
                                 Select Status
@@ -376,7 +740,9 @@
 
                     </div>
 
+
                 </div>
+
 
 
                 <div class="form-actions">
@@ -384,13 +750,17 @@
                     <button
                         type="reset"
                         class="secondary-btn">
+
                         Clear
+
                     </button>
 
                     <button
                         type="submit"
                         class="primary-btn form-btn">
+
                         Add User
+
                     </button>
 
                 </div>
@@ -398,26 +768,33 @@
 
                 <p id="userMessage"></p>
 
+
             </form>
+
 
         </section>
 
 
-        <!-- =========================
-             ROLE AND ACCESS ASSIGNMENT
-             FORM 2
-             ========================= -->
+
+        <!-- =================================================
+             FORM 2 - ROLE & ACCESS ASSIGNMENT
+             ================================================= -->
 
         <section class="form-section">
+
 
             <div class="section-header">
 
                 <div>
-                    <h2>Form 2 — Role & Access Assignment</h2>
+
+                    <h2>
+                        Form 2 — Role & Access Assignment
+                    </h2>
 
                     <p>
-                        Assign access rights and expiration date to a user.
+                        Assign access rights to a user.
                     </p>
+
                 </div>
 
                 <span class="form-number">
@@ -427,7 +804,11 @@
             </div>
 
 
-            <form id="accessForm" class="system-form">
+
+            <form
+                id="accessForm"
+                class="system-form">
+
 
                 <div class="form-grid">
 
@@ -440,9 +821,7 @@
 
                         <select
                             id="userId"
-                            name="userId"
-                            required
-                        >
+                            required>
 
                             <option value="">
                                 Select User ID
@@ -473,6 +852,7 @@
                     </div>
 
 
+
                     <div class="form-group">
 
                         <label for="expirationDate">
@@ -482,24 +862,25 @@
                         <input
                             type="date"
                             id="expirationDate"
-                            name="expirationDate"
-                            required
-                        >
+                            required>
 
                     </div>
+
 
                 </div>
 
 
-                <!-- ACCESS RIGHTS -->
 
                 <div class="access-area">
 
-                    <h3>Access Rights</h3>
+                    <h3>
+                        Access Rights
+                    </h3>
 
                     <p>
                         Select the permissions assigned to this user.
                     </p>
+
 
 
                     <div class="access-grid">
@@ -510,19 +891,26 @@
                             <input
                                 type="checkbox"
                                 name="accessRights"
-                                value="Read"
-                            >
+                                value="Read">
 
                             <span class="access-icon">
                                 👁
                             </span>
 
                             <span>
-                                <strong>Read</strong>
-                                <small>View system information</small>
+
+                                <strong>
+                                    Read
+                                </strong>
+
+                                <small>
+                                    View system information
+                                </small>
+
                             </span>
 
                         </label>
+
 
 
                         <label class="access-card">
@@ -530,19 +918,26 @@
                             <input
                                 type="checkbox"
                                 name="accessRights"
-                                value="Write"
-                            >
+                                value="Write">
 
                             <span class="access-icon">
                                 ✏️
                             </span>
 
                             <span>
-                                <strong>Write</strong>
-                                <small>Add and modify records</small>
+
+                                <strong>
+                                    Write
+                                </strong>
+
+                                <small>
+                                    Add and modify records
+                                </small>
+
                             </span>
 
                         </label>
+
 
 
                         <label class="access-card">
@@ -550,19 +945,26 @@
                             <input
                                 type="checkbox"
                                 name="accessRights"
-                                value="Execute"
-                            >
+                                value="Execute">
 
                             <span class="access-icon">
                                 ▶
                             </span>
 
                             <span>
-                                <strong>Execute</strong>
-                                <small>Perform system operations</small>
+
+                                <strong>
+                                    Execute
+                                </strong>
+
+                                <small>
+                                    Perform system operations
+                                </small>
+
                             </span>
 
                         </label>
+
 
 
                         <label class="access-card">
@@ -570,23 +972,32 @@
                             <input
                                 type="checkbox"
                                 name="accessRights"
-                                value="Admin"
-                            >
+                                value="Admin">
 
                             <span class="access-icon">
                                 ⚙
                             </span>
 
                             <span>
-                                <strong>Admin</strong>
-                                <small>Full system administration</small>
+
+                                <strong>
+                                    Admin
+                                </strong>
+
+                                <small>
+                                    Full system administration
+                                </small>
+
                             </span>
 
                         </label>
 
+
                     </div>
 
+
                 </div>
+
 
 
                 <div class="form-actions">
@@ -594,13 +1005,17 @@
                     <button
                         type="reset"
                         class="secondary-btn">
+
                         Clear
+
                     </button>
 
                     <button
                         type="submit"
                         class="primary-btn form-btn">
+
                         Assign Access
+
                     </button>
 
                 </div>
@@ -608,25 +1023,416 @@
 
                 <p id="accessMessage"></p>
 
+
             </form>
+
 
         </section>
 
 
-        <!-- =========================
-             PRODUCT INVENTORY
-             ========================= -->
+
+        <!-- =================================================
+             FORM 4 - USERS ACCESS MANAGEMENT
+             ================================================= -->
 
         <section class="table-section">
+
 
             <div class="section-header">
 
                 <div>
-                    <h2>Product Inventory</h2>
+
+                    <h2>
+                        Form 4 — Users Access Management
+                    </h2>
+
+                    <p>
+                        Manage users, permissions, and access.
+                    </p>
+
+                </div>
+
+                <span class="form-number">
+                    04
+                </span>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+
+                <table
+                    class="users-access-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>User ID</th>
+
+                            <th>Username</th>
+
+                            <th>Email Address</th>
+
+                            <th>Department</th>
+
+                            <th>Status</th>
+
+                            <th>Read</th>
+
+                            <th>Write</th>
+
+                            <th>Execute</th>
+
+                            <th>Admin</th>
+
+                            <th>Expiration Date</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="usersTableBody">
+
+
+                        <tr>
+
+                            <td>U001</td>
+
+                            <td>
+                                <strong>admin</strong>
+                            </td>
+
+                            <td>
+                                admin@marcelinos.com
+                            </td>
+
+                            <td>
+                                Management
+                            </td>
+
+                            <td>
+                                <span class="user-status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission admin">✓</span>
+                            </td>
+
+                            <td>
+                                December 31, 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="action-btn edit-btn"
+                                    onclick="editUser('U001')">
+
+                                    Edit
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="action-btn delete-btn"
+                                    onclick="deleteUser('U001')">
+
+                                    Delete
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>U002</td>
+
+                            <td>salesuser</td>
+
+                            <td>
+                                sales@marcelinos.com
+                            </td>
+
+                            <td>
+                                Sales
+                            </td>
+
+                            <td>
+                                <span class="user-status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission no">—</span>
+                            </td>
+
+                            <td>
+                                <span class="permission no">—</span>
+                            </td>
+
+                            <td>
+                                November 30, 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn edit-btn"
+                                    onclick="editUser('U002')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteUser('U002')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>U003</td>
+
+                            <td>inventoryuser</td>
+
+                            <td>
+                                inventory@marcelinos.com
+                            </td>
+
+                            <td>
+                                Inventory
+                            </td>
+
+                            <td>
+                                <span class="user-status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission no">—</span>
+                            </td>
+
+                            <td>
+                                October 31, 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn edit-btn"
+                                    onclick="editUser('U003')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteUser('U003')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>U004</td>
+
+                            <td>accounting</td>
+
+                            <td>
+                                accounting@marcelinos.com
+                            </td>
+
+                            <td>
+                                Accounting
+                            </td>
+
+                            <td>
+                                <span class="user-status inactive">
+                                    Inactive
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission no">—</span>
+                            </td>
+
+                            <td>
+                                <span class="permission no">—</span>
+                            </td>
+
+                            <td>
+                                September 30, 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn edit-btn"
+                                    onclick="editUser('U004')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteUser('U004')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>U005</td>
+
+                            <td>manager</td>
+
+                            <td>
+                                manager@marcelinos.com
+                            </td>
+
+                            <td>
+                                Management
+                            </td>
+
+                            <td>
+                                <span class="user-status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                <span class="permission yes">✓</span>
+                            </td>
+
+                            <td>
+                                December 31, 2026
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn edit-btn"
+                                    onclick="editUser('U005')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteUser('U005')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUCT INVENTORY
+             ================================================= -->
+
+        <section class="table-section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Product Inventory
+                    </h2>
 
                     <p>
                         Current products and available stock.
                     </p>
+
                 </div>
 
             </div>
@@ -639,11 +1445,13 @@
                     <thead>
 
                         <tr>
+
                             <th>Product ID</th>
                             <th>Product Name</th>
                             <th>Category</th>
                             <th>Price</th>
                             <th>Stock Quantity</th>
+
                         </tr>
 
                     </thead>
@@ -700,20 +1508,26 @@
         </section>
 
 
-        <!-- =========================
+
+        <!-- =================================================
              CUSTOMER INFORMATION
-             ========================= -->
+             ================================================= -->
 
         <section class="table-section">
+
 
             <div class="section-header">
 
                 <div>
-                    <h2>Customer Information</h2>
+
+                    <h2>
+                        Customer Information
+                    </h2>
 
                     <p>
                         Registered customer information.
                     </p>
+
                 </div>
 
             </div>
@@ -726,11 +1540,13 @@
                     <thead>
 
                         <tr>
+
                             <th>Customer ID</th>
                             <th>Customer Name</th>
                             <th>Contact Number</th>
                             <th>Email</th>
                             <th>City</th>
+
                         </tr>
 
                     </thead>
@@ -787,20 +1603,26 @@
         </section>
 
 
-        <!-- =========================
+
+        <!-- =================================================
              SALES TRANSACTIONS
-             ========================= -->
+             ================================================= -->
 
         <section class="table-section">
+
 
             <div class="section-header">
 
                 <div>
-                    <h2>Sales Transactions</h2>
+
+                    <h2>
+                        Sales Transactions
+                    </h2>
 
                     <p>
                         Recent sales transaction records.
                     </p>
+
                 </div>
 
             </div>
@@ -813,11 +1635,13 @@
                     <thead>
 
                         <tr>
+
                             <th>Sale ID</th>
                             <th>Customer</th>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Total Amount</th>
+
                         </tr>
 
                     </thead>
@@ -873,16 +1697,20 @@
 
         </section>
 
+
     </main>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          FOOTER
-         ========================= -->
+         ===================================================== -->
 
     <footer id="footer">
 
-        <strong>Sales and Inventory System</strong>
+        <strong>
+            Sales and Inventory System
+        </strong>
 
         <br>
 
@@ -895,11 +1723,11 @@
     </footer>
 
 
-    <!-- =========================
-         JAVASCRIPT
-         ========================= -->
+
+    <!-- JAVASCRIPT -->
 
     <script src="js/script.js"></script>
+
 
 </body>
 
