@@ -1,6 +1,6 @@
-/* =========================
+/* =========================================================
    GENERAL SETTINGS
-   ========================= */
+   ========================================================= */
 
 * {
     margin: 0;
@@ -16,7 +16,6 @@ html {
 
 
 body {
-
     min-height: 100vh;
 
     background:
@@ -30,19 +29,19 @@ body {
     color: #222;
 
     padding-bottom: 50px;
-
 }
 
 
-/* =========================
-   SYSTEM HEADER
-   ========================= */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .system-header {
 
     width: 100%;
 
-    background: #ffffff;
+    background: white;
 
     padding: 18px 6%;
 
@@ -52,8 +51,8 @@ body {
 
     justify-content: space-between;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.15);
 }
 
 
@@ -64,7 +63,6 @@ body {
     align-items: center;
 
     gap: 15px;
-
 }
 
 
@@ -77,7 +75,6 @@ body {
     object-fit: contain;
 
     border-radius: 10px;
-
 }
 
 
@@ -88,7 +85,6 @@ body {
     font-size: 24px;
 
     font-weight: 700;
-
 }
 
 
@@ -97,7 +93,6 @@ body {
     color: #777;
 
     font-size: 14px;
-
 }
 
 
@@ -108,7 +103,6 @@ body {
     font-size: 14px;
 
     font-weight: 600;
-
 }
 
 
@@ -125,13 +119,13 @@ body {
     border-radius: 50%;
 
     margin-right: 7px;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    LOGIN OVERLAY
-   ========================= */
+   ========================================================= */
 
 .login-overlay {
 
@@ -142,8 +136,8 @@ body {
     background:
         linear-gradient(
             135deg,
-            rgba(69,0,0,0.96),
-            rgba(227,6,6,0.94)
+            rgba(69,0,0,0.97),
+            rgba(227,6,6,0.95)
         );
 
     display: flex;
@@ -156,20 +150,22 @@ body {
 
     padding: 20px;
 
+    overflow-y: auto;
 }
 
 
-/* =========================
-   LOGIN CARD
-   ========================= */
 
-.login-card {
+/* =========================================================
+   AUTH CARD
+   ========================================================= */
+
+.auth-card {
 
     width: 430px;
 
     max-width: 100%;
 
-    background: #ffffff;
+    background: white;
 
     padding: 40px;
 
@@ -177,32 +173,38 @@ body {
 
     text-align: center;
 
-    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.35);
 }
 
 
 .login-logo {
 
-    width: 130px;
+    width: 125px;
 
-    height: 130px;
+    height: 125px;
 
     object-fit: contain;
 
     margin-bottom: 10px;
-
 }
 
 
-.login-card h1 {
+.small-logo {
+
+    width: 90px;
+
+    height: 90px;
+}
+
+
+.auth-card h1 {
 
     color: #630303;
 
     font-size: 27px;
 
     margin-bottom: 8px;
-
 }
 
 
@@ -214,21 +216,20 @@ body {
 
     line-height: 1.6;
 
-    margin-bottom: 28px;
-
+    margin-bottom: 25px;
 }
 
 
-/* =========================
+
+/* =========================================================
    FORM GROUP
-   ========================= */
+   ========================================================= */
 
 .form-group {
 
-    margin-bottom: 18px;
+    margin-bottom: 17px;
 
     text-align: left;
-
 }
 
 
@@ -243,7 +244,6 @@ body {
     font-weight: 600;
 
     margin-bottom: 7px;
-
 }
 
 
@@ -262,10 +262,9 @@ body {
 
     outline: none;
 
-    background: #ffffff;
+    background: white;
 
     transition: 0.3s;
-
 }
 
 
@@ -274,14 +273,15 @@ body {
 
     border-color: #e30606;
 
-    box-shadow: 0 0 0 3px rgba(227,6,6,0.10);
-
+    box-shadow:
+        0 0 0 3px rgba(227,6,6,0.10);
 }
 
 
-/* =========================
+
+/* =========================================================
    REMEMBER ME
-   ========================= */
+   ========================================================= */
 
 .remember-row {
 
@@ -292,7 +292,6 @@ body {
     justify-content: space-between;
 
     margin: 5px 0 20px;
-
 }
 
 
@@ -309,7 +308,6 @@ body {
     font-size: 13px;
 
     cursor: pointer;
-
 }
 
 
@@ -320,7 +318,6 @@ body {
     height: 16px;
 
     accent-color: #e30606;
-
 }
 
 
@@ -331,13 +328,13 @@ body {
     font-size: 12px;
 
     font-weight: 600;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    BUTTONS
-   ========================= */
+   ========================================================= */
 
 .primary-btn,
 .secondary-btn,
@@ -356,7 +353,6 @@ body {
     cursor: pointer;
 
     transition: 0.3s;
-
 }
 
 
@@ -367,7 +363,6 @@ body {
     background: #e30606;
 
     color: white;
-
 }
 
 
@@ -376,7 +371,6 @@ body {
     background: #630303;
 
     transform: translateY(-1px);
-
 }
 
 
@@ -385,14 +379,12 @@ body {
     background: #eeeeee;
 
     color: #444;
-
 }
 
 
 .secondary-btn:hover {
 
     background: #dddddd;
-
 }
 
 
@@ -403,26 +395,71 @@ body {
     background: #630303;
 
     color: white;
-
 }
 
 
 .logout-btn:hover {
 
     background: #e30606;
-
 }
 
 
-/* =========================
-   LOGIN MESSAGE
-   ========================= */
+
+/* =========================================================
+   SIGN IN / SIGN UP SWITCH
+   ========================================================= */
+
+.auth-switch {
+
+    margin-top: 22px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #eeeeee;
+
+    font-size: 13px;
+
+    color: #777;
+}
+
+
+.link-btn {
+
+    border: none;
+
+    background: none;
+
+    color: #d60000;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-left: 4px;
+}
+
+
+.link-btn:hover {
+
+    text-decoration: underline;
+
+    color: #630303;
+}
+
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
 
 #loginMessage,
+#signUpMessage,
 #userMessage,
 #accessMessage {
 
-    margin-top: 15px;
+    margin-top: 13px;
 
     text-align: center;
 
@@ -430,25 +467,27 @@ body {
 
     font-weight: 600;
 
+    min-height: 18px;
 }
 
 
-/* =========================
+
+/* =========================================================
    MAIN SYSTEM
-   ========================= */
+   ========================================================= */
 
 #mainSystem {
 
     display: none;
 
     width: 100%;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    DASHBOARD
-   ========================= */
+   ========================================================= */
 
 .dashboard {
 
@@ -457,7 +496,6 @@ body {
     max-width: 1200px;
 
     margin: 35px auto 0;
-
 }
 
 
@@ -475,8 +513,8 @@ body {
 
     justify-content: space-between;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.15);
 }
 
 
@@ -485,7 +523,6 @@ body {
     color: #630303;
 
     font-size: 27px;
-
 }
 
 
@@ -496,13 +533,13 @@ body {
     margin-top: 5px;
 
     font-size: 14px;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    SUMMARY CARDS
-   ========================= */
+   ========================================================= */
 
 .summary-grid {
 
@@ -514,7 +551,6 @@ body {
     gap: 18px;
 
     margin-top: 20px;
-
 }
 
 
@@ -532,8 +568,8 @@ body {
 
     gap: 15px;
 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.12);
 }
 
 
@@ -554,7 +590,6 @@ body {
     border-radius: 12px;
 
     font-size: 22px;
-
 }
 
 
@@ -563,7 +598,6 @@ body {
     color: #630303;
 
     font-size: 22px;
-
 }
 
 
@@ -572,13 +606,13 @@ body {
     color: #777;
 
     font-size: 12px;
-
 }
 
 
-/* =========================
-   FORM AND TABLE SECTIONS
-   ========================= */
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
 
 .form-section,
 .table-section {
@@ -595,14 +629,15 @@ body {
 
     border-radius: 15px;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.15);
 }
 
 
-/* =========================
+
+/* =========================================================
    SECTION HEADER
-   ========================= */
+   ========================================================= */
 
 .section-header {
 
@@ -617,7 +652,6 @@ body {
     border-bottom: 1px solid #eeeeee;
 
     padding-bottom: 18px;
-
 }
 
 
@@ -626,7 +660,6 @@ body {
     color: #630303;
 
     font-size: 22px;
-
 }
 
 
@@ -637,7 +670,6 @@ body {
     font-size: 13px;
 
     margin-top: 4px;
-
 }
 
 
@@ -660,13 +692,13 @@ body {
     border-radius: 50%;
 
     font-weight: 700;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    FORM GRID
-   ========================= */
+   ========================================================= */
 
 .form-grid {
 
@@ -676,13 +708,13 @@ body {
         repeat(2, 1fr);
 
     gap: 5px 25px;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    FORM ACTIONS
-   ========================= */
+   ========================================================= */
 
 .form-actions {
 
@@ -693,7 +725,6 @@ body {
     gap: 10px;
 
     margin-top: 10px;
-
 }
 
 
@@ -702,13 +733,13 @@ body {
     width: auto;
 
     min-width: 150px;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    ACCESS AREA
-   ========================= */
+   ========================================================= */
 
 .access-area {
 
@@ -721,7 +752,6 @@ body {
     border: 1px solid #eeeeee;
 
     border-radius: 12px;
-
 }
 
 
@@ -730,7 +760,6 @@ body {
     color: #630303;
 
     font-size: 17px;
-
 }
 
 
@@ -740,14 +769,10 @@ body {
 
     font-size: 13px;
 
-    margin: 3px 0 18px;
-
+    margin:
+        3px 0 18px;
 }
 
-
-/* =========================
-   ACCESS GRID
-   ========================= */
 
 .access-grid {
 
@@ -757,13 +782,10 @@ body {
         repeat(4, 1fr);
 
     gap: 12px;
-
 }
 
 
 .access-card {
-
-    position: relative;
 
     display: flex;
 
@@ -782,7 +804,6 @@ body {
     cursor: pointer;
 
     transition: 0.3s;
-
 }
 
 
@@ -791,7 +812,6 @@ body {
     border-color: #e30606;
 
     background: #fff8f8;
-
 }
 
 
@@ -802,14 +822,12 @@ body {
     height: 17px;
 
     accent-color: #e30606;
-
 }
 
 
 .access-icon {
 
     font-size: 20px;
-
 }
 
 
@@ -820,7 +838,6 @@ body {
     color: #333;
 
     font-size: 14px;
-
 }
 
 
@@ -833,20 +850,19 @@ body {
     font-size: 10px;
 
     margin-top: 2px;
-
 }
 
 
-/* =========================
+
+/* =========================================================
    TABLE
-   ========================= */
+   ========================================================= */
 
 .table-container {
 
     width: 100%;
 
     overflow-x: auto;
-
 }
 
 
@@ -855,7 +871,6 @@ table {
     width: 100%;
 
     border-collapse: collapse;
-
 }
 
 
@@ -871,6 +886,7 @@ th {
 
     font-size: 13px;
 
+    white-space: nowrap;
 }
 
 
@@ -885,27 +901,175 @@ td {
     color: #444;
 
     font-size: 13px;
-
 }
 
 
 tbody tr:nth-child(even) {
 
     background: #fafafa;
-
 }
 
 
 tbody tr:hover {
 
     background: #fff0f0;
-
 }
 
 
-/* =========================
+
+/* =========================================================
+   USERS ACCESS TABLE
+   ========================================================= */
+
+.users-access-table {
+
+    min-width: 1100px;
+}
+
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.user-status {
+
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.user-status.active {
+
+    background: #e6f7ed;
+
+    color: #168344;
+}
+
+
+.user-status.inactive {
+
+    background: #eeeeee;
+
+    color: #777;
+}
+
+
+
+/* =========================================================
+   PERMISSIONS
+   ========================================================= */
+
+.permission {
+
+    display: inline-flex;
+
+    width: 25px;
+
+    height: 25px;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+}
+
+
+.permission.yes {
+
+    background: #e6f7ed;
+
+    color: #168344;
+}
+
+
+.permission.admin {
+
+    background: #fff0f0;
+
+    color: #a00000;
+}
+
+
+.permission.no {
+
+    background: #f2f2f2;
+
+    color: #999;
+}
+
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.action-btn {
+
+    border: none;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin: 2px;
+
+    transition: 0.2s;
+}
+
+
+.edit-btn {
+
+    background: #fff0f0;
+
+    color: #8b0000;
+}
+
+
+.edit-btn:hover {
+
+    background: #630303;
+
+    color: white;
+}
+
+
+.delete-btn {
+
+    background: #f3f3f3;
+
+    color: #555;
+}
+
+
+.delete-btn:hover {
+
+    background: #d60000;
+
+    color: white;
+}
+
+
+
+/* =========================================================
    FOOTER
-   ========================= */
+   ========================================================= */
 
 footer {
 
@@ -922,13 +1086,13 @@ footer {
     font-size: 13px;
 
     line-height: 1.8;
-
 }
 
 
-/* =========================
-   RESPONSIVE DESIGN
-   ========================= */
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media screen and (max-width: 900px) {
 
@@ -936,7 +1100,6 @@ footer {
 
         grid-template-columns:
             repeat(2, 1fr);
-
     }
 
 
@@ -944,7 +1107,6 @@ footer {
 
         grid-template-columns:
             repeat(2, 1fr);
-
     }
 
 }
@@ -954,29 +1116,26 @@ footer {
 
     .system-header {
 
-        padding: 15px 4%;
-
+        padding:
+            15px 4%;
     }
 
 
     .brand h1 {
 
         font-size: 18px;
-
     }
 
 
     .brand p {
 
         font-size: 11px;
-
     }
 
 
     .header-status {
 
         display: none;
-
     }
 
 
@@ -987,7 +1146,6 @@ footer {
         width: 94%;
 
         padding: 20px;
-
     }
 
 
@@ -998,42 +1156,36 @@ footer {
         align-items: flex-start;
 
         gap: 15px;
-
     }
 
 
     .summary-grid {
 
         grid-template-columns: 1fr;
-
     }
 
 
     .form-grid {
 
         grid-template-columns: 1fr;
-
     }
 
 
     .access-grid {
 
         grid-template-columns: 1fr;
-
     }
 
 
     .form-actions {
 
         flex-direction: column;
-
     }
 
 
     .form-actions button {
 
         width: 100%;
-
     }
 
 }
@@ -1041,10 +1193,10 @@ footer {
 
 @media screen and (max-width: 480px) {
 
-    .login-card {
+    .auth-card {
 
-        padding: 28px 20px;
-
+        padding:
+            28px 20px;
     }
 
 
@@ -1053,28 +1205,24 @@ footer {
         width: 100px;
 
         height: 100px;
-
     }
 
 
-    .login-card h1 {
+    .auth-card h1 {
 
         font-size: 23px;
-
     }
 
 
     .dashboard-title h2 {
 
         font-size: 22px;
-
     }
 
 
     .section-header h2 {
 
         font-size: 18px;
-
     }
 
 }
