@@ -1,2551 +1,3845 @@
 /* =========================================================
    SALES AND INVENTORY SYSTEM
    Marcelino's Fried Itik
+   Developed by Jhon Mark C. Uayan
+========================================================= */
 
-   TASK 6 - DATA INPUT VALIDATION
-   Fully Functional Front-End System
+"use strict";
+
+
+/* =========================================================
+   INITIAL DATA
+========================================================= */
+
+const defaultProducts = [
+    {
+        id: "P001",
+        name: "Fried Itik Original",
+        category: "Fried Itik",
+        price: 350,
+        stock: 25,
+        icon: "🍗"
+    },
+
+    {
+        id: "P002",
+        name: "Fried Itik Spicy",
+        category: "Fried Itik",
+        price: 375,
+        stock: 20,
+        icon: "🌶️"
+    },
+
+    {
+        id: "P003",
+        name: "Fried Itik Family Pack",
+        category: "Family Pack",
+        price: 650,
+        stock: 15,
+        icon: "🍱"
+    },
+
+    {
+        id: "P004",
+        name: "Itik Special Sauce",
+        category: "Sauce",
+        price: 120,
+        stock: 30,
+        icon: "🥣"
+    },
+
+    {
+        id: "P005",
+        name: "Itik Meal Combo",
+        category: "Meal Combo",
+        price: 450,
+        stock: 18,
+        icon: "🍛"
+    }
+];
+
+
+const defaultCustomers = [
+    {
+        id: "C001",
+        name: "Juan Dela Cruz",
+        phone: "09171234567",
+        email: "juan@gmail.com",
+        city: "Oroquieta",
+        address: "Poblacion, Oroquieta City"
+    },
+
+    {
+        id: "C002",
+        name: "Maria Santos",
+        phone: "09281234567",
+        email: "maria@gmail.com",
+        city: "Ozamis",
+        address: "Aguada, Ozamis City"
+    },
+
+    {
+        id: "C003",
+        name: "Mark Reyes",
+        phone: "09391234567",
+        email: "mark@gmail.com",
+        city: "Tangub",
+        address: "Manga, Tangub City"
+    },
+
+    {
+        id: "C004",
+        name: "Anna Garcia",
+        phone: "09451234567",
+        email: "anna@gmail.com",
+        city: "Pagadian",
+        address: "San Francisco, Pagadian City"
+    },
+
+    {
+        id: "C005",
+        name: "Pedro Ramos",
+        phone: "09561234567",
+        email: "pedro@gmail.com",
+        city: "Iligan",
+        address: "Pala-o, Iligan City"
+    }
+];
+
+
+const defaultSales = [
+    {
+        id: "S001",
+        customer: "Juan Dela Cruz",
+        product: "Fried Itik Original",
+        quantity: 2,
+        total: 700,
+        payment: "Cash on Delivery",
+        date: "2026-09-14"
+    },
+
+    {
+        id: "S002",
+        customer: "Maria Santos",
+        product: "Fried Itik Spicy",
+        quantity: 1,
+        total: 375,
+        payment: "GCash",
+        date: "2026-09-14"
+    },
+
+    {
+        id: "S003",
+        customer: "Mark Reyes",
+        product: "Fried Itik Family Pack",
+        quantity: 1,
+        total: 650,
+        payment: "Cash on Delivery",
+        date: "2026-09-14"
+    },
+
+    {
+        id: "S004",
+        customer: "Anna Garcia",
+        product: "Itik Special Sauce",
+        quantity: 3,
+        total: 360,
+        payment: "GCash",
+        date: "2026-09-14"
+    },
+
+    {
+        id: "S005",
+        customer: "Pedro Ramos",
+        product: "Itik Meal Combo",
+        quantity: 2,
+        total: 900,
+        payment: "Cash on Delivery",
+        date: "2026-09-14"
+    }
+];
+
+
+/* =========================================================
+   LOAD DATA FROM LOCAL STORAGE
+========================================================= */
+
+let products =
+    JSON.parse(localStorage.getItem("products")) ||
+    structuredClone(defaultProducts);
+
+let customers =
+    JSON.parse(localStorage.getItem("customers")) ||
+    structuredClone(defaultCustomers);
+
+let sales =
+    JSON.parse(localStorage.getItem("sales")) ||
+    structuredClone(defaultSales);
+
+let customerAccounts =
+    JSON.parse(localStorage.getItem("customerAccounts")) || [];
+
+let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+let currentUser =
+    JSON.parse(localStorage.getItem("currentUser")) || null;
+
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+function saveAllData() {
+
+    localStorage.setItem(
+        "products",
+        JSON.stringify(products)
+    );
+
+    localStorage.setItem(
+        "customers",
+        JSON.stringify(customers)
+    );
+
+    localStorage.setItem(
+        "sales",
+        JSON.stringify(sales)
+    );
+
+    localStorage.setItem(
+        "customerAccounts",
+        JSON.stringify(customerAccounts)
+    );
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+}
+
+
+/* =========================================================
+   DOM READY
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =====================================================
-       DEFAULT DATA
-    ====================================================== */
+    initializeAuthentication();
 
-    const defaultProducts = [
-        {
-            id: "P001",
-            name: "Fried Itik Original",
-            category: "Food",
-            price: 350,
-            stock: 25
-        },
-        {
-            id: "P002",
-            name: "Fried Itik Spicy",
-            category: "Food",
-            price: 375,
-            stock: 20
-        },
-        {
-            id: "P003",
-            name: "Fried Itik Family Pack",
-            category: "Food",
-            price: 650,
-            stock: 15
-        },
-        {
-            id: "P004",
-            name: "Itik Special Sauce",
-            category: "Sauce",
-            price: 120,
-            stock: 30
-        },
-        {
-            id: "P005",
-            name: "Itik Meal Combo",
-            category: "Meal",
-            price: 450,
-            stock: 18
+    renderMenu();
+
+    renderCustomers();
+
+    renderInventory();
+
+    renderSales();
+
+    renderDashboard();
+
+    renderCart();
+
+    setupForms();
+
+    updateUserInterface();
+
+});
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+function initializeAuthentication() {
+
+    const adminForm =
+        document.getElementById("adminLoginForm");
+
+    const customerForm =
+        document.getElementById("customerLoginForm");
+
+    const signupForm =
+        document.getElementById("customerSignupForm");
+
+
+    adminForm.addEventListener(
+        "submit",
+        handleAdminLogin
+    );
+
+    customerForm.addEventListener(
+        "submit",
+        handleCustomerLogin
+    );
+
+    signupForm.addEventListener(
+        "submit",
+        handleCustomerSignup
+    );
+}
+
+
+/* =========================================================
+   AUTH FORM SWITCHING
+========================================================= */
+
+function showAuthForm(type) {
+
+    const adminForm =
+        document.getElementById("adminLoginForm");
+
+    const customerForm =
+        document.getElementById("customerLoginForm");
+
+    const signupForm =
+        document.getElementById("customerSignupForm");
+
+    const adminTab =
+        document.getElementById("adminTab");
+
+    const customerTab =
+        document.getElementById("customerTab");
+
+
+    adminForm.classList.add("hidden");
+
+    customerForm.classList.add("hidden");
+
+    signupForm.classList.add("hidden");
+
+    adminTab.classList.remove("active");
+
+    customerTab.classList.remove("active");
+
+
+    if (type === "admin") {
+
+        adminForm.classList.remove("hidden");
+
+        adminTab.classList.add("active");
+
+    }
+
+    else if (type === "customer") {
+
+        customerForm.classList.remove("hidden");
+
+        customerTab.classList.add("active");
+
+    }
+
+    else if (type === "signup") {
+
+        signupForm.classList.remove("hidden");
+
+        customerTab.classList.add("active");
+
+    }
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+function handleAdminLogin(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("adminUsername").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    const message =
+        document.getElementById("adminLoginMessage");
+
+
+    if (!username) {
+
+        showAuthMessage(
+            message,
+            "Please enter your username.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!password) {
+
+        showAuthMessage(
+            message,
+            "Please enter your password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+       DEMO ADMIN ACCOUNT
+       Username: admin
+       Password: admin123
+    */
+
+    if (
+        username === "admin" &&
+        password === "admin123"
+    ) {
+
+        currentUser = {
+            role: "admin",
+            name: "Administrator",
+            email: "admin@marcelinosfrieditik.com"
+        };
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(currentUser)
+        );
+
+        enterSystem();
+
+    }
+
+    else {
+
+        showAuthMessage(
+            message,
+            "Invalid admin username or password.",
+            "error"
+        );
+
+    }
+}
+
+
+/* =========================================================
+   CUSTOMER LOGIN
+========================================================= */
+
+function handleCustomerLogin(event) {
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("customerLoginEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const password =
+        document.getElementById("customerLoginPassword")
+            .value;
+
+    const message =
+        document.getElementById("customerLoginMessage");
+
+
+    if (!email || !password) {
+
+        showAuthMessage(
+            message,
+            "Please enter your email and password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const account =
+        customerAccounts.find(
+            acc =>
+                acc.email.toLowerCase() === email &&
+                acc.password === password
+        );
+
+
+    if (!account) {
+
+        showAuthMessage(
+            message,
+            "Account not found or password is incorrect.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    currentUser = {
+        role: "customer",
+        name: account.name,
+        email: account.email,
+        customerId: account.customerId
+    };
+
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(currentUser)
+    );
+
+
+    enterSystem();
+}
+
+
+/* =========================================================
+   CUSTOMER SIGN UP
+========================================================= */
+
+function handleCustomerSignup(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById("signupName")
+            .value
+            .trim();
+
+    const email =
+        document.getElementById("signupEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const phone =
+        document.getElementById("signupPhone")
+            .value
+            .trim();
+
+    const city =
+        document.getElementById("signupCity")
+            .value;
+
+    const address =
+        document.getElementById("signupAddress")
+            .value
+            .trim();
+
+    const password =
+        document.getElementById("signupPassword")
+            .value;
+
+    const confirmPassword =
+        document.getElementById("signupConfirmPassword")
+            .value;
+
+    const message =
+        document.getElementById("signupMessage");
+
+
+    clearFormValidation(
+        document.getElementById("customerSignupForm")
+    );
+
+
+    let valid = true;
+
+
+    if (name.length < 3) {
+
+        showFieldError(
+            "signupName",
+            "Please enter at least 3 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!validateEmail(email)) {
+
+        showFieldError(
+            "signupEmail",
+            "Please enter a valid email address."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!/^09\d{9}$/.test(phone)) {
+
+        showFieldError(
+            "signupPhone",
+            "Use a valid 11-digit mobile number starting with 09."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!city) {
+
+        showFieldError(
+            "signupCity",
+            "Please select your city."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (address.length < 10) {
+
+        showFieldError(
+            "signupAddress",
+            "Address must contain at least 10 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (password.length < 8) {
+
+        showFieldError(
+            "signupPassword",
+            "Password must be at least 8 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (password !== confirmPassword) {
+
+        showFieldError(
+            "signupConfirmPassword",
+            "Passwords do not match."
+        );
+
+        valid = false;
+
+    }
+
+
+    const existingAccount =
+        customerAccounts.find(
+            acc =>
+                acc.email.toLowerCase() === email
+        );
+
+
+    if (existingAccount) {
+
+        showFieldError(
+            "signupEmail",
+            "An account with this email already exists."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!valid) {
+
+        showAuthMessage(
+            message,
+            "Please correct the highlighted fields.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const customerId =
+        generateCustomerId();
+
+
+    const newAccount = {
+
+        id:
+            "A" +
+            Date.now(),
+
+        customerId:
+            customerId,
+
+        name:
+            name,
+
+        email:
+            email,
+
+        phone:
+            phone,
+
+        password:
+            password
+
+    };
+
+
+    const newCustomer = {
+
+        id:
+            customerId,
+
+        name:
+            name,
+
+        phone:
+            phone,
+
+        email:
+            email,
+
+        city:
+            city,
+
+        address:
+            address
+
+    };
+
+
+    customerAccounts.push(newAccount);
+
+    customers.push(newCustomer);
+
+
+    saveAllData();
+
+    renderCustomers();
+
+    renderDashboard();
+
+
+    showAuthMessage(
+        message,
+        "Account created successfully! You can now sign in.",
+        "success"
+    );
+
+
+    document.getElementById(
+        "customerSignupForm"
+    ).reset();
+
+
+    setTimeout(function () {
+
+        showAuthForm("customer");
+
+        document.getElementById(
+            "customerLoginEmail"
+        ).value = email;
+
+    }, 1200);
+}
+
+
+/* =========================================================
+   ENTER SYSTEM
+========================================================= */
+
+function enterSystem() {
+
+    document
+        .getElementById("authPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("mainSystem")
+        .classList.remove("hidden");
+
+
+    updateUserInterface();
+
+    renderDashboard();
+
+    renderMenu();
+
+    renderCart();
+}
+
+
+/* =========================================================
+   UPDATE USER INTERFACE
+========================================================= */
+
+function updateUserInterface() {
+
+    const display =
+        document.getElementById(
+            "currentUserDisplay"
+        );
+
+
+    if (!currentUser) {
+
+        display.textContent =
+            "Administrator";
+
+        return;
+    }
+
+
+    display.textContent =
+        currentUser.role === "admin"
+            ? "Admin: " + currentUser.name
+            : "Customer: " + currentUser.name;
+
+
+    const adminOnly =
+        document.querySelectorAll(".admin-only");
+
+
+    adminOnly.forEach(element => {
+
+        if (currentUser.role === "admin") {
+
+            element.style.display = "";
+
         }
-    ];
 
+        else {
 
-    const defaultCustomers = [
-        {
-            id: "C001",
-            name: "Juan Dela Cruz",
-            phone: "09171234567",
-            email: "juan@gmail.com",
-            city: "Oroquieta"
-        },
-        {
-            id: "C002",
-            name: "Maria Santos",
-            phone: "09281234567",
-            email: "maria@gmail.com",
-            city: "Ozamis"
-        },
-        {
-            id: "C003",
-            name: "Mark Reyes",
-            phone: "09391234567",
-            email: "mark@gmail.com",
-            city: "Tangub"
-        },
-        {
-            id: "C004",
-            name: "Anna Garcia",
-            phone: "09451234567",
-            email: "anna@gmail.com",
-            city: "Pagadian"
-        },
-        {
-            id: "C005",
-            name: "Pedro Ramos",
-            phone: "09561234567",
-            email: "pedro@gmail.com",
-            city: "Iligan"
+            element.style.display = "none";
+
         }
-    ];
+
+    });
 
 
-    const defaultSales = [
-        {
-            id: "S001",
-            customerId: "C001",
-            productId: "P001",
-            quantity: 2,
-            total: 700,
-            date: "2026-09-01"
-        },
-        {
-            id: "S002",
-            customerId: "C002",
-            productId: "P002",
-            quantity: 1,
-            total: 375,
-            date: "2026-09-02"
-        },
-        {
-            id: "S003",
-            customerId: "C003",
-            productId: "P003",
-            quantity: 1,
-            total: 650,
-            date: "2026-09-03"
-        },
-        {
-            id: "S004",
-            customerId: "C004",
-            productId: "P004",
-            quantity: 3,
-            total: 360,
-            date: "2026-09-04"
-        },
-        {
-            id: "S005",
-            customerId: "C005",
-            productId: "P005",
-            quantity: 2,
-            total: 900,
-            date: "2026-09-05"
+    /*
+       Customers can still order.
+       Customers cannot manage system records.
+    */
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    if (
+        !confirm(
+            "Are you sure you want to logout?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    currentUser = null;
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+
+    document
+        .getElementById("mainSystem")
+        .classList.add("hidden");
+
+    document
+        .getElementById("authPage")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("adminLoginForm")
+        .reset();
+
+    document
+        .getElementById("customerLoginForm")
+        .reset();
+
+
+    showAuthForm("admin");
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+function togglePassword(id) {
+
+    const input =
+        document.getElementById(id);
+
+    input.type =
+        input.type === "password"
+            ? "text"
+            : "password";
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(sectionId, button) {
+
+    document
+        .querySelectorAll(".content-section")
+        .forEach(section => {
+
+            section.classList.remove(
+                "active-section"
+            );
+
+        });
+
+
+    const target =
+        document.getElementById(sectionId);
+
+
+    if (!target) {
+
+        return;
+
+    }
+
+
+    target.classList.add(
+        "active-section"
+    );
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function showSectionById(sectionId) {
+
+    const button =
+        document.querySelector(
+            `.nav-btn[onclick*="'${sectionId}'"]`
+        );
+
+    showSection(
+        sectionId,
+        button
+    );
+}
+
+
+function openMenuFromDashboard() {
+
+    showSectionById("menu");
+
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function renderMenu() {
+
+    const container =
+        document.getElementById(
+            "menuContainer"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    products.forEach(product => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "menu-card";
+
+
+        const outOfStock =
+            product.stock <= 0;
+
+
+        card.innerHTML = `
+
+            <div class="menu-image">
+                ${escapeHtml(product.icon || "🍗")}
+            </div>
+
+            <div class="menu-body">
+
+                <span class="menu-category">
+                    ${escapeHtml(product.category)}
+                </span>
+
+                <h3>
+                    ${escapeHtml(product.name)}
+                </h3>
+
+                <div class="menu-price">
+                    ${formatMoney(product.price)}
+                </div>
+
+                <div class="
+                    menu-stock
+                    ${outOfStock ? "out-stock" : ""}
+                ">
+
+                    ${
+                        outOfStock
+                            ? "Out of Stock"
+                            : "Available Stock: " +
+                              product.stock
+                    }
+
+                </div>
+
+                <button
+                    class="primary-btn full-btn"
+                    ${
+                        outOfStock
+                            ? "disabled"
+                            : ""
+                    }
+                    onclick="addToCart('${product.id}')">
+
+                    ${
+                        outOfStock
+                            ? "Out of Stock"
+                            : "Add to Cart"
+                    }
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+function addToCart(productId) {
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if (!product) {
+        return;
+    }
+
+
+    if (product.stock <= 0) {
+
+        alert(
+            "This product is currently out of stock."
+        );
+
+        return;
+    }
+
+
+    const existing =
+        cart.find(
+            item =>
+                item.productId === productId
+        );
+
+
+    if (existing) {
+
+        if (
+            existing.quantity >=
+            product.stock
+        ) {
+
+            alert(
+                "You cannot add more than the available stock."
+            );
+
+            return;
         }
-    ];
 
 
-    /* =====================================================
-       LOCAL STORAGE
-    ====================================================== */
+        existing.quantity++;
 
-    let products =
-        JSON.parse(
-            localStorage.getItem("products")
-        ) || defaultProducts;
+    }
 
-    let customers =
-        JSON.parse(
-            localStorage.getItem("customers")
-        ) || defaultCustomers;
+    else {
 
-    let sales =
-        JSON.parse(
-            localStorage.getItem("sales")
-        ) || defaultSales;
+        cart.push({
+
+            productId:
+                productId,
+
+            quantity:
+                1
+
+        });
+
+    }
+
+
+    saveAllData();
+
+    renderCart();
+
+    updateCartBadge();
+
+}
+
+
+function increaseQuantity(productId) {
+
+    const item =
+        cart.find(
+            item =>
+                item.productId === productId
+        );
+
+    const product =
+        products.find(
+            p =>
+                p.id === productId
+        );
+
+
+    if (!item || !product) {
+        return;
+    }
+
+
+    if (
+        item.quantity >=
+        product.stock
+    ) {
+
+        alert(
+            "Maximum available stock reached."
+        );
+
+        return;
+    }
+
+
+    item.quantity++;
+
+    saveAllData();
+
+    renderCart();
+
+}
+
+
+function decreaseQuantity(productId) {
+
+    const item =
+        cart.find(
+            item =>
+                item.productId === productId
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    item.quantity--;
+
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                item =>
+                    item.productId !==
+                    productId
+            );
+
+    }
+
+
+    saveAllData();
+
+    renderCart();
+
+}
+
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item =>
+                item.productId !==
+                productId
+        );
+
+
+    saveAllData();
+
+    renderCart();
+
+}
+
+
+/* =========================================================
+   RENDER CART
+========================================================= */
+
+function renderCart() {
+
+    const container =
+        document.getElementById(
+            "cartContainer"
+        );
+
+    const summary =
+        document.getElementById(
+            "cartSummary"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (cart.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h3>
+                    Your cart is empty
+                </h3>
+
+                <p>
+                    Add products from the menu
+                    to start your order.
+                </p>
+
+                <br>
+
+                <button
+                    class="primary-btn"
+                    onclick="showSectionById('menu')">
+                    Browse Menu
+                </button>
+
+            </div>
+
+        `;
+
+
+        summary.classList.add("hidden");
+
+        updateCartBadge();
+
+        return;
+    }
+
+
+    summary.classList.remove(
+        "hidden"
+    );
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                p =>
+                    p.id === item.productId
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const itemTotal =
+            product.price *
+            item.quantity;
+
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "cart-item";
+
+
+        div.innerHTML = `
+
+            <div class="cart-icon">
+                ${escapeHtml(product.icon)}
+            </div>
+
+            <div>
+                <h3>
+                    ${escapeHtml(product.name)}
+                </h3>
+
+                <p>
+                    ${formatMoney(product.price)}
+                    each
+                </p>
+            </div>
+
+            <div class="quantity-controls">
+
+                <button
+                    class="quantity-btn"
+                    onclick="
+                        decreaseQuantity(
+                            '${product.id}'
+                        )
+                    ">
+                    −
+                </button>
+
+                <span class="quantity-number">
+                    ${item.quantity}
+                </span>
+
+                <button
+                    class="quantity-btn"
+                    onclick="
+                        increaseQuantity(
+                            '${product.id}'
+                        )
+                    ">
+                    +
+                </button>
+
+            </div>
+
+            <div class="cart-item-price">
+                ${formatMoney(itemTotal)}
+            </div>
+
+            <button
+                class="danger-btn"
+                onclick="
+                    removeFromCart(
+                        '${product.id}'
+                    )
+                ">
+                Remove
+            </button>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+
+    updateCartTotals();
+
+    updateCartBadge();
+
+}
+
+
+function calculateCartTotal() {
+
+    return cart.reduce(
+        (total, item) => {
+
+            const product =
+                products.find(
+                    p =>
+                        p.id ===
+                        item.productId
+                );
+
+
+            if (!product) {
+                return total;
+            }
+
+
+            return total +
+                product.price *
+                item.quantity;
+
+        },
+
+        0
+    );
+}
+
+
+function calculateCartItems() {
+
+    return cart.reduce(
+        (total, item) =>
+            total + item.quantity,
+
+        0
+    );
+}
+
+
+function updateCartTotals() {
+
+    const count =
+        calculateCartItems();
+
+    const total =
+        calculateCartTotal();
+
+
+    document.getElementById(
+        "cartItemCount"
+    ).textContent = count;
+
+
+    document.getElementById(
+        "cartSubtotal"
+    ).textContent =
+        formatMoney(total);
+
+
+    document.getElementById(
+        "cartTotal"
+    ).textContent =
+        formatMoney(total);
+
+}
+
+
+function updateCartBadge() {
+
+    const badge =
+        document.getElementById(
+            "cartBadge"
+        );
+
+
+    if (!badge) {
+        return;
+    }
+
+
+    badge.textContent =
+        calculateCartItems();
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+function openCheckout() {
+
+    if (cart.length === 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+    }
+
+
+    const customer =
+        currentUser &&
+        currentUser.role === "customer"
+            ? customers.find(
+                c =>
+                    c.id ===
+                    currentUser.customerId
+            )
+            : null;
+
+
+    if (customer) {
+
+        document.getElementById(
+            "customerName"
+        ).value =
+            customer.name;
+
+        document.getElementById(
+            "customerPhone"
+        ).value =
+            customer.phone;
+
+        document.getElementById(
+            "customerEmail"
+        ).value =
+            customer.email;
+
+        document.getElementById(
+            "customerCity"
+        ).value =
+            customer.city;
+
+        document.getElementById(
+            "customerAddress"
+        ).value =
+            customer.address;
+
+    }
+
+
+    renderCheckoutSummary();
+
+
+    showSectionById(
+        "checkout"
+    );
+
+}
+
+
+function renderCheckoutSummary() {
+
+    const container =
+        document.getElementById(
+            "checkoutSummary"
+        );
+
+
+    container.innerHTML = "";
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                p =>
+                    p.id ===
+                    item.productId
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const total =
+            product.price *
+            item.quantity;
+
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "order-preview-item";
+
+
+        row.innerHTML = `
+
+            <span>
+                ${escapeHtml(product.name)}
+                × ${item.quantity}
+            </span>
+
+            <strong>
+                ${formatMoney(total)}
+            </strong>
+
+        `;
+
+
+        container.appendChild(row);
+
+    });
+
+
+    const total =
+        calculateCartTotal();
+
+
+    const totalDiv =
+        document.createElement("div");
+
+
+    totalDiv.className =
+        "order-preview-total";
+
+
+    totalDiv.innerHTML = `
+
+        <span>Total</span>
+
+        <strong>
+            ${formatMoney(total)}
+        </strong>
+
+    `;
+
+
+    container.appendChild(
+        totalDiv
+    );
+
+}
+
+
+/* =========================================================
+   CHECKOUT FORM
+========================================================= */
+
+function setupForms() {
+
+    document
+        .getElementById(
+            "checkoutForm"
+        )
+        .addEventListener(
+            "submit",
+            processOrder
+        );
+
+
+    document
+        .getElementById(
+            "customerForm"
+        )
+        .addEventListener(
+            "submit",
+            saveCustomer
+        );
+
+
+    document
+        .getElementById(
+            "productForm"
+        )
+        .addEventListener(
+            "submit",
+            saveProduct
+        );
+
+
+    document
+        .getElementById(
+            "saleForm"
+        )
+        .addEventListener(
+            "submit",
+            saveSale
+        );
+
+}
+
+
+function processOrder(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById(
+            "customerName"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "customerPhone"
+        ).value.trim();
+
+    const email =
+        document.getElementById(
+            "customerEmail"
+        ).value.trim();
+
+    const city =
+        document.getElementById(
+            "customerCity"
+        ).value;
+
+    const address =
+        document.getElementById(
+            "customerAddress"
+        ).value.trim();
+
+    const payment =
+        document.getElementById(
+            "paymentMethod"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "checkoutMessage"
+        );
+
+
+    clearCheckoutValidation();
+
+
+    let valid = true;
+
+
+    if (name.length < 3) {
+
+        showCheckoutError(
+            "customerName",
+            "Please enter a valid name."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!/^09\d{9}$/.test(phone)) {
+
+        showCheckoutError(
+            "customerPhone",
+            "Enter a valid 11-digit mobile number."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!validateEmail(email)) {
+
+        showCheckoutError(
+            "customerEmail",
+            "Enter a valid email address."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!city) {
+
+        showCheckoutError(
+            "customerCity",
+            "Please select a city."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (address.length < 10) {
+
+        showCheckoutError(
+            "customerAddress",
+            "Address must be at least 10 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!payment) {
+
+        showCheckoutError(
+            "paymentMethod",
+            "Please select a payment method."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!valid) {
+
+        showAuthMessage(
+            message,
+            "Please correct the highlighted fields.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+       Check stock before processing.
+    */
+
+    for (const item of cart) {
+
+        const product =
+            products.find(
+                p =>
+                    p.id ===
+                    item.productId
+            );
+
+
+        if (
+            !product ||
+            item.quantity >
+            product.stock
+        ) {
+
+            showAuthMessage(
+                message,
+                "Some products no longer have enough stock.",
+                "error"
+            );
+
+            renderMenu();
+
+            return;
+        }
+
+    }
+
+
+    /*
+       Find existing customer.
+    */
+
+    let customer =
+        customers.find(
+            c =>
+                c.email.toLowerCase() ===
+                email.toLowerCase()
+        );
+
+
+    /*
+       If customer does not exist,
+       create a customer record.
+    */
+
+    if (!customer) {
+
+        customer = {
+
+            id:
+                generateCustomerId(),
+
+            name:
+                name,
+
+            phone:
+                phone,
+
+            email:
+                email,
+
+            city:
+                city,
+
+            address:
+                address
+
+        };
+
+
+        customers.push(
+            customer
+        );
+
+    }
+
+    else {
+
+        /*
+           Update customer's information.
+        */
+
+        customer.name =
+            name;
+
+        customer.phone =
+            phone;
+
+        customer.city =
+            city;
+
+        customer.address =
+            address;
+
+    }
+
+
+    /*
+       If customer is logged in,
+       update current customer account.
+    */
+
+    if (
+        currentUser &&
+        currentUser.role === "customer"
+    ) {
+
+        currentUser.name =
+            name;
+
+        currentUser.customerId =
+            customer.id;
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(currentUser)
+        );
+
+    }
+
+
+    /*
+       Create sales records.
+    */
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                p =>
+                    p.id ===
+                    item.productId
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const total =
+            product.price *
+            item.quantity;
+
+
+        sales.push({
+
+            id:
+                generateSaleId(),
+
+            customer:
+                customer.name,
+
+            product:
+                product.name,
+
+            quantity:
+                item.quantity,
+
+            total:
+                total,
+
+            payment:
+                payment,
+
+            date:
+                today
+
+        });
+
+
+        /*
+           Reduce inventory.
+        */
+
+        product.stock -=
+            item.quantity;
+
+    });
+
+
+    const orderNumber =
+        "ORD-" +
+        Date.now();
+
+
+    /*
+       Clear cart.
+    */
+
+    cart = [];
 
 
     saveAllData();
 
 
-    function saveAllData() {
+    /*
+       Refresh interface.
+    */
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(products)
-        );
+    renderMenu();
 
-        localStorage.setItem(
-            "customers",
-            JSON.stringify(customers)
-        );
+    renderCart();
 
-        localStorage.setItem(
-            "sales",
-            JSON.stringify(sales)
-        );
-    }
+    renderCustomers();
 
+    renderInventory();
 
-    /* =====================================================
-       LOGIN
-    ====================================================== */
+    renderSales();
 
-    const loginPage =
-        document.getElementById("loginPage");
+    renderDashboard();
 
-    const app =
-        document.getElementById("app");
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const username =
-        document.getElementById("username");
-
-    const password =
-        document.getElementById("password");
-
-    const loginMessage =
-        document.getElementById("loginMessage");
+    updateUserInterface();
 
 
-    loginForm.addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
-
-            clearValidation(username);
-            clearValidation(password);
-
-            let valid = true;
-
-
-            if (
-                username.value.trim() === ""
-            ) {
-
-                showError(
-                    username,
-                    "Username is required."
-                );
-
-                valid = false;
-
-            }
-            else if (
-                username.value.trim().length < 3
-            ) {
-
-                showError(
-                    username,
-                    "Username must contain at least 3 characters."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(username);
-
-            }
-
-
-            if (
-                password.value === ""
-            ) {
-
-                showError(
-                    password,
-                    "Password is required."
-                );
-
-                valid = false;
-
-            }
-            else if (
-                password.value.length < 8
-            ) {
-
-                showError(
-                    password,
-                    "Password must contain at least 8 characters."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(password);
-
-            }
-
-
-            if (!valid) {
-
-                loginMessage.textContent =
-                    "Please correct the errors above.";
-
-                loginMessage.style.color =
-                    "#dc3545";
-
-                return;
-            }
-
-
-            if (
-                username.value.trim() === "admin" &&
-                password.value === "admin123"
-            ) {
-
-                loginMessage.textContent =
-                    "Login successful!";
-
-                loginMessage.style.color =
-                    "#198754";
-
-
-                localStorage.setItem(
-                    "loggedIn",
-                    "true"
-                );
-
-
-                setTimeout(
-                    function () {
-
-                        loginPage.classList.add(
-                            "hidden"
-                        );
-
-                        app.classList.remove(
-                            "hidden"
-                        );
-
-                        initializeSystem();
-
-                    },
-                    500
-                );
-
-            }
-            else {
-
-                loginMessage.textContent =
-                    "Invalid username or password.";
-
-                loginMessage.style.color =
-                    "#dc3545";
-
-                password.value = "";
-
-                password.focus();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       LOGOUT
-    ====================================================== */
+    /*
+       Reset checkout.
+    */
 
     document
-        .getElementById("logoutBtn")
-        .addEventListener(
-            "click",
-            function () {
+        .getElementById(
+            "checkoutForm"
+        )
+        .reset();
 
-                localStorage.removeItem(
-                    "loggedIn"
-                );
 
-                app.classList.add(
-                    "hidden"
-                );
+    /*
+       Show success message.
+    */
 
-                loginPage.classList.remove(
-                    "hidden"
-                );
+    document.getElementById(
+        "successMessage"
+    ).textContent =
+        `Order ${orderNumber} has been successfully recorded. Thank you for ordering from Marcelino's Fried Itik!`;
 
-                loginForm.reset();
 
-                clearValidation(username);
-                clearValidation(password);
+    document
+        .getElementById(
+            "successModal"
+        )
+        .classList.add("show");
 
-                loginMessage.textContent = "";
 
-            }
+    showSectionById(
+        "dashboard"
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER CRUD
+========================================================= */
+
+function renderCustomers() {
+
+    const tbody =
+        document.getElementById(
+            "customerTableBody"
         );
 
 
-    /* =====================================================
-       NAVIGATION
-    ====================================================== */
-
-    const navItems =
-        document.querySelectorAll(".nav-item");
-
-    const sections =
-        document.querySelectorAll(".content-section");
-
-    const pageTitle =
-        document.getElementById("pageTitle");
-
-
-    navItems.forEach(
-        function (item) {
-
-            item.addEventListener(
-                "click",
-                function () {
-
-                    const sectionName =
-                        item.dataset.section;
-
-
-                    navItems.forEach(
-                        function (nav) {
-
-                            nav.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
-
-
-                    item.classList.add(
-                        "active"
-                    );
-
-
-                    sections.forEach(
-                        function (section) {
-
-                            section.classList.remove(
-                                "active-section"
-                            );
-
-                        }
-                    );
-
-
-                    document
-                        .getElementById(sectionName)
-                        .classList.add(
-                            "active-section"
-                        );
-
-
-                    const titles = {
-                        dashboard: "Dashboard",
-                        inventory: "Product Inventory",
-                        customers: "Customer Information",
-                        sales: "Sales Transactions",
-                        validation: "Data Input Validation"
-                    };
-
-
-                    pageTitle.textContent =
-                        titles[sectionName];
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       DATE
-    ====================================================== */
-
-    function updateDate() {
-
-        const dateElement =
-            document.getElementById(
-                "currentDate"
-            );
-
-        const today =
-            new Date();
-
-
-        dateElement.textContent =
-            today.toLocaleDateString(
-                "en-PH",
-                {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                }
-            );
+    if (!tbody) {
+        return;
     }
 
 
-    /* =====================================================
-       INITIALIZE
-    ====================================================== */
+    tbody.innerHTML = "";
 
-    function initializeSystem() {
 
-        updateDate();
+    customers.forEach(customer => {
 
-        renderProducts();
+        const row =
+            document.createElement("tr");
 
-        renderCustomers();
 
-        renderSales();
+        row.innerHTML = `
 
-        updateDashboard();
+            <td>
+                <strong>
+                    ${escapeHtml(customer.id)}
+                </strong>
+            </td>
 
-        updateSaleDropdowns();
+            <td>
+                ${escapeHtml(customer.name)}
+            </td>
 
-    }
+            <td>
+                ${escapeHtml(customer.phone)}
+            </td>
 
+            <td>
+                ${escapeHtml(customer.email)}
+            </td>
 
-    /* =====================================================
-       PRODUCT FORM
-    ====================================================== */
+            <td>
+                ${escapeHtml(customer.city)}
+            </td>
 
-    const showProductForm =
-        document.getElementById(
-            "showProductForm"
-        );
+            <td>
+                ${escapeHtml(customer.address)}
+            </td>
 
-    const productFormContainer =
-        document.getElementById(
-            "productFormContainer"
-        );
+            <td>
 
-    const cancelProduct =
-        document.getElementById(
-            "cancelProduct"
-        );
+                <div class="action-buttons">
 
-    const productForm =
-        document.getElementById(
-            "productForm"
-        );
-
-
-    showProductForm.addEventListener(
-        "click",
-        function () {
-
-            productFormContainer.classList.toggle(
-                "hidden"
-            );
-
-        }
-    );
-
-
-    cancelProduct.addEventListener(
-        "click",
-        function () {
-
-            productForm.reset();
-
-            clearAllValidation(
-                productForm
-            );
-
-            productFormContainer.classList.add(
-                "hidden"
-            );
-
-        }
-    );
-
-
-    productForm.addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
-
-
-            const name =
-                document.getElementById(
-                    "productName"
-                );
-
-            const category =
-                document.getElementById(
-                    "productCategory"
-                );
-
-            const price =
-                document.getElementById(
-                    "productPrice"
-                );
-
-            const stock =
-                document.getElementById(
-                    "productStock"
-                );
-
-
-            let valid = true;
-
-
-            clearAllValidation(
-                productForm
-            );
-
-
-            if (
-                name.value.trim().length < 3
-            ) {
-
-                showError(
-                    name,
-                    "Product name must contain at least 3 characters."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(name);
-
-            }
-
-
-            if (
-                category.value === ""
-            ) {
-
-                showError(
-                    category,
-                    "Please select a category."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(category);
-
-            }
-
-
-            if (
-                price.value === ""
-            ) {
-
-                showError(
-                    price,
-                    "Price is required."
-                );
-
-                valid = false;
-
-            }
-            else if (
-                Number(price.value) <= 0
-            ) {
-
-                showError(
-                    price,
-                    "Price must be greater than zero."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(price);
-
-            }
-
-
-            if (
-                stock.value === ""
-            ) {
-
-                showError(
-                    stock,
-                    "Stock quantity is required."
-                );
-
-                valid = false;
-
-            }
-            else if (
-                Number(stock.value) < 1
-            ) {
-
-                showError(
-                    stock,
-                    "Stock must be at least 1."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(stock);
-
-            }
-
-
-            if (!valid) {
-
-                return;
-            }
-
-
-            const newProduct = {
-
-                id: generateId(
-                    "P",
-                    products
-                ),
-
-                name:
-                    name.value.trim(),
-
-                category:
-                    category.value,
-
-                price:
-                    Number(price.value),
-
-                stock:
-                    Number(stock.value)
-
-            };
-
-
-            products.push(
-                newProduct
-            );
-
-
-            saveAllData();
-
-
-            productForm.reset();
-
-            clearAllValidation(
-                productForm
-            );
-
-
-            document.getElementById(
-                "productSuccess"
-            ).textContent =
-                "Product added successfully!";
-
-
-            renderProducts();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
-
-
-            setTimeout(
-                function () {
-
-                    document.getElementById(
-                        "productSuccess"
-                    ).textContent = "";
-
-                    productFormContainer.classList.add(
-                        "hidden"
-                    );
-
-                },
-                1000
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       RENDER PRODUCTS
-    ====================================================== */
-
-    function renderProducts(
-        search = ""
-    ) {
-
-        const table =
-            document.getElementById(
-                "inventoryTable"
-            );
-
-
-        table.innerHTML = "";
-
-
-        const filtered =
-            products.filter(
-                function (product) {
-
-                    return (
-                        product.name
-                            .toLowerCase()
-                            .includes(
-                                search.toLowerCase()
-                            ) ||
-
-                        product.category
-                            .toLowerCase()
-                            .includes(
-                                search.toLowerCase()
-                            ) ||
-
-                        product.id
-                            .toLowerCase()
-                            .includes(
-                                search.toLowerCase()
+                    <button
+                        class="action-btn edit-btn"
+                        onclick="
+                            editCustomer(
+                                '${customer.id}'
                             )
-                    );
+                        ">
+                        Edit
+                    </button>
 
-                }
-            );
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="
+                            deleteCustomer(
+                                '${customer.id}'
+                            )
+                        ">
+                        Delete
+                    </button>
 
+                </div>
 
-        if (filtered.length === 0) {
+            </td>
 
-            table.innerHTML =
-                `
-                <tr>
-                    <td colspan="7"
-                        class="empty-row">
-                        No products found.
-                    </td>
-                </tr>
-                `;
-
-            return;
-        }
-
-
-        filtered.forEach(
-            function (product) {
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
+        `;
 
 
-                row.innerHTML = `
+        tbody.appendChild(row);
 
-                    <td>${product.id}</td>
+    });
 
-                    <td>
-                        <strong>
-                            ${escapeHTML(product.name)}
-                        </strong>
-                    </td>
-
-                    <td>${product.category}</td>
-
-                    <td>
-                        ${formatCurrency(product.price)}
-                    </td>
-
-                    <td>${product.stock}</td>
-
-                    <td>
-                        ${getStockStatus(product.stock)}
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="delete-button"
-                            onclick="deleteProduct('${product.id}')">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-                `;
+}
 
 
-                table.appendChild(row);
+/* =========================================================
+   ADD CUSTOMER MODAL
+========================================================= */
 
-            }
+function openCustomerModal() {
+
+    document.getElementById(
+        "customerModalTitle"
+    ).textContent =
+        "Add Customer";
+
+
+    document.getElementById(
+        "customerForm"
+    ).reset();
+
+
+    document.getElementById(
+        "editCustomerId"
+    ).value = "";
+
+
+    document.getElementById(
+        "customerModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   EDIT CUSTOMER
+========================================================= */
+
+function editCustomer(id) {
+
+    const customer =
+        customers.find(
+            c =>
+                c.id === id
         );
 
+
+    if (!customer) {
+        return;
     }
 
 
-    /* =====================================================
-       PRODUCT SEARCH
-    ====================================================== */
-
-    document
-        .getElementById("productSearch")
-        .addEventListener(
-            "input",
-            function () {
-
-                renderProducts(
-                    this.value
-                );
-
-            }
-        );
+    document.getElementById(
+        "customerModalTitle"
+    ).textContent =
+        "Edit Customer";
 
 
-    /* =====================================================
-       CUSTOMER FORM
-    ====================================================== */
+    document.getElementById(
+        "editCustomerId"
+    ).value =
+        customer.id;
 
-    const showCustomerForm =
+
+    document.getElementById(
+        "modalCustomerName"
+    ).value =
+        customer.name;
+
+
+    document.getElementById(
+        "modalCustomerPhone"
+    ).value =
+        customer.phone;
+
+
+    document.getElementById(
+        "modalCustomerEmail"
+    ).value =
+        customer.email;
+
+
+    document.getElementById(
+        "modalCustomerCity"
+    ).value =
+        customer.city;
+
+
+    document.getElementById(
+        "modalCustomerAddress"
+    ).value =
+        customer.address;
+
+
+    document.getElementById(
+        "customerModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   SAVE CUSTOMER
+========================================================= */
+
+function saveCustomer(event) {
+
+    event.preventDefault();
+
+
+    const id =
         document.getElementById(
-            "showCustomerForm"
-        );
+            "editCustomerId"
+        ).value;
 
-    const customerFormContainer =
+
+    const name =
         document.getElementById(
-            "customerFormContainer"
-        );
+            "modalCustomerName"
+        ).value.trim();
 
-    const cancelCustomer =
+    const phone =
         document.getElementById(
-            "cancelCustomer"
-        );
+            "modalCustomerPhone"
+        ).value.trim();
 
-    const customerForm =
+    const email =
+        document.getElementById(
+            "modalCustomerEmail"
+        ).value.trim()
+        .toLowerCase();
+
+    const city =
+        document.getElementById(
+            "modalCustomerCity"
+        ).value;
+
+    const address =
+        document.getElementById(
+            "modalCustomerAddress"
+        ).value.trim();
+
+
+    let valid = true;
+
+
+    clearFormValidation(
         document.getElementById(
             "customerForm"
+        )
+    );
+
+
+    if (name.length < 3) {
+
+        showFieldError(
+            "modalCustomerName",
+            "Name must contain at least 3 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!/^09\d{9}$/.test(phone)) {
+
+        showFieldError(
+            "modalCustomerPhone",
+            "Enter a valid mobile number."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!validateEmail(email)) {
+
+        showFieldError(
+            "modalCustomerEmail",
+            "Enter a valid email address."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!city) {
+
+        showFieldError(
+            "modalCustomerCity",
+            "Please select a city."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (address.length < 10) {
+
+        showFieldError(
+            "modalCustomerAddress",
+            "Address must be at least 10 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    /*
+       Prevent duplicate emails.
+    */
+
+    const duplicate =
+        customers.find(
+            c =>
+                c.email.toLowerCase() === email &&
+                c.id !== id
         );
 
 
-    showCustomerForm.addEventListener(
-        "click",
-        function () {
+    if (duplicate) {
 
-            customerFormContainer.classList.toggle(
-                "hidden"
+        showFieldError(
+            "modalCustomerEmail",
+            "Another customer already uses this email."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (!valid) {
+        return;
+    }
+
+
+    if (id) {
+
+        /*
+           UPDATE
+        */
+
+        const customer =
+            customers.find(
+                c =>
+                    c.id === id
             );
+
+
+        if (customer) {
+
+            customer.name =
+                name;
+
+            customer.phone =
+                phone;
+
+            customer.email =
+                email;
+
+            customer.city =
+                city;
+
+            customer.address =
+                address;
 
         }
-    );
 
 
-    cancelCustomer.addEventListener(
-        "click",
-        function () {
+        /*
+           Update account information
+           if this customer has an account.
+        */
 
-            customerForm.reset();
-
-            clearAllValidation(
-                customerForm
+        const account =
+            customerAccounts.find(
+                a =>
+                    a.customerId === id
             );
 
-            customerFormContainer.classList.add(
-                "hidden"
-            );
+
+        if (account) {
+
+            account.name =
+                name;
+
+            account.email =
+                email;
+
+            account.phone =
+                phone;
 
         }
+
+
+        /*
+           Update related sales.
+        */
+
+        sales.forEach(sale => {
+
+            if (
+                sale.customer ===
+                customer.name
+            ) {
+
+                sale.customer =
+                    name;
+
+            }
+
+        });
+
+        alert(
+            "Customer record updated successfully."
+        );
+
+    }
+
+    else {
+
+        /*
+           INSERT
+        */
+
+        const newCustomer = {
+
+            id:
+                generateCustomerId(),
+
+            name:
+                name,
+
+            phone:
+                phone,
+
+            email:
+                email,
+
+            city:
+                city,
+
+            address:
+                address
+
+        };
+
+
+        customers.push(
+            newCustomer
+        );
+
+
+        alert(
+            "Customer added successfully."
+        );
+
+    }
+
+
+    saveAllData();
+
+    renderCustomers();
+
+    renderSales();
+
+    renderDashboard();
+
+    closeModal(
+        "customerModal"
     );
 
-
-    customerForm.addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
+}
 
 
-            const name =
-                document.getElementById(
-                    "customerName"
-                );
+/* =========================================================
+   DELETE CUSTOMER
+========================================================= */
 
-            const phone =
-                document.getElementById(
-                    "customerPhone"
-                );
+function deleteCustomer(id) {
 
-            const email =
-                document.getElementById(
-                    "customerEmail"
-                );
-
-            const city =
-                document.getElementById(
-                    "customerCity"
-                );
+    const customer =
+        customers.find(
+            c =>
+                c.id === id
+        );
 
 
-            let valid = true;
+    if (!customer) {
+        return;
+    }
 
 
-            clearAllValidation(
-                customerForm
-            );
+    const confirmed =
+        confirm(
+            `Are you sure you want to permanently delete ${customer.name}?`
+        );
 
 
-            if (
-                name.value.trim().length < 3
-            ) {
-
-                showError(
-                    name,
-                    "Customer name must contain at least 3 characters."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(name);
-
-            }
+    if (!confirmed) {
+        return;
+    }
 
 
-            const phonePattern =
-                /^09[0-9]{9}$/;
+    customers =
+        customers.filter(
+            c =>
+                c.id !== id
+        );
 
 
-            if (
-                !phonePattern.test(
-                    phone.value.trim()
-                )
-            ) {
+    /*
+       Remove account associated
+       with customer.
+    */
 
-                showError(
-                    phone,
-                    "Enter a valid 11-digit Philippine phone number."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(phone);
-
-            }
+    customerAccounts =
+        customerAccounts.filter(
+            account =>
+                account.customerId !== id
+        );
 
 
-            if (
-                !email.validity.valid
-            ) {
+    saveAllData();
 
-                showError(
-                    email,
-                    "Enter a valid email address."
-                );
+    renderCustomers();
 
-                valid = false;
-
-            }
-            else {
-
-                showValid(email);
-
-            }
+    renderDashboard();
 
 
-            if (
-                city.value === ""
-            ) {
+    alert(
+        "Customer record deleted successfully."
+    );
 
-                showError(
-                    city,
-                    "Please select a city."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(city);
-
-            }
+}
 
 
-            if (!valid) {
+/* =========================================================
+   INVENTORY CRUD
+========================================================= */
 
-                return;
-            }
+function renderInventory() {
 
-
-            const newCustomer = {
-
-                id:
-                    generateId(
-                        "C",
-                        customers
-                    ),
-
-                name:
-                    name.value.trim(),
-
-                phone:
-                    phone.value.trim(),
-
-                email:
-                    email.value.trim(),
-
-                city:
-                    city.value
-
-            };
+    const tbody =
+        document.getElementById(
+            "inventoryTableBody"
+        );
 
 
-            customers.push(
-                newCustomer
-            );
+    if (!tbody) {
+        return;
+    }
 
 
-            saveAllData();
+    tbody.innerHTML = "";
 
 
-            customerForm.reset();
+    products.forEach(product => {
 
-            clearAllValidation(
-                customerForm
-            );
+        let statusClass =
+            "status-good";
+
+        let statusText =
+            "In Stock";
 
 
+        if (product.stock === 0) {
+
+            statusClass =
+                "status-out";
+
+            statusText =
+                "Out of Stock";
+
+        }
+
+        else if (product.stock <= 5) {
+
+            statusClass =
+                "status-low";
+
+            statusText =
+                "Low Stock";
+
+        }
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <strong>
+                    ${escapeHtml(product.id)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHtml(product.name)}
+            </td>
+
+            <td>
+                ${escapeHtml(product.category)}
+            </td>
+
+            <td>
+                ${formatMoney(product.price)}
+            </td>
+
+            <td>
+                ${product.stock}
+            </td>
+
+            <td>
+
+                <span class="status ${statusClass}">
+                    ${statusText}
+                </span>
+
+            </td>
+
+            <td>
+
+                <div class="action-buttons">
+
+                    <button
+                        class="action-btn edit-btn"
+                        onclick="
+                            editProduct(
+                                '${product.id}'
+                            )
+                        ">
+                        Edit
+                    </button>
+
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="
+                            deleteProduct(
+                                '${product.id}'
+                            )
+                        ">
+                        Delete
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   ADD PRODUCT
+========================================================= */
+
+function openProductModal() {
+
+    document.getElementById(
+        "productModalTitle"
+    ).textContent =
+        "Add Product";
+
+
+    document.getElementById(
+        "productForm"
+    ).reset();
+
+
+    document.getElementById(
+        "editProductId"
+    ).value = "";
+
+
+    document.getElementById(
+        "productModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   EDIT PRODUCT
+========================================================= */
+
+function editProduct(id) {
+
+    const product =
+        products.find(
+            p =>
+                p.id === id
+        );
+
+
+    if (!product) {
+        return;
+    }
+
+
+    document.getElementById(
+        "productModalTitle"
+    ).textContent =
+        "Edit Product";
+
+
+    document.getElementById(
+        "editProductId"
+    ).value =
+        product.id;
+
+
+    document.getElementById(
+        "modalProductName"
+    ).value =
+        product.name;
+
+
+    document.getElementById(
+        "modalProductCategory"
+    ).value =
+        product.category;
+
+
+    document.getElementById(
+        "modalProductPrice"
+    ).value =
+        product.price;
+
+
+    document.getElementById(
+        "modalProductStock"
+    ).value =
+        product.stock;
+
+
+    document.getElementById(
+        "modalProductIcon"
+    ).value =
+        product.icon;
+
+
+    document.getElementById(
+        "productModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   SAVE PRODUCT
+========================================================= */
+
+function saveProduct(event) {
+
+    event.preventDefault();
+
+
+    const id =
+        document.getElementById(
+            "editProductId"
+        ).value;
+
+
+    const name =
+        document.getElementById(
+            "modalProductName"
+        ).value.trim();
+
+    const category =
+        document.getElementById(
+            "modalProductCategory"
+        ).value.trim();
+
+    const price =
+        Number(
             document.getElementById(
-                "customerSuccess"
-            ).textContent =
-                "Customer registered successfully!";
+                "modalProductPrice"
+            ).value
+        );
+
+    const stock =
+        Number(
+            document.getElementById(
+                "modalProductStock"
+            ).value
+        );
+
+    const icon =
+        document.getElementById(
+            "modalProductIcon"
+        ).value.trim() ||
+        "🍗";
 
 
-            renderCustomers();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
+    let valid = true;
 
 
-            setTimeout(
-                function () {
-
-                    document.getElementById(
-                        "customerSuccess"
-                    ).textContent = "";
-
-                    customerFormContainer.classList.add(
-                        "hidden"
-                    );
-
-                },
-                1000
-            );
-
-        }
+    clearFormValidation(
+        document.getElementById(
+            "productForm"
+        )
     );
 
 
-    /* =====================================================
-       RENDER CUSTOMERS
-    ====================================================== */
+    if (name.length < 3) {
 
-    function renderCustomers(
-        search = ""
+        showFieldError(
+            "modalProductName",
+            "Product name must contain at least 3 characters."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (category.length < 3) {
+
+        showFieldError(
+            "modalProductCategory",
+            "Category is required."
+        );
+
+        valid = false;
+
+    }
+
+
+    if (
+        !Number.isFinite(price) ||
+        price <= 0
     ) {
 
-        const table =
-            document.getElementById(
-                "customerTable"
-            );
-
-
-        table.innerHTML = "";
-
-
-        const filtered =
-            customers.filter(
-                function (customer) {
-
-                    const value =
-                        search.toLowerCase();
-
-
-                    return (
-
-                        customer.name
-                            .toLowerCase()
-                            .includes(value) ||
-
-                        customer.email
-                            .toLowerCase()
-                            .includes(value) ||
-
-                        customer.phone
-                            .includes(value) ||
-
-                        customer.city
-                            .toLowerCase()
-                            .includes(value) ||
-
-                        customer.id
-                            .toLowerCase()
-                            .includes(value)
-
-                    );
-
-                }
-            );
-
-
-        if (filtered.length === 0) {
-
-            table.innerHTML =
-                `
-                <tr>
-                    <td colspan="6"
-                        class="empty-row">
-                        No customers found.
-                    </td>
-                </tr>
-                `;
-
-            return;
-        }
-
-
-        filtered.forEach(
-            function (customer) {
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                row.innerHTML = `
-
-                    <td>${customer.id}</td>
-
-                    <td>
-                        <strong>
-                            ${escapeHTML(customer.name)}
-                        </strong>
-                    </td>
-
-                    <td>${customer.phone}</td>
-
-                    <td>${escapeHTML(customer.email)}</td>
-
-                    <td>${customer.city}</td>
-
-                    <td>
-
-                        <button
-                            class="delete-button"
-                            onclick="deleteCustomer('${customer.id}')">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                `;
-
-
-                table.appendChild(row);
-
-            }
+        showFieldError(
+            "modalProductPrice",
+            "Price must be greater than zero."
         );
+
+        valid = false;
 
     }
 
 
-    /* =====================================================
-       CUSTOMER SEARCH
-    ====================================================== */
+    if (
+        !Number.isInteger(stock) ||
+        stock < 0
+    ) {
 
-    document
-        .getElementById("customerSearch")
-        .addEventListener(
-            "input",
-            function () {
-
-                renderCustomers(
-                    this.value
-                );
-
-            }
+        showFieldError(
+            "modalProductStock",
+            "Stock cannot be negative."
         );
 
-
-    /* =====================================================
-       SALES FORM
-    ====================================================== */
-
-    const showSaleForm =
-        document.getElementById(
-            "showSaleForm"
-        );
-
-    const saleFormContainer =
-        document.getElementById(
-            "saleFormContainer"
-        );
-
-    const cancelSale =
-        document.getElementById(
-            "cancelSale"
-        );
-
-    const saleForm =
-        document.getElementById(
-            "saleForm"
-        );
-
-    const saleCustomer =
-        document.getElementById(
-            "saleCustomer"
-        );
-
-    const saleProduct =
-        document.getElementById(
-            "saleProduct"
-        );
-
-    const saleQuantity =
-        document.getElementById(
-            "saleQuantity"
-        );
-
-    const saleTotal =
-        document.getElementById(
-            "saleTotal"
-        );
-
-
-    showSaleForm.addEventListener(
-        "click",
-        function () {
-
-            updateSaleDropdowns();
-
-            saleFormContainer.classList.toggle(
-                "hidden"
-            );
-
-        }
-    );
-
-
-    cancelSale.addEventListener(
-        "click",
-        function () {
-
-            saleForm.reset();
-
-            saleQuantity.value = 1;
-
-            saleTotal.value = "₱0.00";
-
-            clearAllValidation(
-                saleForm
-            );
-
-            saleFormContainer.classList.add(
-                "hidden"
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       SALE DROPDOWNS
-    ====================================================== */
-
-    function updateSaleDropdowns() {
-
-        saleCustomer.innerHTML =
-            `
-            <option value="">
-                Select Customer
-            </option>
-            `;
-
-
-        customers.forEach(
-            function (customer) {
-
-                saleCustomer.innerHTML +=
-                    `
-                    <option value="${customer.id}">
-                        ${escapeHTML(customer.name)}
-                    </option>
-                    `;
-
-            }
-        );
-
-
-        saleProduct.innerHTML =
-            `
-            <option value="">
-                Select Product
-            </option>
-            `;
-
-
-        products.forEach(
-            function (product) {
-
-                if (product.stock > 0) {
-
-                    saleProduct.innerHTML +=
-                        `
-                        <option value="${product.id}">
-                            ${escapeHTML(product.name)}
-                            - ${formatCurrency(product.price)}
-                            (${product.stock} available)
-                        </option>
-                        `;
-
-                }
-
-            }
-        );
-
-
-        calculateSaleTotal();
+        valid = false;
 
     }
 
 
-    /* =====================================================
-       CALCULATE SALE TOTAL
-    ====================================================== */
-
-    saleProduct.addEventListener(
-        "change",
-        calculateSaleTotal
-    );
+    if (!valid) {
+        return;
+    }
 
 
-    saleQuantity.addEventListener(
-        "input",
-        calculateSaleTotal
-    );
+    if (id) {
 
-
-    function calculateSaleTotal() {
+        /*
+           UPDATE PRODUCT
+        */
 
         const product =
             products.find(
-                function (item) {
-
-                    return item.id ===
-                        saleProduct.value;
-
-                }
+                p =>
+                    p.id === id
             );
 
 
-        if (!product) {
+        if (product) {
 
-            saleTotal.value =
-                "₱0.00";
+            product.name =
+                name;
 
-            return;
+            product.category =
+                category;
+
+            product.price =
+                price;
+
+            product.stock =
+                stock;
+
+            product.icon =
+                icon;
+
         }
 
 
-        const quantity =
-            Number(
-                saleQuantity.value
-            ) || 0;
+        alert(
+            "Product updated successfully."
+        );
+
+    }
+
+    else {
+
+        /*
+           INSERT PRODUCT
+        */
+
+        const newProduct = {
+
+            id:
+                generateProductId(),
+
+            name:
+                name,
+
+            category:
+                category,
+
+            price:
+                price,
+
+            stock:
+                stock,
+
+            icon:
+                icon
+
+        };
 
 
-        const total =
-            product.price *
-            quantity;
+        products.push(
+            newProduct
+        );
 
 
-        saleTotal.value =
-            formatCurrency(total);
+        alert(
+            "Product added successfully."
+        );
 
     }
 
 
-    /* =====================================================
-       CREATE SALE
-    ====================================================== */
+    saveAllData();
 
-    saleForm.addEventListener(
-        "submit",
-        function (event) {
+    renderProductsAfterChange();
 
-            event.preventDefault();
-
-
-            clearAllValidation(
-                saleForm
-            );
-
-
-            let valid = true;
-
-
-            if (
-                saleCustomer.value === ""
-            ) {
-
-                showError(
-                    saleCustomer,
-                    "Please select a customer."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(saleCustomer);
-
-            }
-
-
-            if (
-                saleProduct.value === ""
-            ) {
-
-                showError(
-                    saleProduct,
-                    "Please select a product."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(saleProduct);
-
-            }
-
-
-            const quantity =
-                Number(
-                    saleQuantity.value
-                );
-
-
-            const product =
-                products.find(
-                    function (item) {
-
-                        return item.id ===
-                            saleProduct.value;
-
-                    }
-                );
-
-
-            if (
-                !Number.isInteger(quantity) ||
-                quantity < 1
-            ) {
-
-                showError(
-                    saleQuantity,
-                    "Quantity must be at least 1."
-                );
-
-                valid = false;
-
-            }
-            else if (
-                product &&
-                quantity > product.stock
-            ) {
-
-                showError(
-                    saleQuantity,
-                    "Not enough stock available."
-                );
-
-                valid = false;
-
-            }
-            else {
-
-                showValid(
-                    saleQuantity
-                );
-
-            }
-
-
-            if (!valid) {
-
-                return;
-            }
-
-
-            const customer =
-                customers.find(
-                    function (item) {
-
-                        return item.id ===
-                            saleCustomer.value;
-
-                    }
-                );
-
-
-            const total =
-                product.price *
-                quantity;
-
-
-            const newSale = {
-
-                id:
-                    generateId(
-                        "S",
-                        sales
-                    ),
-
-                customerId:
-                    customer.id,
-
-                productId:
-                    product.id,
-
-                quantity:
-                    quantity,
-
-                total:
-                    total,
-
-                date:
-                    getToday()
-
-            };
-
-
-            sales.push(
-                newSale
-            );
-
-
-            /* ---------------------------------------------
-               DEDUCT INVENTORY STOCK
-            --------------------------------------------- */
-
-            product.stock -=
-                quantity;
-
-
-            saveAllData();
-
-
-            saleForm.reset();
-
-            saleQuantity.value = 1;
-
-            saleTotal.value =
-                "₱0.00";
-
-
-            clearAllValidation(
-                saleForm
-            );
-
-
-            document.getElementById(
-                "saleSuccess"
-            ).textContent =
-                "Sale completed successfully!";
-
-
-            renderSales();
-
-            renderProducts();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
-
-
-            setTimeout(
-                function () {
-
-                    document.getElementById(
-                        "saleSuccess"
-                    ).textContent = "";
-
-                    saleFormContainer.classList.add(
-                        "hidden"
-                    );
-
-                },
-                1000
-            );
-
-        }
+    closeModal(
+        "productModal"
     );
 
-
-    /* =====================================================
-       RENDER SALES
-    ====================================================== */
-
-    function renderSales(
-        search = ""
-    ) {
-
-        const table =
-            document.getElementById(
-                "salesTable"
-            );
+}
 
 
-        table.innerHTML = "";
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
 
+function deleteProduct(id) {
 
-        const filtered =
-            sales.filter(
-                function (sale) {
-
-                    const customer =
-                        customers.find(
-                            function (c) {
-
-                                return c.id ===
-                                    sale.customerId;
-
-                            }
-                        );
-
-
-                    const product =
-                        products.find(
-                            function (p) {
-
-                                return p.id ===
-                                    sale.productId;
-
-                            }
-                        );
-
-
-                    const customerName =
-                        customer
-                            ? customer.name
-                            : "";
-
-
-                    const productName =
-                        product
-                            ? product.name
-                            : "";
-
-
-                    const value =
-                        search.toLowerCase();
-
-
-                    return (
-
-                        sale.id
-                            .toLowerCase()
-                            .includes(value) ||
-
-                        customerName
-                            .toLowerCase()
-                            .includes(value) ||
-
-                        productName
-                            .toLowerCase()
-                            .includes(value)
-
-                    );
-
-                }
-            );
-
-
-        if (filtered.length === 0) {
-
-            table.innerHTML =
-                `
-                <tr>
-                    <td colspan="7"
-                        class="empty-row">
-                        No sales transactions found.
-                    </td>
-                </tr>
-                `;
-
-            return;
-        }
-
-
-        filtered.forEach(
-            function (sale) {
-
-                const customer =
-                    customers.find(
-                        function (c) {
-
-                            return c.id ===
-                                sale.customerId;
-
-                        }
-                    );
-
-
-                const product =
-                    products.find(
-                        function (p) {
-
-                            return p.id ===
-                                sale.productId;
-
-                        }
-                    );
-
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                row.innerHTML = `
-
-                    <td>${sale.id}</td>
-
-                    <td>
-                        ${customer
-                            ? escapeHTML(customer.name)
-                            : "Unknown"}
-                    </td>
-
-                    <td>
-                        ${product
-                            ? escapeHTML(product.name)
-                            : "Unknown"}
-                    </td>
-
-                    <td>${sale.quantity}</td>
-
-                    <td>
-                        <strong>
-                            ${formatCurrency(sale.total)}
-                        </strong>
-                    </td>
-
-                    <td>${sale.date}</td>
-
-                    <td>
-
-                        <button
-                            class="delete-button"
-                            onclick="deleteSale('${sale.id}')">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                `;
-
-
-                table.appendChild(row);
-
-            }
+    const product =
+        products.find(
+            p =>
+                p.id === id
         );
 
+
+    if (!product) {
+        return;
     }
 
 
-    /* =====================================================
-       SALES SEARCH
-    ====================================================== */
-
-    document
-        .getElementById("saleSearch")
-        .addEventListener(
-            "input",
-            function () {
-
-                renderSales(
-                    this.value
-                );
-
-            }
+    const confirmed =
+        confirm(
+            `Are you sure you want to permanently delete ${product.name}?`
         );
 
 
-    /* =====================================================
-       DASHBOARD
-    ====================================================== */
+    if (!confirmed) {
+        return;
+    }
 
-    function updateDashboard() {
 
+    /*
+       Check if product is in cart.
+    */
+
+    const cartItem =
+        cart.find(
+            item =>
+                item.productId === id
+        );
+
+
+    if (cartItem) {
+
+        alert(
+            "This product is currently in the cart. Remove it from the cart first."
+        );
+
+        return;
+    }
+
+
+    products =
+        products.filter(
+            p =>
+                p.id !== id
+        );
+
+
+    saveAllData();
+
+    renderProductsAfterChange();
+
+
+    alert(
+        "Product deleted successfully."
+    );
+
+}
+
+
+function renderProductsAfterChange() {
+
+    renderMenu();
+
+    renderInventory();
+
+    renderDashboard();
+
+}
+
+
+/* =========================================================
+   SALES CRUD
+========================================================= */
+
+function renderSales() {
+
+    const tbody =
         document.getElementById(
-            "totalProducts"
-        ).textContent =
-            products.length;
+            "salesTableBody"
+        );
 
 
-        document.getElementById(
-            "totalCustomers"
-        ).textContent =
-            customers.length;
-
-
-        document.getElementById(
-            "totalSales"
-        ).textContent =
-            sales.length;
-
-
-        const revenue =
-            sales.reduce(
-                function (sum, sale) {
-
-                    return sum +
-                        Number(sale.total);
-
-                },
-                0
-            );
-
-
-        document.getElementById(
-            "totalRevenue"
-        ).textContent =
-            formatCurrency(revenue);
-
-
-        renderLowStock();
-
+    if (!tbody) {
+        return;
     }
 
 
-    /* =====================================================
-       LOW STOCK
-    ====================================================== */
+    tbody.innerHTML = "";
 
-    function renderLowStock() {
 
-        const table =
-            document.getElementById(
-                "lowStockTable"
-            );
+    sales.forEach(sale => {
 
+        const row =
+            document.createElement("tr");
 
-        table.innerHTML = "";
 
+        row.innerHTML = `
 
-        const lowStock =
-            products.filter(
-                function (product) {
+            <td>
+                <strong>
+                    ${escapeHtml(sale.id)}
+                </strong>
+            </td>
 
-                    return product.stock <= 10;
+            <td>
+                ${escapeHtml(sale.customer)}
+            </td>
 
-                }
-            );
+            <td>
+                ${escapeHtml(sale.product)}
+            </td>
 
+            <td>
+                ${sale.quantity}
+            </td>
 
-        if (lowStock.length === 0) {
+            <td>
+                <strong>
+                    ${formatMoney(sale.total)}
+                </strong>
+            </td>
 
-            table.innerHTML =
-                `
-                <tr>
-                    <td colspan="4"
-                        class="empty-row">
+            <td>
+                ${escapeHtml(sale.payment)}
+            </td>
 
-                        All products currently
-                        have sufficient stock.
+            <td>
+                ${escapeHtml(sale.date)}
+            </td>
 
-                    </td>
-                </tr>
-                `;
+            <td>
 
-            return;
-        }
+                <div class="action-buttons">
 
+                    <button
+                        class="action-btn edit-btn"
+                        onclick="
+                            editSale(
+                                '${sale.id}'
+                            )
+                        ">
+                        Edit
+                    </button>
 
-        lowStock.forEach(
-            function (product) {
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="
+                            deleteSale(
+                                '${sale.id}'
+                            )
+                        ">
+                        Delete
+                    </button>
 
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
+                </div>
 
+            </td>
 
-                row.innerHTML = `
-
-                    <td>${product.id}</td>
-
-                    <td>
-                        ${escapeHTML(product.name)}
-                    </td>
-
-                    <td>${product.stock}</td>
-
-                    <td>
-                        ${getStockStatus(product.stock)}
-                    </td>
-
-                `;
-
-
-                table.appendChild(row);
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       DELETE PRODUCT
-    ====================================================== */
-
-    window.deleteProduct =
-        function (id) {
-
-            const product =
-                products.find(
-                    function (item) {
-
-                        return item.id === id;
-
-                    }
-                );
-
-
-            if (!product) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    "Are you sure you want to delete " +
-                    product.name +
-                    "?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            products =
-                products.filter(
-                    function (item) {
-
-                        return item.id !== id;
-
-                    }
-                );
-
-
-            saveAllData();
-
-            renderProducts();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
-
-        };
-
-
-    /* =====================================================
-       DELETE CUSTOMER
-    ====================================================== */
-
-    window.deleteCustomer =
-        function (id) {
-
-            const customer =
-                customers.find(
-                    function (item) {
-
-                        return item.id === id;
-
-                    }
-                );
-
-
-            if (!customer) {
-                return;
-            }
-
-
-            const hasSales =
-                sales.some(
-                    function (sale) {
-
-                        return sale.customerId === id;
-
-                    }
-                );
-
-
-            if (hasSales) {
-
-                alert(
-                    "This customer cannot be deleted because " +
-                    "there are existing sales transactions."
-                );
-
-                return;
-
-            }
-
-
-            const confirmed =
-                confirm(
-                    "Are you sure you want to delete " +
-                    customer.name +
-                    "?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            customers =
-                customers.filter(
-                    function (item) {
-
-                        return item.id !== id;
-
-                    }
-                );
-
-
-            saveAllData();
-
-            renderCustomers();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
-
-        };
-
-
-    /* =====================================================
-       DELETE SALE
-    ====================================================== */
-
-    window.deleteSale =
-        function (id) {
-
-            const sale =
-                sales.find(
-                    function (item) {
-
-                        return item.id === id;
-
-                    }
-                );
-
-
-            if (!sale) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    "Delete this sale and return the " +
-                    "quantity to inventory?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            const product =
-                products.find(
-                    function (item) {
-
-                        return item.id ===
-                            sale.productId;
-
-                    }
-                );
-
-
-            if (product) {
-
-                product.stock +=
-                    sale.quantity;
-
-            }
-
-
-            sales =
-                sales.filter(
-                    function (item) {
-
-                        return item.id !== id;
-
-                    }
-                );
-
-
-            saveAllData();
-
-            renderSales();
-
-            renderProducts();
-
-            updateDashboard();
-
-            updateSaleDropdowns();
-
-        };
-
-
-    /* =====================================================
-       QUICK NAVIGATION BUTTONS
-    ====================================================== */
-
-    document
-        .querySelectorAll("[data-go]")
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        const destination =
-                            this.dataset.go;
-
-
-                        const nav =
-                            document.querySelector(
-                                `[data-section="${destination}"]`
-                            );
-
-
-                        if (nav) {
-
-                            nav.click();
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       VALIDATION FUNCTIONS
-    ====================================================== */
-
-    function showError(
-        input,
-        message
-    ) {
-
-        input.classList.remove(
-            "input-valid"
-        );
-
-        input.classList.add(
-            "input-error"
-        );
-
-
-        const error =
-            document.getElementById(
-                input.id + "Error"
-            );
-
-
-        if (error) {
-
-            error.textContent =
-                message;
-
-        }
-
-    }
-
-
-    function showValid(
-        input
-    ) {
-
-        input.classList.remove(
-            "input-error"
-        );
-
-        input.classList.add(
-            "input-valid"
-        );
-
-
-        const error =
-            document.getElementById(
-                input.id + "Error"
-            );
-
-
-        if (error) {
-
-            error.textContent = "";
-
-        }
-
-    }
-
-
-    function clearValidation(
-        input
-    ) {
-
-        input.classList.remove(
-            "input-error"
-        );
-
-        input.classList.remove(
-            "input-valid"
-        );
-
-
-        const error =
-            document.getElementById(
-                input.id + "Error"
-            );
-
-
-        if (error) {
-
-            error.textContent = "";
-
-        }
-
-    }
-
-
-    function clearAllValidation(
-        form
-    ) {
-
-        form.querySelectorAll(
-            "input, select"
-        ).forEach(
-            function (input) {
-
-                clearValidation(
-                    input
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       GENERATE ID
-    ====================================================== */
-
-    function generateId(
-        prefix,
-        array
-    ) {
-
-        let maxNumber = 0;
-
-
-        array.forEach(
-            function (item) {
-
-                const number =
-                    parseInt(
-                        item.id.substring(1)
-                    );
-
-
-                if (
-                    !isNaN(number) &&
-                    number > maxNumber
-                ) {
-
-                    maxNumber = number;
-
-                }
-
-            }
-        );
-
-
-        return (
-            prefix +
-            String(maxNumber + 1)
-                .padStart(3, "0")
-        );
-
-    }
-
-
-    /* =====================================================
-       CURRENCY
-    ====================================================== */
-
-    function formatCurrency(
-        amount
-    ) {
-
-        return Number(amount).toLocaleString(
-            "en-PH",
-            {
-                style: "currency",
-                currency: "PHP"
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       STOCK STATUS
-    ====================================================== */
-
-    function getStockStatus(
-        stock
-    ) {
-
-        if (stock === 0) {
-
-            return `
-                <span class="status status-out">
-                    Out of Stock
-                </span>
-            `;
-
-        }
-
-
-        if (stock <= 10) {
-
-            return `
-                <span class="status status-low">
-                    Low Stock
-                </span>
-            `;
-
-        }
-
-
-        return `
-            <span class="status status-good">
-                Available
-            </span>
         `;
 
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   EDIT SALE
+========================================================= */
+
+function editSale(id) {
+
+    const sale =
+        sales.find(
+            s =>
+                s.id === id
+        );
+
+
+    if (!sale) {
+        return;
     }
 
 
-    /* =====================================================
-       TODAY
-    ====================================================== */
-
-    function getToday() {
-
-        const today =
-            new Date();
+    document.getElementById(
+        "editSaleId"
+    ).value =
+        sale.id;
 
 
-        return today
-            .toISOString()
-            .split("T")[0];
-
-    }
-
-
-    /* =====================================================
-       ESCAPE HTML
-    ====================================================== */
-
-    function escapeHTML(
-        value
-    ) {
-
-        return String(value)
-            .replace(
-                /[&<>"']/g,
-                function (character) {
-
-                    const entities = {
-
-                        "&": "&amp;",
-                        "<": "&lt;",
-                        ">": "&gt;",
-                        '"': "&quot;",
-                        "'": "&#039;"
-
-                    };
-
-                    return entities[
-                        character
-                    ];
-
-                }
-            );
-
-    }
+    document.getElementById(
+        "modalSaleCustomer"
+    ).value =
+        sale.customer;
 
 
-    /* =====================================================
-       AUTO LOGIN CHECK
-    ====================================================== */
+    document.getElementById(
+        "modalSaleProduct"
+    ).value =
+        sale.product;
+
+
+    document.getElementById(
+        "modalSaleQuantity"
+    ).value =
+        sale.quantity;
+
+
+    document.getElementById(
+        "modalSaleTotal"
+    ).value =
+        sale.total;
+
+
+    document.getElementById(
+        "modalSalePayment"
+    ).value =
+        sale.payment;
+
+
+    document.getElementById(
+        "saleModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   UPDATE SALE
+========================================================= */
+
+function saveSale(event) {
+
+    event.preventDefault();
+
+
+    const id =
+        document.getElementById(
+            "editSaleId"
+        ).value;
+
+
+    const customer =
+        document.getElementById(
+            "modalSaleCustomer"
+        ).value.trim();
+
+    const product =
+        document.getElementById(
+            "modalSaleProduct"
+        ).value.trim();
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "modalSaleQuantity"
+            ).value
+        );
+
+    const total =
+        Number(
+            document.getElementById(
+                "modalSaleTotal"
+            ).value
+        );
+
+    const payment =
+        document.getElementById(
+            "modalSalePayment"
+        ).value;
+
 
     if (
-        localStorage.getItem(
-            "loggedIn"
-        ) === "true"
+        customer.length < 3 ||
+        !product ||
+        quantity < 1 ||
+        total < 0 ||
+        !payment
     ) {
 
-        loginPage.classList.add(
-            "hidden"
+        alert(
+            "Please enter valid sales information."
         );
 
-        app.classList.remove(
-            "hidden"
+        return;
+    }
+
+
+    const sale =
+        sales.find(
+            s =>
+                s.id === id
         );
 
-        initializeSystem();
+
+    if (!sale) {
+        return;
+    }
+
+
+    sale.customer =
+        customer;
+
+    sale.product =
+        product;
+
+    sale.quantity =
+        quantity;
+
+    sale.total =
+        total;
+
+    sale.payment =
+        payment;
+
+
+    saveAllData();
+
+    renderSales();
+
+    renderDashboard();
+
+    closeModal(
+        "saleModal"
+    );
+
+
+    alert(
+        "Sales record updated successfully."
+    );
+
+}
+
+
+/* =========================================================
+   DELETE SALE
+========================================================= */
+
+function deleteSale(id) {
+
+    const sale =
+        sales.find(
+            s =>
+                s.id === id
+        );
+
+
+    if (!sale) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to permanently delete sales record ${sale.id}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    sales =
+        sales.filter(
+            s =>
+                s.id !== id
+        );
+
+
+    saveAllData();
+
+    renderSales();
+
+    renderDashboard();
+
+
+    alert(
+        "Sales record deleted successfully."
+    );
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+    const productCount =
+        document.getElementById(
+            "dashboardProducts"
+        );
+
+    const customerCount =
+        document.getElementById(
+            "dashboardCustomers"
+        );
+
+    const orderCount =
+        document.getElementById(
+            "dashboardOrders"
+        );
+
+    const totalSales =
+        document.getElementById(
+            "dashboardSales"
+        );
+
+
+    if (!productCount) {
+        return;
+    }
+
+
+    productCount.textContent =
+        products.length;
+
+
+    customerCount.textContent =
+        customers.length;
+
+
+    orderCount.textContent =
+        sales.length;
+
+
+    const total =
+        sales.reduce(
+            (sum, sale) =>
+                sum +
+                Number(sale.total || 0),
+
+            0
+        );
+
+
+    totalSales.textContent =
+        formatMoney(total);
+
+}
+
+
+/* =========================================================
+   VALIDATION FUNCTIONS
+========================================================= */
+
+function validateEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email);
+
+}
+
+
+function showFieldError(
+    fieldId,
+    message
+) {
+
+    const field =
+        document.getElementById(
+            fieldId
+        );
+
+
+    if (!field) {
+        return;
+    }
+
+
+    field.classList.add(
+        "input-error"
+    );
+
+
+    const error =
+        document.getElementById(
+            fieldId + "Error"
+        );
+
+
+    if (error) {
+
+        error.textContent =
+            message;
+
+    }
+
+}
+
+
+function clearFormValidation(form) {
+
+    form
+        .querySelectorAll(
+            "input, select, textarea"
+        )
+        .forEach(field => {
+
+            field.classList.remove(
+                "input-error"
+            );
+
+            field.classList.remove(
+                "input-valid"
+            );
+
+        });
+
+
+    form
+        .querySelectorAll(
+            ".error-message"
+        )
+        .forEach(error => {
+
+            error.textContent = "";
+
+        });
+
+}
+
+
+function clearCheckoutValidation() {
+
+    const form =
+        document.getElementById(
+            "checkoutForm"
+        );
+
+
+    clearFormValidation(form);
+
+}
+
+
+function showCheckoutError(
+    fieldId,
+    message
+) {
+
+    showFieldError(
+        fieldId,
+        message
+    );
+
+}
+
+
+function showAuthMessage(
+    element,
+    message,
+    type
+) {
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.className =
+        "auth-message " +
+        type;
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function closeModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+/*
+   Close modal if user clicks
+   outside modal content.
+*/
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target.classList.contains(
+                "modal"
+            )
+        ) {
+
+            event.target.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ID GENERATORS
+========================================================= */
+
+function generateCustomerId() {
+
+    let number =
+        customers.length + 1;
+
+
+    let id =
+        "C" +
+        String(number)
+            .padStart(3, "0");
+
+
+    while (
+        customers.some(
+            customer =>
+                customer.id === id
+        )
+    ) {
+
+        number++;
+
+        id =
+            "C" +
+            String(number)
+                .padStart(3, "0");
 
     }
 
 
-    console.log(
-        "Sales and Inventory System loaded successfully."
+    return id;
+}
+
+
+function generateProductId() {
+
+    let number =
+        products.length + 1;
+
+
+    let id =
+        "P" +
+        String(number)
+            .padStart(3, "0");
+
+
+    while (
+        products.some(
+            product =>
+                product.id === id
+        )
+    ) {
+
+        number++;
+
+        id =
+            "P" +
+            String(number)
+                .padStart(3, "0");
+
+    }
+
+
+    return id;
+}
+
+
+function generateSaleId() {
+
+    let number =
+        sales.length + 1;
+
+
+    let id =
+        "S" +
+        String(number)
+            .padStart(3, "0");
+
+
+    while (
+        sales.some(
+            sale =>
+                sale.id === id
+        )
+    ) {
+
+        number++;
+
+        id =
+            "S" +
+            String(number)
+                .padStart(3, "0");
+
+    }
+
+
+    return id;
+}
+
+
+/* =========================================================
+   MONEY FORMAT
+========================================================= */
+
+function formatMoney(amount) {
+
+    return new Intl.NumberFormat(
+        "en-PH",
+        {
+            style: "currency",
+            currency: "PHP"
+        }
+    ).format(
+        Number(amount) || 0
     );
 
-});
+}
+
+
+/* =========================================================
+   HTML SECURITY
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   AUTO LOGIN IF SESSION EXISTS
+========================================================= */
+
+if (currentUser) {
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            enterSystem();
+
+        }
+    );
+
+}
