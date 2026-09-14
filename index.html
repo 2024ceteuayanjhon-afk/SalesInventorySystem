@@ -1,1382 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Marcelino's Fried Itik | Sales and Inventory System</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: "Poppins", sans-serif;
-    background: #f5f6f8;
-    color: #333;
-}
-
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-:root {
-    --primary: #b71c1c;
-    --primary-dark: #7f0000;
-    --primary-light: #ffebee;
-    --danger: #d32f2f;
-    --success: #2e7d32;
-    --warning: #ef6c00;
-    --dark: #252525;
-    --gray: #777;
-    --border: #e0e0e0;
-    --white: #ffffff;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn {
-    border: none;
-    padding: 11px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: 0.25s;
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-.btn-primary {
-    background: var(--primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-}
-
-.btn-success {
-    background: var(--success);
-    color: white;
-}
-
-.btn-danger {
-    background: var(--danger);
-    color: white;
-}
-
-.btn-secondary {
-    background: #eeeeee;
-    color: #333;
-}
-
-.btn-warning {
-    background: var(--warning);
-    color: white;
-}
-
-.full-width {
-    width: 100%;
-}
-
-/* =========================================================
-   AUTH PAGE
-========================================================= */
-
-.auth-page {
-    min-height: 100vh;
-    background:
-        linear-gradient(
-            rgba(95,0,0,0.86),
-            rgba(183,28,28,0.86)
-        ),
-        url("images/logo.jpg");
-
-    background-size: cover;
-    background-position: center;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-}
-
-.auth-card {
-    width: 100%;
-    max-width: 470px;
-    background: white;
-    border-radius: 20px;
-    padding: 35px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-.auth-logo {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.auth-logo img {
-    width: 95px;
-    height: 95px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid var(--primary);
-}
-
-.fallback-logo {
-    width: 95px;
-    height: 95px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    font-size: 45px;
-}
-
-.auth-title {
-    text-align: center;
-    color: var(--primary);
-    font-size: 25px;
-    font-weight: 700;
-}
-
-.auth-subtitle {
-    text-align: center;
-    color: var(--gray);
-    font-size: 13px;
-    margin-bottom: 25px;
-}
-
-.auth-tabs {
-    display: flex;
-    background: #f1f1f1;
-    border-radius: 10px;
-    padding: 4px;
-    margin-bottom: 25px;
-}
-
-.auth-tab {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 11px;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #777;
-}
-
-.auth-tab.active {
-    background: white;
-    color: var(--primary);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.auth-form {
-    display: none;
-}
-
-.auth-form.active {
-    display: block;
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 13px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 13px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    outline: none;
-    background: white;
-    transition: 0.2s;
-}
-
-.form-control:focus {
-    border-color: var(--primary);
-}
-
-.input-valid {
-    border-color: var(--success) !important;
-    background: #f5fff5;
-}
-
-.input-error {
-    border-color: var(--danger) !important;
-    background: #fff7f7;
-}
-
-.field-error {
-    color: var(--danger);
-    font-size: 11px;
-    margin-top: 4px;
-    display: none;
-}
-
-.auth-message {
-    display: none;
-    padding: 10px;
-    border-radius: 7px;
-    font-size: 12px;
-    margin-bottom: 15px;
-}
-
-.auth-message.error {
-    display: block;
-    background: #ffebee;
-    color: #c62828;
-}
-
-.auth-message.success {
-    display: block;
-    background: #e8f5e9;
-    color: #2e7d32;
-}
-
-.demo-account {
-    text-align: center;
-    margin-top: 18px;
-    color: #888;
-    font-size: 11px;
-}
-
-.auth-switch {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 12px;
-    color: #777;
-}
-
-.auth-switch button {
-    border: none;
-    background: none;
-    color: var(--primary);
-    font-weight: 700;
-}
-
-/* =========================================================
-   CUSTOMER APP
-========================================================= */
-
-.customer-app {
-    display: none;
-    min-height: 100vh;
-}
-
-/* HEADER */
-
-.customer-header {
-    background: white;
-    padding: 13px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.customer-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.customer-brand-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 23px;
-}
-
-.customer-brand h2 {
-    font-size: 18px;
-    color: var(--primary);
-}
-
-.customer-brand small {
-    color: #888;
-    font-size: 10px;
-}
-
-.customer-header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.customer-name-display {
-    font-size: 12px;
-    color: #555;
-}
-
-.logout-link {
-    border: none;
-    background: var(--primary-light);
-    color: var(--primary);
-    padding: 9px 13px;
-    border-radius: 7px;
-    font-weight: 600;
-}
-
-/* CUSTOMER NAV */
-
-.customer-nav {
-    background: var(--primary);
-    color: white;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    padding: 8px;
-    position: sticky;
-    top: 71px;
-    z-index: 90;
-}
-
-.customer-nav button {
-    border: none;
-    background: transparent;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 7px;
-    font-weight: 500;
-}
-
-.customer-nav button:hover,
-.customer-nav button.active {
-    background: rgba(255,255,255,0.18);
-}
-
-/* CUSTOMER CONTENT */
-
-.customer-content {
-    max-width: 1250px;
-    margin: auto;
-    padding: 30px 20px;
-}
-
-.customer-section {
-    display: none;
-}
-
-.customer-section.active {
-    display: block;
-}
-
-/* HERO */
-
-.hero {
-    background:
-        linear-gradient(
-            100deg,
-            rgba(120,0,0,0.94),
-            rgba(198,40,40,0.88)
-        );
-
-    border-radius: 18px;
-    padding: 40px;
-    color: white;
-    margin-bottom: 30px;
-}
-
-.hero h1 {
-    font-size: 34px;
-    margin-bottom: 8px;
-}
-
-.hero p {
-    max-width: 650px;
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-/* MENU TOOLBAR */
-
-.menu-toolbar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 22px;
-}
-
-.search-box {
-    flex: 1;
-}
-
-.category-filter {
-    width: 200px;
-}
-
-/* MENU */
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.menu-card {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-    transition: 0.25s;
-}
-
-.menu-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
-
-.menu-image {
-    height: 165px;
-    background: linear-gradient(
-        135deg,
-        #fff1f1,
-        #ffcdd2
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 75px;
-}
-
-.menu-info {
-    padding: 18px;
-}
-
-.menu-info h3 {
-    font-size: 17px;
-    margin-bottom: 3px;
-}
-
-.menu-category {
-    color: #888;
-    font-size: 11px;
-}
-
-.menu-description {
-    color: #777;
-    font-size: 12px;
-    margin: 9px 0;
-    min-height: 35px;
-}
-
-.menu-price-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 14px;
-}
-
-.menu-price {
-    color: var(--primary);
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.stock-label {
-    font-size: 11px;
-    margin-top: 8px;
-}
-
-.stock-good {
-    color: var(--success);
-}
-
-.stock-low {
-    color: var(--warning);
-}
-
-.stock-out {
-    color: var(--danger);
-}
-
-/* =========================================================
-   CART
-========================================================= */
-
-.cart-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 14px;
-    padding: 22px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.07);
-}
-
-.cart-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    border-bottom: 1px solid #eee;
-    padding: 15px 0;
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.cart-item-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--primary-light);
-    border-radius: 9px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 27px;
-}
-
-.cart-product {
-    flex: 1;
-}
-
-.cart-product h4 {
-    font-size: 14px;
-}
-
-.cart-product small {
-    color: #888;
-}
-
-.quantity {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.quantity button {
-    width: 29px;
-    height: 29px;
-    border: none;
-    border-radius: 5px;
-    background: var(--primary-light);
-    color: var(--primary);
-    font-weight: 700;
-}
-
-.quantity span {
-    min-width: 20px;
-    text-align: center;
-    font-weight: 600;
-}
-
-.cart-price {
-    min-width: 90px;
-    text-align: right;
-    font-weight: 700;
-}
-
-.remove-cart {
-    border: none;
-    background: none;
-    color: var(--danger);
-    font-size: 11px;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.summary-total {
-    color: var(--primary);
-    font-size: 20px;
-    font-weight: 700;
-    padding-top: 15px;
-}
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-.checkout-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-.checkout-items {
-    background: #fff8f8;
-    border: 1px solid #ffcdd2;
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.checkout-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 13px;
-}
-
-/* =========================================================
-   ORDER HISTORY
-========================================================= */
-
-.order-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-}
-
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.order-id {
-    color: var(--primary);
-    font-weight: 700;
-}
-
-.order-status {
-    background: #e8f5e9;
-    color: var(--success);
-    border-radius: 15px;
-    padding: 5px 10px;
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.order-product {
-    display: flex;
-    justify-content: space-between;
-    padding: 7px 0;
-    font-size: 13px;
-}
-
-.order-total {
-    text-align: right;
-    color: var(--primary);
-    font-weight: 700;
-    margin-top: 10px;
-}
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #888;
-}
-
-.empty-state-icon {
-    font-size: 60px;
-    margin-bottom: 12px;
-}
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-.admin-app {
-    display: none;
-    min-height: 100vh;
-}
-
-.admin-header {
-    background: linear-gradient(
-        90deg,
-        #790000,
-        #c62828
-    );
-    color: white;
-    padding: 14px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.admin-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.admin-brand-icon {
-    width: 45px;
-    height: 45px;
-    background: white;
-    color: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 23px;
-}
-
-.admin-brand h2 {
-    font-size: 18px;
-}
-
-.admin-brand small {
-    display: block;
-    opacity: 0.8;
-    font-size: 10px;
-}
-
-.admin-logout {
-    border: none;
-    background: white;
-    color: var(--primary);
-    padding: 9px 15px;
-    border-radius: 7px;
-    font-weight: 600;
-}
-
-.admin-nav {
-    background: white;
-    display: flex;
-    gap: 5px;
-    padding: 9px 18px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    overflow-x: auto;
-}
-
-.admin-nav button {
-    border: none;
-    background: transparent;
-    padding: 10px 15px;
-    border-radius: 7px;
-    color: #555;
-    white-space: nowrap;
-}
-
-.admin-nav button.active,
-.admin-nav button:hover {
-    background: var(--primary-light);
-    color: var(--primary);
-}
-
-.admin-content {
-    max-width: 1400px;
-    margin: auto;
-    padding: 25px;
-}
-
-.admin-section {
-    display: none;
-}
-
-.admin-section.active {
-    display: block;
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
-}
-
-.dashboard-card {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.07);
-    border-left: 5px solid var(--primary);
-}
-
-.dashboard-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-
-.dashboard-card h2 {
-    color: var(--primary);
-    font-size: 27px;
-}
-
-.dashboard-card p {
-    color: #777;
-    font-size: 12px;
-}
-
-.admin-table-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.07);
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
-}
-
-th {
-    background: var(--primary);
-    color: white;
-    text-align: left;
-    padding: 12px;
-    font-size: 12px;
-}
-
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    font-size: 12px;
-}
-
-tr:hover td {
-    background: #fff8f8;
-}
-
-.status {
-    padding: 5px 9px;
-    border-radius: 14px;
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.status-good {
-    background: #e8f5e9;
-    color: var(--success);
-}
-
-.status-low {
-    background: #fff3e0;
-    color: var(--warning);
-}
-
-.status-out {
-    background: #ffebee;
-    color: var(--danger);
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    background: white;
-    width: 100%;
-    max-width: 470px;
-    padding: 32px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-}
-
-.modal-icon {
-    width: 75px;
-    height: 75px;
-    background: #e8f5e9;
-    color: var(--success);
-    border-radius: 50%;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    margin-bottom: 15px;
-}
-
-.modal-box h2 {
-    color: var(--success);
-    margin-bottom: 10px;
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-.toast {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background: #222;
-    color: white;
-    padding: 13px 18px;
-    border-radius: 8px;
-    font-size: 12px;
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
-    transition: 0.3s;
-    z-index: 2000;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    text-align: center;
-    padding: 25px;
-    color: #888;
-    font-size: 11px;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1000px) {
-
-    .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .cart-layout,
-    .checkout-layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 650px) {
-
-    .auth-card {
-        padding: 25px;
-    }
-
-    .customer-header,
-    .admin-header {
-        padding: 12px 15px;
-    }
-
-    .customer-name-display {
-        display: none;
-    }
-
-    .customer-nav {
-        justify-content: flex-start;
-        overflow-x: auto;
-    }
-
-    .customer-content,
-    .admin-content {
-        padding: 15px;
-    }
-
-    .hero {
-        padding: 25px;
-    }
-
-    .hero h1 {
-        font-size: 25px;
-    }
-
-    .menu-grid,
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .menu-toolbar {
-        flex-direction: column;
-    }
-
-    .category-filter {
-        width: 100%;
-    }
-
-    .cart-item {
-        flex-wrap: wrap;
-    }
-
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales and Inventory System - Marcelino's Fried Itik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-
 <!-- =========================================================
-     AUTHENTICATION PAGE
+     AUTHENTICATION
 ========================================================= -->
 
-<div class="auth-page" id="authPage">
+<div id="authPage" class="auth-page">
 
     <div class="auth-card">
 
         <div class="auth-logo">
-
-            <img
-                src="images/logo.jpg"
-                alt="Logo"
-                id="authLogo"
-                onerror="
-                    this.style.display='none';
-                    document.getElementById('fallbackLogo').style.display='flex';
-                "
-            >
-
-            <div class="fallback-logo" id="fallbackLogo">
-                🍗
-            </div>
-
+            <img src="images/logo.jpg" alt="Marcelino's Fried Itik Logo">
         </div>
 
-        <div class="auth-title">
-            Marcelino's Fried Itik
-        </div>
+        <h1>Marcelino's Fried Itik</h1>
+        <p class="auth-subtitle">Sales and Inventory System</p>
 
-        <div class="auth-subtitle">
-            Sales and Inventory System
-        </div>
-
-
+        <!-- LOGIN TABS -->
         <div class="auth-tabs">
+            <button
+                type="button"
+                id="adminTab"
+                class="auth-tab active"
+                onclick="showAuthForm('admin')">
+                Admin Sign In
+            </button>
 
             <button
-                class="auth-tab active"
-                id="customerSignInTab"
                 type="button"
-            >
+                id="customerTab"
+                class="auth-tab"
+                onclick="showAuthForm('customer')">
                 Customer Sign In
             </button>
-
-            <button
-                class="auth-tab"
-                id="customerSignUpTab"
-                type="button"
-            >
-                Sign Up
-            </button>
-
         </div>
 
-
-        <!-- CUSTOMER SIGN IN -->
-
-        <form
-            class="auth-form active"
-            id="customerSignInForm"
-        >
-
-            <div
-                class="auth-message"
-                id="customerLoginMessage"
-            ></div>
-
+        <!-- ADMIN LOGIN -->
+        <form id="adminLoginForm" class="auth-form">
 
             <div class="form-group">
-
-                <label>
-                    Email Address
-                </label>
-
+                <label for="adminUsername">Username</label>
                 <input
-                    type="email"
-                    id="loginEmail"
-                    class="form-control"
-                    placeholder="customer@email.com"
+                    type="text"
+                    id="adminUsername"
+                    placeholder="Enter admin username"
                     required
+                    minlength="3"
+                    maxlength="30"
                 >
-
+                <small class="error-message" id="adminUsernameError"></small>
             </div>
-
 
             <div class="form-group">
+                <label for="adminPassword">Password</label>
 
-                <label>
-                    Password
-                </label>
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        placeholder="Enter admin password"
+                        required
+                        minlength="8"
+                        maxlength="30"
+                    >
 
-                <input
-                    type="password"
-                    id="loginPassword"
-                    class="form-control"
-                    placeholder="Enter password"
-                    required
-                >
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('adminPassword')">
+                        👁
+                    </button>
+                </div>
 
+                <small class="error-message" id="adminPasswordError"></small>
             </div>
 
+            <div id="adminLoginMessage" class="auth-message"></div>
 
-            <button
-                type="submit"
-                class="btn btn-primary full-width"
-            >
-                🔐 Sign In
+            <button type="submit" class="primary-btn full-btn">
+                Sign In as Admin
             </button>
 
-
-            <div class="auth-switch">
-
-                Don't have an account?
-
-                <button
-                    type="button"
-                    id="goToSignUp"
-                >
-                    Create Account
-                </button>
-
+            <div class="demo-login">
+                <strong>Demo Admin Account</strong>
+                <br>
+                Username: <b>admin</b>
+                <br>
+                Password: <b>admin123</b>
             </div>
 
         </form>
 
-
-        <!-- CUSTOMER SIGN UP -->
-
-        <form
-            class="auth-form"
-            id="customerSignUpForm"
-        >
-
-            <div
-                class="auth-message"
-                id="signupMessage"
-            ></div>
-
+        <!-- CUSTOMER LOGIN -->
+        <form id="customerLoginForm" class="auth-form hidden">
 
             <div class="form-group">
+                <label for="customerLoginEmail">Email Address</label>
 
-                <label>
-                    Full Name *
-                </label>
+                <input
+                    type="email"
+                    id="customerLoginEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <small class="error-message" id="customerLoginEmailError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="customerLoginPassword">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="customerLoginPassword"
+                        placeholder="Enter your password"
+                        required
+                        minlength="8"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('customerLoginPassword')">
+                        👁
+                    </button>
+                </div>
+
+                <small class="error-message" id="customerLoginPasswordError"></small>
+            </div>
+
+            <div id="customerLoginMessage" class="auth-message"></div>
+
+            <button type="submit" class="primary-btn full-btn">
+                Customer Sign In
+            </button>
+
+            <p class="account-question">
+                Don't have an account?
+            </p>
+
+            <button
+                type="button"
+                class="secondary-btn full-btn"
+                onclick="showAuthForm('signup')">
+                Create Customer Account
+            </button>
+
+        </form>
+
+        <!-- CUSTOMER SIGN UP -->
+        <form id="customerSignupForm" class="auth-form hidden">
+
+            <div class="signup-header">
+                <h2>Create Customer Account</h2>
+                <p>Register to order from our menu.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
 
                 <input
                     type="text"
                     id="signupName"
-                    class="form-control"
                     placeholder="Juan Dela Cruz"
                     required
                     minlength="3"
+                    maxlength="50"
                 >
 
-                <div
-                    class="field-error"
-                    id="signupNameError"
-                >
-                    Please enter your full name.
-                </div>
-
+                <small class="error-message" id="signupNameError"></small>
             </div>
 
-
             <div class="form-group">
-
-                <label>
-                    Email Address *
-                </label>
+                <label for="signupEmail">Email Address</label>
 
                 <input
                     type="email"
                     id="signupEmail"
-                    class="form-control"
                     placeholder="juan@gmail.com"
                     required
                 >
 
-                <div
-                    class="field-error"
-                    id="signupEmailError"
-                >
-                    Please enter a valid email.
-                </div>
-
+                <small class="error-message" id="signupEmailError"></small>
             </div>
 
-
             <div class="form-group">
-
-                <label>
-                    Mobile Number *
-                </label>
+                <label for="signupPhone">Mobile Number</label>
 
                 <input
                     type="tel"
                     id="signupPhone"
-                    class="form-control"
                     placeholder="09171234567"
+                    required
+                    pattern="09[0-9]{9}"
                     maxlength="11"
-                    required
                 >
 
-                <div
-                    class="field-error"
-                    id="signupPhoneError"
-                >
-                    Enter a valid 11-digit Philippine mobile number.
-                </div>
-
+                <small class="error-message" id="signupPhoneError"></small>
             </div>
 
-
             <div class="form-group">
+                <label for="signupCity">City</label>
 
-                <label>
-                    Password *
-                </label>
+                <select id="signupCity" required>
+                    <option value="">Select City</option>
+                    <option>Oroquieta</option>
+                    <option>Ozamis</option>
+                    <option>Tangub</option>
+                    <option>Pagadian</option>
+                    <option>Iligan</option>
+                    <option>Davao City</option>
+                    <option>Cagayan de Oro</option>
+                    <option>Other</option>
+                </select>
 
-                <input
-                    type="password"
-                    id="signupPassword"
-                    class="form-control"
-                    placeholder="Minimum 8 characters"
-                    minlength="8"
-                    required
-                >
-
-                <div
-                    class="field-error"
-                    id="signupPasswordError"
-                >
-                    Password must contain at least 8 characters.
-                </div>
-
+                <small class="error-message" id="signupCityError"></small>
             </div>
 
+            <div class="form-group">
+                <label for="signupAddress">Complete Address</label>
+
+                <textarea
+                    id="signupAddress"
+                    placeholder="House number, street, barangay..."
+                    required
+                    minlength="10"
+                    maxlength="150"
+                ></textarea>
+
+                <small class="error-message" id="signupAddressError"></small>
+            </div>
 
             <div class="form-group">
+                <label for="signupPassword">Password</label>
 
-                <label>
-                    Confirm Password *
-                </label>
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Minimum 8 characters"
+                        required
+                        minlength="8"
+                        maxlength="30"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('signupPassword')">
+                        👁
+                    </button>
+                </div>
+
+                <small class="error-message" id="signupPasswordError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="signupConfirmPassword">Confirm Password</label>
 
                 <input
                     type="password"
                     id="signupConfirmPassword"
-                    class="form-control"
-                    placeholder="Repeat password"
+                    placeholder="Re-enter your password"
                     required
+                    minlength="8"
                 >
 
-                <div
-                    class="field-error"
-                    id="signupConfirmPasswordError"
-                >
-                    Passwords do not match.
-                </div>
-
+                <small class="error-message" id="signupConfirmPasswordError"></small>
             </div>
 
+            <div id="signupMessage" class="auth-message"></div>
 
-            <button
-                type="submit"
-                class="btn btn-success full-width"
-            >
-                👤 Create Customer Account
+            <button type="submit" class="primary-btn full-btn">
+                Create Account
             </button>
 
-
-            <div class="auth-switch">
-
-                Already have an account?
-
-                <button
-                    type="button"
-                    id="goToSignIn"
-                >
-                    Sign In
-                </button>
-
-            </div>
+            <button
+                type="button"
+                class="text-btn"
+                onclick="showAuthForm('customer')">
+                ← Back to Customer Sign In
+            </button>
 
         </form>
-
-
-        <div class="demo-account">
-
-            <strong>Admin Demo Account</strong><br>
-
-            Email: admin@marcelinos.com<br>
-
-            Password: admin123
-
-        </div>
 
     </div>
 
@@ -1384,46 +308,36 @@ footer {
 
 
 <!-- =========================================================
-     CUSTOMER SYSTEM
+     MAIN APPLICATION
 ========================================================= -->
 
-<div class="customer-app" id="customerApp">
+<div id="mainSystem" class="main-system hidden">
 
-    <header class="customer-header">
+    <!-- HEADER -->
+    <header class="top-header">
 
-        <div class="customer-brand">
+        <div class="brand">
 
-            <div class="customer-brand-icon">
-                🍗
+            <div class="brand-logo">
+                <img src="images/logo.jpg" alt="Logo">
             </div>
 
             <div>
-
-                <h2>
-                    Marcelino's Fried Itik
-                </h2>
-
-                <small>
-                    Online Ordering System
-                </small>
-
+                <h2>Marcelino's Fried Itik</h2>
+                <span>Sales and Inventory System</span>
             </div>
 
         </div>
 
+        <div class="header-right">
 
-        <div class="customer-header-right">
-
-            <span
-                class="customer-name-display"
-                id="customerNameDisplay"
-            >
+            <span id="currentUserDisplay" class="current-user">
+                Administrator
             </span>
 
             <button
-                class="logout-link"
-                id="customerLogout"
-            >
+                class="logout-btn"
+                onclick="logout()">
                 Logout
             </button>
 
@@ -1432,423 +346,401 @@ footer {
     </header>
 
 
-    <nav class="customer-nav">
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
 
         <button
-            class="active"
-            data-customer-section="home"
-        >
-            🏠 Home
+            class="nav-btn active"
+            onclick="showSection('dashboard', this)">
+            📊 Dashboard
         </button>
 
         <button
-            data-customer-section="menu"
-        >
+            class="nav-btn"
+            onclick="showSection('menu', this)">
             🍗 Menu
         </button>
 
         <button
-            data-customer-section="cart"
-        >
+            class="nav-btn"
+            onclick="showSection('cart', this)">
             🛒 Cart
-            <span id="customerCartCount">
-                (0)
-            </span>
+            <span id="cartBadge" class="cart-badge">0</span>
         </button>
 
         <button
-            data-customer-section="orders"
-        >
-            📋 My Orders
+            class="nav-btn admin-only"
+            onclick="showSection('customers', this)">
+            👥 Customers
+        </button>
+
+        <button
+            class="nav-btn admin-only"
+            onclick="showSection('inventory', this)">
+            📦 Inventory
+        </button>
+
+        <button
+            class="nav-btn admin-only"
+            onclick="showSection('sales', this)">
+            💰 Sales
         </button>
 
     </nav>
 
 
-    <main class="customer-content">
+    <!-- MAIN CONTENT -->
+    <main class="content">
 
 
-        <!-- HOME -->
+        <!-- =====================================================
+             DASHBOARD
+        ====================================================== -->
 
-        <section
-            class="customer-section active"
-            id="customerHome"
-        >
+        <section id="dashboard" class="content-section active-section">
 
-            <div class="hero">
+            <div class="page-title">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome to Marcelino's Fried Itik Sales and Inventory System.</p>
+                </div>
+            </div>
 
-                <h1>
-                    Welcome to Marcelino's Fried Itik!
-                </h1>
 
-                <p>
-                    Enjoy our delicious Fried Itik products.
-                    Browse the menu, add your favorite products
-                    to your cart, and place your order online.
-                </p>
+            <div class="dashboard-cards">
 
-                <br>
+                <div class="dashboard-card">
+                    <div class="card-icon">🍗</div>
+                    <div>
+                        <h3 id="dashboardProducts">0</h3>
+                        <p>Products</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">👥</div>
+                    <div>
+                        <h3 id="dashboardCustomers">0</h3>
+                        <p>Customers</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">🛒</div>
+                    <div>
+                        <h3 id="dashboardOrders">0</h3>
+                        <p>Orders</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">💰</div>
+                    <div>
+                        <h3 id="dashboardSales">₱0.00</h3>
+                        <p>Total Sales</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="welcome-panel">
+
+                <div>
+                    <h2>Welcome to the System</h2>
+
+                    <p>
+                        Manage products, inventory, customers, sales,
+                        and customer orders using one integrated system.
+                    </p>
+                </div>
 
                 <button
-                    class="btn"
-                    style="background:white;color:#b71c1c;"
-                    onclick="showCustomerSection('menu')"
-                >
-                    🍗 View Menu
+                    class="primary-btn"
+                    onclick="openMenuFromDashboard()">
+                    View Menu
                 </button>
 
             </div>
 
+        </section>
 
-            <h2>
-                Featured Products
-            </h2>
 
-            <br>
+        <!-- =====================================================
+             MENU
+        ====================================================== -->
 
-            <div
-                class="menu-grid"
-                id="featuredProducts"
-            ></div>
+        <section id="menu" class="content-section">
+
+            <div class="page-title">
+
+                <div>
+                    <h1>Our Menu</h1>
+                    <p>Select your favorite Fried Itik products.</p>
+                </div>
+
+            </div>
+
+            <div id="menuContainer" class="menu-grid"></div>
 
         </section>
 
 
-        <!-- MENU -->
+        <!-- =====================================================
+             CART
+        ====================================================== -->
 
-        <section
-            class="customer-section"
-            id="customerMenu"
-        >
+        <section id="cart" class="content-section">
 
-            <h1>
-                Our Menu
-            </h1>
+            <div class="page-title">
 
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Select your favorite products.
-            </p>
-
-
-            <div class="menu-toolbar">
-
-                <input
-                    type="search"
-                    id="menuSearch"
-                    class="form-control search-box"
-                    placeholder="🔎 Search product..."
-                >
-
-
-                <select
-                    id="categoryFilter"
-                    class="form-control category-filter"
-                >
-
-                    <option value="all">
-                        All Categories
-                    </option>
-
-                    <option value="Fried Itik">
-                        Fried Itik
-                    </option>
-
-                    <option value="Family Pack">
-                        Family Pack
-                    </option>
-
-                    <option value="Sauce">
-                        Sauce
-                    </option>
-
-                    <option value="Meal Combo">
-                        Meal Combo
-                    </option>
-
-                </select>
+                <div>
+                    <h1>Shopping Cart</h1>
+                    <p>Review your order before checkout.</p>
+                </div>
 
             </div>
 
 
-            <div
-                class="menu-grid"
-                id="customerMenuContainer"
-            ></div>
-
-        </section>
+            <div id="cartContainer" class="cart-container"></div>
 
 
-        <!-- CART -->
+            <div id="cartSummary" class="cart-summary hidden">
 
-        <section
-            class="customer-section"
-            id="customerCart"
-        >
-
-            <h1>
-                Shopping Cart
-            </h1>
-
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Review your order before checkout.
-            </p>
-
-
-            <div class="cart-layout">
-
-                <div class="card">
-
-                    <div id="customerCartContainer">
-                    </div>
-
+                <div class="summary-row">
+                    <span>Total Items</span>
+                    <strong id="cartItemCount">0</strong>
                 </div>
 
-
-                <div class="card">
-
-                    <h2>
-                        Order Summary
-                    </h2>
-
-                    <br>
-
-                    <div class="summary-row">
-
-                        <span>
-                            Items
-                        </span>
-
-                        <strong id="summaryItems">
-                            0
-                        </strong>
-
-                    </div>
-
-
-                    <div class="summary-row">
-
-                        <span>
-                            Subtotal
-                        </span>
-
-                        <strong id="summarySubtotal">
-                            ₱0.00
-                        </strong>
-
-                    </div>
-
-
-                    <div class="summary-row summary-total">
-
-                        <span>
-                            Total
-                        </span>
-
-                        <strong id="summaryTotal">
-                            ₱0.00
-                        </strong>
-
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary full-width"
-                        id="proceedCheckout"
-                    >
-                        Proceed to Checkout
-                    </button>
-
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="cartSubtotal">₱0.00</strong>
                 </div>
+
+                <div class="summary-row grand-total">
+                    <span>Total</span>
+                    <strong id="cartTotal">₱0.00</strong>
+                </div>
+
+                <button
+                    class="primary-btn full-btn"
+                    onclick="openCheckout()">
+                    Proceed to Checkout
+                </button>
 
             </div>
 
         </section>
 
 
-        <!-- CHECKOUT -->
+        <!-- =====================================================
+             CHECKOUT
+        ====================================================== -->
 
-        <section
-            class="customer-section"
-            id="customerCheckout"
-        >
+        <section id="checkout" class="content-section">
 
-            <h1>
-                Checkout
-            </h1>
+            <div class="page-title">
 
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Confirm your delivery information.
-            </p>
+                <div>
+                    <h1>Checkout</h1>
+                    <p>Enter your customer and delivery information.</p>
+                </div>
+
+            </div>
 
 
             <div class="checkout-layout">
 
-                <div class="card">
+                <div class="checkout-card">
 
-                    <h2>
-                        Delivery Information
-                    </h2>
+                    <form id="checkoutForm" novalidate>
 
-                    <br>
+                        <h2>Customer Information</h2>
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="customerName">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customerName"
+                                    required
+                                    minlength="3"
+                                    maxlength="50"
+                                >
+
+                                <small
+                                    id="customerNameError"
+                                    class="error-message">
+                                </small>
+                            </div>
 
 
-                    <form id="customerCheckoutForm">
+                            <div class="form-group">
+                                <label for="customerPhone">
+                                    Mobile Number
+                                </label>
 
-                        <div class="form-group">
+                                <input
+                                    type="tel"
+                                    id="customerPhone"
+                                    placeholder="09171234567"
+                                    required
+                                    pattern="09[0-9]{9}"
+                                    maxlength="11"
+                                >
 
-                            <label>
-                                Full Name *
-                            </label>
+                                <small
+                                    id="customerPhoneError"
+                                    class="error-message">
+                                </small>
+                            </div>
 
-                            <input
-                                type="text"
-                                id="checkoutName"
-                                class="form-control"
-                                required
-                                minlength="3"
-                            >
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="customerEmail">
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="customerEmail"
+                                    required
+                                >
+
+                                <small
+                                    id="customerEmailError"
+                                    class="error-message">
+                                </small>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="customerCity">
+                                    City
+                                </label>
+
+                                <select
+                                    id="customerCity"
+                                    required>
+
+                                    <option value="">
+                                        Select City
+                                    </option>
+
+                                    <option>Oroquieta</option>
+                                    <option>Ozamis</option>
+                                    <option>Tangub</option>
+                                    <option>Pagadian</option>
+                                    <option>Iligan</option>
+                                    <option>Davao City</option>
+                                    <option>Cagayan de Oro</option>
+                                    <option>Other</option>
+
+                                </select>
+
+                                <small
+                                    id="customerCityError"
+                                    class="error-message">
+                                </small>
+
+                            </div>
 
                         </div>
 
 
                         <div class="form-group">
 
-                            <label>
-                                Mobile Number *
+                            <label for="customerAddress">
+                                Complete Address
                             </label>
 
-                            <input
-                                type="tel"
-                                id="checkoutPhone"
-                                class="form-control"
-                                maxlength="11"
+                            <textarea
+                                id="customerAddress"
                                 required
-                            >
+                                minlength="10"
+                                maxlength="150"
+                                placeholder="House number, street, barangay...">
+                            </textarea>
+
+                            <small
+                                id="customerAddressError"
+                                class="error-message">
+                            </small>
 
                         </div>
 
 
                         <div class="form-group">
 
-                            <label>
-                                Email *
+                            <label for="paymentMethod">
+                                Payment Method
                             </label>
 
-                            <input
-                                type="email"
-                                id="checkoutEmail"
-                                class="form-control"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                City *
-                            </label>
-
-                            <select
-                                id="checkoutCity"
-                                class="form-control"
-                                required
-                            >
+                            <select id="paymentMethod" required>
 
                                 <option value="">
-                                    Select City
+                                    Select Payment Method
                                 </option>
 
-                                <option>
-                                    Oroquieta
+                                <option value="Cash on Delivery">
+                                    Cash on Delivery
                                 </option>
 
-                                <option>
-                                    Ozamis
-                                </option>
-
-                                <option>
-                                    Tangub
-                                </option>
-
-                                <option>
-                                    Pagadian
-                                </option>
-
-                                <option>
-                                    Iligan
-                                </option>
-
-                                <option>
-                                    Dipolog
-                                </option>
-
-                                <option>
-                                    Davao
+                                <option value="GCash">
+                                    GCash
                                 </option>
 
                             </select>
 
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Complete Address *
-                            </label>
-
-                            <textarea
-                                id="checkoutAddress"
-                                class="form-control"
-                                rows="4"
-                                minlength="10"
-                                required
-                            ></textarea>
+                            <small
+                                id="paymentMethodError"
+                                class="error-message">
+                            </small>
 
                         </div>
 
 
-                        <button
-                            type="submit"
-                            class="btn btn-success full-width"
-                        >
-                            ✅ Place Order
-                        </button>
+                        <div id="checkoutMessage" class="auth-message"></div>
+
+
+                        <div class="button-row">
+
+                            <button
+                                type="button"
+                                class="secondary-btn"
+                                onclick="showSectionById('cart')">
+                                Back to Cart
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="primary-btn">
+                                Place Order
+                            </button>
+
+                        </div>
 
                     </form>
 
                 </div>
 
 
-                <div class="card">
+                <div class="order-preview">
 
-                    <h2>
-                        Your Order
-                    </h2>
+                    <h2>Order Summary</h2>
 
-                    <br>
-
-                    <div
-                        class="checkout-items"
-                        id="checkoutItems"
-                    ></div>
-
-                    <br>
-
-                    <div class="summary-row summary-total">
-
-                        <span>
-                            Total
-                        </span>
-
-                        <strong id="checkoutTotal">
-                            ₱0.00
-                        </strong>
-
-                    </div>
+                    <div id="checkoutSummary"></div>
 
                 </div>
 
@@ -1857,33 +749,173 @@ footer {
         </section>
 
 
-        <!-- ORDERS -->
+        <!-- =====================================================
+             CUSTOMERS
+        ====================================================== -->
 
-        <section
-            class="customer-section"
-            id="customerOrders"
-        >
+        <section id="customers" class="content-section admin-section">
 
-            <h1>
-                My Orders
-            </h1>
+            <div class="page-title">
 
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                View your previous orders.
-            </p>
+                <div>
+                    <h1>Customer Records</h1>
+                    <p>Manage registered customer information.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openCustomerModal()">
+                    + Add Customer
+                </button>
+
+            </div>
 
 
-            <div id="customerOrdersContainer"></div>
+            <div class="table-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>City</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="customerTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             INVENTORY
+        ====================================================== -->
+
+        <section id="inventory" class="content-section admin-section">
+
+            <div class="page-title">
+
+                <div>
+                    <h1>Inventory Management</h1>
+                    <p>Manage product records and stock levels.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openProductModal()">
+                    + Add Product
+                </button>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="inventoryTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SALES
+        ====================================================== -->
+
+        <section id="sales" class="content-section admin-section">
+
+            <div class="page-title">
+
+                <div>
+                    <h1>Sales Records</h1>
+                    <p>View and manage completed transactions.</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Sale ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="salesTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
 
         </section>
 
     </main>
 
 
-    <footer>
+    <!-- FOOTER -->
+    <footer class="footer">
 
-        © 2026 Marcelino's Fried Itik |
-        Developed by Jhon Mark C. Uayan
+        <p>
+            © 2026 Marcelino's Fried Itik |
+            Sales and Inventory System
+        </p>
+
+        <p>
+            Developed by <strong>Jhon Mark C. Uayan</strong>
+        </p>
 
     </footer>
 
@@ -1891,420 +923,475 @@ footer {
 
 
 <!-- =========================================================
-     ADMIN SYSTEM
+     CUSTOMER MODAL
 ========================================================= -->
 
-<div class="admin-app" id="adminApp">
+<div id="customerModal" class="modal">
 
-    <header class="admin-header">
+    <div class="modal-content">
 
-        <div class="admin-brand">
+        <div class="modal-header">
 
-            <div class="admin-brand-icon">
-                ⚙️
-            </div>
+            <h2 id="customerModalTitle">
+                Add Customer
+            </h2>
 
-            <div>
-
-                <h2>
-                    Admin Control Panel
-                </h2>
-
-                <small>
-                    Marcelino's Fried Itik
-                </small>
-
-            </div>
+            <button
+                class="modal-close"
+                onclick="closeModal('customerModal')">
+                ×
+            </button>
 
         </div>
 
 
-        <button
-            class="admin-logout"
-            id="adminLogout"
-        >
-            Logout
-        </button>
+        <form id="customerForm" novalidate>
 
-    </header>
+            <input
+                type="hidden"
+                id="editCustomerId"
+            >
 
+            <div class="form-group">
 
-    <nav class="admin-nav">
+                <label for="modalCustomerName">
+                    Full Name
+                </label>
 
-        <button
-            class="active"
-            data-admin-section="dashboard"
-        >
-            📊 Dashboard
-        </button>
+                <input
+                    type="text"
+                    id="modalCustomerName"
+                    required
+                    minlength="3"
+                    maxlength="50"
+                >
 
-        <button
-            data-admin-section="customers"
-        >
-            👤 Customers
-        </button>
+                <small
+                    id="modalCustomerNameError"
+                    class="error-message">
+                </small>
 
-        <button
-            data-admin-section="inventory"
-        >
-            📦 Inventory
-        </button>
-
-        <button
-            data-admin-section="sales"
-        >
-            💰 Sales
-        </button>
-
-    </nav>
+            </div>
 
 
-    <main class="admin-content">
+            <div class="form-group">
+
+                <label for="modalCustomerPhone">
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="modalCustomerPhone"
+                    required
+                    pattern="09[0-9]{9}"
+                    maxlength="11"
+                >
+
+                <small
+                    id="modalCustomerPhoneError"
+                    class="error-message">
+                </small>
+
+            </div>
 
 
-        <!-- ADMIN DASHBOARD -->
+            <div class="form-group">
 
-        <section
-            class="admin-section active"
-            id="adminDashboard"
-        >
+                <label for="modalCustomerEmail">
+                    Email
+                </label>
 
-            <h1>
-                Dashboard
-            </h1>
+                <input
+                    type="email"
+                    id="modalCustomerEmail"
+                    required
+                >
 
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                System overview and business performance.
-            </p>
+                <small
+                    id="modalCustomerEmailError"
+                    class="error-message">
+                </small>
+
+            </div>
 
 
-            <div class="dashboard-grid">
+            <div class="form-group">
 
-                <div class="dashboard-card">
+                <label for="modalCustomerCity">
+                    City
+                </label>
 
-                    <div class="dashboard-icon">
-                        🍗
-                    </div>
+                <select id="modalCustomerCity" required>
 
-                    <h2 id="adminProductCount">
-                        0
-                    </h2>
+                    <option value="">Select City</option>
+                    <option>Oroquieta</option>
+                    <option>Ozamis</option>
+                    <option>Tangub</option>
+                    <option>Pagadian</option>
+                    <option>Iligan</option>
+                    <option>Davao City</option>
+                    <option>Cagayan de Oro</option>
+                    <option>Other</option>
 
-                    <p>
-                        Products
-                    </p>
+                </select>
+
+                <small
+                    id="modalCustomerCityError"
+                    class="error-message">
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="modalCustomerAddress">
+                    Complete Address
+                </label>
+
+                <textarea
+                    id="modalCustomerAddress"
+                    required
+                    minlength="10"
+                    maxlength="150">
+                </textarea>
+
+                <small
+                    id="modalCustomerAddressError"
+                    class="error-message">
+                </small>
+
+            </div>
+
+
+            <div id="customerFormMessage" class="auth-message"></div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal('customerModal')">
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+                    Save Customer
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PRODUCT MODAL
+========================================================= -->
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="productModalTitle">
+                Add Product
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('productModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="productForm" novalidate>
+
+            <input
+                type="hidden"
+                id="editProductId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="modalProductName">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="modalProductName"
+                    required
+                    minlength="3"
+                    maxlength="60"
+                >
+
+                <small
+                    id="modalProductNameError"
+                    class="error-message">
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="modalProductCategory">
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    id="modalProductCategory"
+                    required
+                    minlength="3"
+                    maxlength="40"
+                >
+
+                <small
+                    id="modalProductCategoryError"
+                    class="error-message">
+                </small>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="modalProductPrice">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="modalProductPrice"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                    <small
+                        id="modalProductPriceError"
+                        class="error-message">
+                    </small>
 
                 </div>
 
 
-                <div class="dashboard-card">
+                <div class="form-group">
 
-                    <div class="dashboard-icon">
-                        👤
-                    </div>
+                    <label for="modalProductStock">
+                        Stock
+                    </label>
 
-                    <h2 id="adminCustomerCount">
-                        0
-                    </h2>
+                    <input
+                        type="number"
+                        id="modalProductStock"
+                        min="0"
+                        max="9999"
+                        required
+                    >
 
-                    <p>
-                        Customers
-                    </p>
-
-                </div>
-
-
-                <div class="dashboard-card">
-
-                    <div class="dashboard-icon">
-                        🛒
-                    </div>
-
-                    <h2 id="adminOrderCount">
-                        0
-                    </h2>
-
-                    <p>
-                        Orders
-                    </p>
-
-                </div>
-
-
-                <div class="dashboard-card">
-
-                    <div class="dashboard-icon">
-                        💰
-                    </div>
-
-                    <h2 id="adminSalesTotal">
-                        ₱0.00
-                    </h2>
-
-                    <p>
-                        Total Sales
-                    </p>
+                    <small
+                        id="modalProductStockError"
+                        class="error-message">
+                    </small>
 
                 </div>
 
             </div>
 
 
-            <div class="admin-table-card">
+            <div class="form-group">
 
-                <h2>
-                    Recent Sales
-                </h2>
+                <label for="modalProductIcon">
+                    Product Icon
+                </label>
 
-                <br>
-
-                <div class="table-responsive">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Order ID
-                                </th>
-
-                                <th>
-                                    Customer
-                                </th>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Quantity
-                                </th>
-
-                                <th>
-                                    Total
-                                </th>
-
-                                <th>
-                                    Date
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="recentSalesBody"></tbody>
-
-                    </table>
-
-                </div>
+                <input
+                    type="text"
+                    id="modalProductIcon"
+                    maxlength="4"
+                    placeholder="🍗"
+                >
 
             </div>
 
-        </section>
+
+            <div id="productFormMessage" class="auth-message"></div>
 
 
-        <!-- ADMIN CUSTOMERS -->
+            <div class="button-row">
 
-        <section
-            class="admin-section"
-            id="adminCustomers"
-        >
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal('productModal')">
+                    Cancel
+                </button>
 
-            <h1>
-                Customer Records
-            </h1>
-
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Registered customer accounts.
-            </p>
-
-
-            <div class="admin-table-card">
-
-                <div class="table-responsive">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Customer ID
-                                </th>
-
-                                <th>
-                                    Name
-                                </th>
-
-                                <th>
-                                    Email
-                                </th>
-
-                                <th>
-                                    Phone
-                                </th>
-
-                                <th>
-                                    Date Registered
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="adminCustomersBody"></tbody>
-
-                    </table>
-
-                </div>
+                <button
+                    type="submit"
+                    class="primary-btn">
+                    Save Product
+                </button>
 
             </div>
 
-        </section>
+        </form>
+
+    </div>
+
+</div>
 
 
-        <!-- ADMIN INVENTORY -->
+<!-- =========================================================
+     SALE EDIT MODAL
+========================================================= -->
 
-        <section
-            class="admin-section"
-            id="adminInventory"
-        >
+<div id="saleModal" class="modal">
 
-            <h1>
-                Inventory Management
-            </h1>
+    <div class="modal-content">
 
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Monitor available product stock.
-            </p>
+        <div class="modal-header">
+
+            <h2>Edit Sales Record</h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('saleModal')">
+                ×
+            </button>
+
+        </div>
 
 
-            <div class="admin-table-card">
+        <form id="saleForm">
 
-                <div class="table-responsive">
+            <input
+                type="hidden"
+                id="editSaleId"
+            >
 
-                    <table>
 
-                        <thead>
+            <div class="form-group">
 
-                            <tr>
+                <label for="modalSaleCustomer">
+                    Customer Name
+                </label>
 
-                                <th>
-                                    Product ID
-                                </th>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Category
-                                </th>
-
-                                <th>
-                                    Price
-                                </th>
-
-                                <th>
-                                    Stock
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="adminInventoryBody"></tbody>
-
-                    </table>
-
-                </div>
+                <input
+                    type="text"
+                    id="modalSaleCustomer"
+                    required
+                    minlength="3"
+                >
 
             </div>
 
-        </section>
 
+            <div class="form-group">
 
-        <!-- ADMIN SALES -->
+                <label for="modalSaleProduct">
+                    Product
+                </label>
 
-        <section
-            class="admin-section"
-            id="adminSales"
-        >
-
-            <h1>
-                Sales Transactions
-            </h1>
-
-            <p style="color:#777;font-size:13px;margin-bottom:20px;">
-                Complete sales transaction history.
-            </p>
-
-
-            <div class="admin-table-card">
-
-                <div class="table-responsive">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Order ID
-                                </th>
-
-                                <th>
-                                    Customer
-                                </th>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Qty
-                                </th>
-
-                                <th>
-                                    Amount
-                                </th>
-
-                                <th>
-                                    Date
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="adminSalesBody"></tbody>
-
-                    </table>
-
-                </div>
+                <input
+                    type="text"
+                    id="modalSaleProduct"
+                    required
+                >
 
             </div>
 
-        </section>
 
-    </main>
+            <div class="form-group">
+
+                <label for="modalSaleQuantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="modalSaleQuantity"
+                    min="1"
+                    required
+                >
+
+            </div>
 
 
-    <footer>
+            <div class="form-group">
 
-        © 2026 Marcelino's Fried Itik |
-        Sales and Inventory System |
-        Admin Panel
+                <label for="modalSaleTotal">
+                    Total Amount
+                </label>
 
-    </footer>
+                <input
+                    type="number"
+                    id="modalSaleTotal"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="modalSalePayment">
+                    Payment Method
+                </label>
+
+                <select id="modalSalePayment" required>
+
+                    <option value="Cash on Delivery">
+                        Cash on Delivery
+                    </option>
+
+                    <option value="GCash">
+                        GCash
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal('saleModal')">
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+                    Update Sale
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 
@@ -2313,28 +1400,23 @@ footer {
      SUCCESS MODAL
 ========================================================= -->
 
-<div class="modal" id="successModal">
+<div id="successModal" class="modal">
 
-    <div class="modal-box">
+    <div class="modal-content success-modal">
 
-        <div class="modal-icon">
+        <div class="success-icon">
             ✓
         </div>
 
-        <h2>
-            Order Successfully Placed!
-        </h2>
+        <h2>Order Successfully Placed!</h2>
 
-        <p id="successText">
-            Your order has been recorded.
+        <p id="successMessage">
+            Your order has been recorded successfully.
         </p>
 
-        <br>
-
         <button
-            class="btn btn-primary"
-            id="successContinue"
-        >
+            class="primary-btn"
+            onclick="closeModal('successModal')">
             Continue
         </button>
 
@@ -2343,2668 +1425,7 @@ footer {
 </div>
 
 
-<!-- TOAST -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
-
-
-<script>
-
-/* =========================================================
-   DEFAULT PRODUCTS
-========================================================= */
-
-const defaultProducts = [
-
-    {
-        id: "P001",
-        name: "Fried Itik Original",
-        category: "Fried Itik",
-        price: 350,
-        stock: 25,
-        icon: "🍗",
-        description: "Our classic crispy Fried Itik."
-    },
-
-    {
-        id: "P002",
-        name: "Fried Itik Spicy",
-        category: "Fried Itik",
-        price: 375,
-        stock: 20,
-        icon: "🌶️",
-        description: "Crispy Fried Itik with spicy flavor."
-    },
-
-    {
-        id: "P003",
-        name: "Fried Itik Family Pack",
-        category: "Family Pack",
-        price: 650,
-        stock: 15,
-        icon: "🍱",
-        description: "Perfect for family meals and gatherings."
-    },
-
-    {
-        id: "P004",
-        name: "Itik Special Sauce",
-        category: "Sauce",
-        price: 120,
-        stock: 30,
-        icon: "🥣",
-        description: "Our special homemade dipping sauce."
-    },
-
-    {
-        id: "P005",
-        name: "Itik Meal Combo",
-        category: "Meal Combo",
-        price: 450,
-        stock: 18,
-        icon: "🍛",
-        description: "Complete meal combo with Fried Itik."
-    }
-
-];
-
-
-/* =========================================================
-   INITIAL DATA
-========================================================= */
-
-let products =
-    JSON.parse(localStorage.getItem("products"))
-    || defaultProducts;
-
-
-let accounts =
-    JSON.parse(localStorage.getItem("customerAccounts"))
-    || [];
-
-
-let orders =
-    JSON.parse(localStorage.getItem("orders"))
-    || [];
-
-
-let cart = [];
-
-
-let currentCustomer =
-    JSON.parse(sessionStorage.getItem("currentCustomer"))
-    || null;
-
-
-/* =========================================================
-   ADMIN ACCOUNT
-========================================================= */
-
-const ADMIN_EMAIL =
-    "admin@marcelinos.com";
-
-const ADMIN_PASSWORD =
-    "admin123";
-
-
-/* =========================================================
-   DOM READY
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        initializeAuthentication();
-
-        initializeCustomerNavigation();
-
-        initializeAdminNavigation();
-
-        initializeCustomerOrdering();
-
-        initializeAdminLogout();
-
-        if (currentCustomer) {
-
-            openCustomerSystem();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   AUTHENTICATION
-========================================================= */
-
-function initializeAuthentication() {
-
-    document
-        .getElementById("customerSignInTab")
-        .addEventListener(
-            "click",
-            function () {
-
-                showAuthForm("signin");
-
-            }
-        );
-
-
-    document
-        .getElementById("customerSignUpTab")
-        .addEventListener(
-            "click",
-            function () {
-
-                showAuthForm("signup");
-
-            }
-        );
-
-
-    document
-        .getElementById("goToSignUp")
-        .addEventListener(
-            "click",
-            function () {
-
-                showAuthForm("signup");
-
-            }
-        );
-
-
-    document
-        .getElementById("goToSignIn")
-        .addEventListener(
-            "click",
-            function () {
-
-                showAuthForm("signin");
-
-            }
-        );
-
-
-    document
-        .getElementById("customerSignInForm")
-        .addEventListener(
-            "submit",
-            customerLogin
-        );
-
-
-    document
-        .getElementById("customerSignUpForm")
-        .addEventListener(
-            "submit",
-            customerSignup
-        );
-
-}
-
-
-function showAuthForm(type) {
-
-    document
-        .querySelectorAll(".auth-tab")
-        .forEach(
-            function (tab) {
-
-                tab.classList.remove("active");
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(".auth-form")
-        .forEach(
-            function (form) {
-
-                form.classList.remove("active");
-
-            }
-        );
-
-
-    if (type === "signin") {
-
-        document
-            .getElementById("customerSignInTab")
-            .classList.add("active");
-
-        document
-            .getElementById("customerSignInForm")
-            .classList.add("active");
-
-    } else {
-
-        document
-            .getElementById("customerSignUpTab")
-            .classList.add("active");
-
-        document
-            .getElementById("customerSignUpForm")
-            .classList.add("active");
-
-    }
-
-}
-
-
-/* =========================================================
-   CUSTOMER SIGN UP
-========================================================= */
-
-function customerSignup(event) {
-
-    event.preventDefault();
-
-
-    const name =
-        document.getElementById("signupName")
-        .value
-        .trim();
-
-
-    const email =
-        document.getElementById("signupEmail")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    const phone =
-        document.getElementById("signupPhone")
-        .value
-        .trim();
-
-
-    const password =
-        document.getElementById("signupPassword")
-        .value;
-
-
-    const confirmPassword =
-        document.getElementById("signupConfirmPassword")
-        .value;
-
-
-    let valid = true;
-
-
-    if (name.length < 3) {
-
-        showFieldError(
-            "signupName",
-            "signupNameError"
-        );
-
-        valid = false;
-
-    } else {
-
-        clearFieldError(
-            "signupName",
-            "signupNameError"
-        );
-
-    }
-
-
-    if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
-
-        showFieldError(
-            "signupEmail",
-            "signupEmailError"
-        );
-
-        valid = false;
-
-    } else {
-
-        clearFieldError(
-            "signupEmail",
-            "signupEmailError"
-        );
-
-    }
-
-
-    if (
-        !/^09[0-9]{9}$/.test(phone)
-    ) {
-
-        showFieldError(
-            "signupPhone",
-            "signupPhoneError"
-        );
-
-        valid = false;
-
-    } else {
-
-        clearFieldError(
-            "signupPhone",
-            "signupPhoneError"
-        );
-
-    }
-
-
-    if (password.length < 8) {
-
-        showFieldError(
-            "signupPassword",
-            "signupPasswordError"
-        );
-
-        valid = false;
-
-    } else {
-
-        clearFieldError(
-            "signupPassword",
-            "signupPasswordError"
-        );
-
-    }
-
-
-    if (
-        password !== confirmPassword
-    ) {
-
-        showFieldError(
-            "signupConfirmPassword",
-            "signupConfirmPasswordError"
-        );
-
-        valid = false;
-
-    } else {
-
-        clearFieldError(
-            "signupConfirmPassword",
-            "signupConfirmPasswordError"
-        );
-
-    }
-
-
-    if (!valid) {
-
-        return;
-
-    }
-
-
-    const existing =
-        accounts.find(
-            function (account) {
-
-                return account.email === email;
-
-            }
-        );
-
-
-    if (existing) {
-
-        showAuthMessage(
-            "signupMessage",
-            "An account with this email already exists.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const customerId =
-        "C" +
-        String(accounts.length + 1)
-        .padStart(3, "0");
-
-
-    const account = {
-
-        id: customerId,
-
-        name: name,
-
-        email: email,
-
-        phone: phone,
-
-        password: password,
-
-        registeredDate:
-            new Date()
-            .toISOString()
-            .split("T")[0]
-
-    };
-
-
-    accounts.push(account);
-
-
-    saveData();
-
-
-    document
-        .getElementById("customerSignUpForm")
-        .reset();
-
-
-    showAuthMessage(
-        "signupMessage",
-        "Account created successfully! You can now sign in.",
-        "success"
-    );
-
-
-    setTimeout(
-        function () {
-
-            showAuthForm("signin");
-
-            document
-                .getElementById("loginEmail")
-                .value = email;
-
-        },
-        1000
-    );
-
-}
-
-
-/* =========================================================
-   CUSTOMER LOGIN
-========================================================= */
-
-function customerLogin(event) {
-
-    event.preventDefault();
-
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    const password =
-        document
-        .getElementById("loginPassword")
-        .value;
-
-
-    /* ADMIN LOGIN */
-
-    if (
-        email === ADMIN_EMAIL &&
-        password === ADMIN_PASSWORD
-    ) {
-
-        openAdminSystem();
-
-        return;
-
-    }
-
-
-    /* CUSTOMER LOGIN */
-
-    const account =
-        accounts.find(
-            function (item) {
-
-                return (
-                    item.email === email &&
-                    item.password === password
-                );
-
-            }
-        );
-
-
-    if (!account) {
-
-        showAuthMessage(
-            "customerLoginMessage",
-            "Invalid email or password.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    currentCustomer = account;
-
-
-    sessionStorage.setItem(
-        "currentCustomer",
-        JSON.stringify(account)
-    );
-
-
-    document
-        .getElementById("customerSignInForm")
-        .reset();
-
-
-    openCustomerSystem();
-
-}
-
-
-/* =========================================================
-   OPEN CUSTOMER SYSTEM
-========================================================= */
-
-function openCustomerSystem() {
-
-    document
-        .getElementById("authPage")
-        .style.display = "none";
-
-
-    document
-        .getElementById("adminApp")
-        .style.display = "none";
-
-
-    document
-        .getElementById("customerApp")
-        .style.display = "block";
-
-
-    document
-        .getElementById("customerNameDisplay")
-        .textContent =
-        "Welcome, " + currentCustomer.name;
-
-
-    fillCheckoutInformation();
-
-    renderCustomerMenu();
-
-    renderFeaturedProducts();
-
-    renderCart();
-
-    renderOrders();
-
-}
-
-
-/* =========================================================
-   OPEN ADMIN
-========================================================= */
-
-function openAdminSystem() {
-
-    document
-        .getElementById("authPage")
-        .style.display = "none";
-
-
-    document
-        .getElementById("customerApp")
-        .style.display = "none";
-
-
-    document
-        .getElementById("adminApp")
-        .style.display = "block";
-
-
-    renderAdminDashboard();
-
-    renderAdminCustomers();
-
-    renderAdminInventory();
-
-    renderAdminSales();
-
-}
-
-
-/* =========================================================
-   CUSTOMER NAVIGATION
-========================================================= */
-
-function initializeCustomerNavigation() {
-
-    document
-        .querySelectorAll(
-            "[data-customer-section]"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        showCustomerSection(
-                            button.dataset.customerSection
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-function showCustomerSection(section) {
-
-    document
-        .querySelectorAll(".customer-section")
-        .forEach(
-            function (item) {
-
-                item.classList.remove("active");
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            "[data-customer-section]"
-        )
-        .forEach(
-            function (button) {
-
-                button.classList.remove("active");
-
-            }
-        );
-
-
-    let targetId;
-
-
-    if (section === "home") {
-
-        targetId = "customerHome";
-
-    }
-
-    if (section === "menu") {
-
-        targetId = "customerMenu";
-
-    }
-
-    if (section === "cart") {
-
-        targetId = "customerCart";
-
-    }
-
-    if (section === "checkout") {
-
-        targetId = "customerCheckout";
-
-        renderCheckout();
-
-    }
-
-    if (section === "orders") {
-
-        targetId = "customerOrders";
-
-        renderOrders();
-
-    }
-
-
-    document
-        .getElementById(targetId)
-        .classList.add("active");
-
-
-    document
-        .querySelector(
-            `[data-customer-section="${section}"]`
-        )
-        ?.classList.add("active");
-
-}
-
-
-/* =========================================================
-   CUSTOMER ORDERING
-========================================================= */
-
-function initializeCustomerOrdering() {
-
-    document
-        .getElementById("menuSearch")
-        .addEventListener(
-            "input",
-            renderCustomerMenu
-        );
-
-
-    document
-        .getElementById("categoryFilter")
-        .addEventListener(
-            "change",
-            renderCustomerMenu
-        );
-
-
-    document
-        .getElementById("proceedCheckout")
-        .addEventListener(
-            "click",
-            function () {
-
-                if (cart.length === 0) {
-
-                    showToast(
-                        "Your cart is empty."
-                    );
-
-                    return;
-
-                }
-
-                showCustomerSection("checkout");
-
-            }
-        );
-
-
-    document
-        .getElementById("customerCheckoutForm")
-        .addEventListener(
-            "submit",
-            placeCustomerOrder
-        );
-
-
-    document
-        .getElementById("successContinue")
-        .addEventListener(
-            "click",
-            function () {
-
-                document
-                    .getElementById("successModal")
-                    .classList.remove("show");
-
-                showCustomerSection("orders");
-
-            }
-        );
-
-
-    document
-        .getElementById("customerLogout")
-        .addEventListener(
-            "click",
-            customerLogout
-        );
-
-}
-
-
-/* =========================================================
-   RENDER CUSTOMER MENU
-========================================================= */
-
-function renderCustomerMenu() {
-
-    const container =
-        document.getElementById(
-            "customerMenuContainer"
-        );
-
-
-    const search =
-        document
-        .getElementById("menuSearch")
-        .value
-        .toLowerCase();
-
-
-    const category =
-        document
-        .getElementById("categoryFilter")
-        .value;
-
-
-    const filtered =
-        products.filter(
-            function (product) {
-
-                const matchesSearch =
-                    product.name
-                    .toLowerCase()
-                    .includes(search);
-
-
-                const matchesCategory =
-                    category === "all" ||
-                    product.category === category;
-
-
-                return (
-                    matchesSearch &&
-                    matchesCategory
-                );
-
-            }
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (filtered.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-state-icon">
-                    🔎
-                </div>
-
-                <h3>
-                    No products found
-                </h3>
-
-                <p>
-                    Try another search.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    filtered.forEach(
-        function (product) {
-
-            container.appendChild(
-                createMenuCard(product)
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   FEATURED
-========================================================= */
-
-function renderFeaturedProducts() {
-
-    const container =
-        document.getElementById(
-            "featuredProducts"
-        );
-
-
-    container.innerHTML = "";
-
-
-    products
-        .slice(0, 3)
-        .forEach(
-            function (product) {
-
-                container.appendChild(
-                    createMenuCard(product)
-                );
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   MENU CARD
-========================================================= */
-
-function createMenuCard(product) {
-
-    const card =
-        document.createElement("div");
-
-    card.className = "menu-card";
-
-
-    let stockClass =
-        "stock-good";
-
-    let stockText =
-        "In Stock";
-
-
-    if (product.stock === 0) {
-
-        stockClass =
-            "stock-out";
-
-        stockText =
-            "Out of Stock";
-
-    } else if (product.stock <= 5) {
-
-        stockClass =
-            "stock-low";
-
-        stockText =
-            "Low Stock";
-
-    }
-
-
-    card.innerHTML = `
-
-        <div class="menu-image">
-            ${product.icon}
-        </div>
-
-        <div class="menu-info">
-
-            <h3>
-                ${product.name}
-            </h3>
-
-            <div class="menu-category">
-                ${product.category}
-            </div>
-
-            <div class="menu-description">
-                ${product.description}
-            </div>
-
-            <div class="stock-label ${stockClass}">
-                ${stockText} · ${product.stock} available
-            </div>
-
-            <div class="menu-price-row">
-
-                <span class="menu-price">
-                    ${money(product.price)}
-                </span>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="addToCart('${product.id}')"
-                    ${product.stock === 0 ? "disabled" : ""}
-                >
-                    🛒 Add
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    return card;
-
-}
-
-
-/* =========================================================
-   CART
-========================================================= */
-
-function addToCart(productId) {
-
-    const product =
-        products.find(
-            function (item) {
-
-                return item.id === productId;
-
-            }
-        );
-
-
-    if (!product || product.stock <= 0) {
-
-        showToast(
-            "Product is out of stock."
-        );
-
-        return;
-
-    }
-
-
-    const item =
-        cart.find(
-            function (item) {
-
-                return item.productId === productId;
-
-            }
-        );
-
-
-    if (item) {
-
-        if (
-            item.quantity >=
-            product.stock
-        ) {
-
-            showToast(
-                "Maximum available stock reached."
-            );
-
-            return;
-
-        }
-
-        item.quantity++;
-
-    } else {
-
-        cart.push({
-
-            productId:
-                productId,
-
-            quantity:
-                1
-
-        });
-
-    }
-
-
-    renderCart();
-
-    showToast(
-        product.name + " added to cart."
-    );
-
-}
-
-
-function renderCart() {
-
-    const container =
-        document.getElementById(
-            "customerCartContainer"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (cart.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="empty-state-icon">
-                    🛒
-                </div>
-
-                <h3>
-                    Your cart is empty
-                </h3>
-
-                <p>
-                    Add products from the menu.
-                </p>
-
-                <br>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="showCustomerSection('menu')"
-                >
-                    View Menu
-                </button>
-
-            </div>
-
-        `;
-
-        updateCartSummary();
-
-        return;
-
-    }
-
-
-    cart.forEach(
-        function (item) {
-
-            const product =
-                products.find(
-                    function (product) {
-
-                        return (
-                            product.id ===
-                            item.productId
-                        );
-
-                    }
-                );
-
-
-            if (!product) return;
-
-
-            const row =
-                document.createElement("div");
-
-            row.className = "cart-item";
-
-
-            row.innerHTML = `
-
-                <div class="cart-item-icon">
-                    ${product.icon}
-                </div>
-
-                <div class="cart-product">
-
-                    <h4>
-                        ${product.name}
-                    </h4>
-
-                    <small>
-                        ${money(product.price)} each
-                    </small>
-
-                </div>
-
-
-                <div class="quantity">
-
-                    <button
-                        onclick="changeQuantity('${product.id}', -1)"
-                    >
-                        −
-                    </button>
-
-                    <span>
-                        ${item.quantity}
-                    </span>
-
-                    <button
-                        onclick="changeQuantity('${product.id}', 1)"
-                    >
-                        +
-                    </button>
-
-                </div>
-
-
-                <div class="cart-price">
-                    ${money(
-                        product.price *
-                        item.quantity
-                    )}
-                </div>
-
-
-                <button
-                    class="remove-cart"
-                    onclick="removeFromCart('${product.id}')"
-                >
-                    Remove
-                </button>
-
-            `;
-
-
-            container.appendChild(row);
-
-        }
-    );
-
-
-    updateCartSummary();
-
-}
-
-
-function changeQuantity(
-    productId,
-    amount
-) {
-
-    const item =
-        cart.find(
-            function (item) {
-
-                return (
-                    item.productId ===
-                    productId
-                );
-
-            }
-        );
-
-
-    const product =
-        products.find(
-            function (product) {
-
-                return (
-                    product.id ===
-                    productId
-                );
-
-            }
-        );
-
-
-    if (!item || !product) return;
-
-
-    item.quantity += amount;
-
-
-    if (item.quantity <= 0) {
-
-        removeFromCart(productId);
-
-        return;
-
-    }
-
-
-    if (
-        item.quantity >
-        product.stock
-    ) {
-
-        item.quantity =
-            product.stock;
-
-        showToast(
-            "Maximum available stock reached."
-        );
-
-    }
-
-
-    renderCart();
-
-}
-
-
-function removeFromCart(productId) {
-
-    cart =
-        cart.filter(
-            function (item) {
-
-                return (
-                    item.productId !==
-                    productId
-                );
-
-            }
-        );
-
-
-    renderCart();
-
-}
-
-
-function cartTotal() {
-
-    return cart.reduce(
-        function (total, item) {
-
-            const product =
-                products.find(
-                    function (product) {
-
-                        return (
-                            product.id ===
-                            item.productId
-                        );
-
-                    }
-                );
-
-
-            return total +
-                (
-                    product.price *
-                    item.quantity
-                );
-
-        },
-        0
-    );
-
-}
-
-
-function cartItems() {
-
-    return cart.reduce(
-        function (total, item) {
-
-            return (
-                total +
-                item.quantity
-            );
-
-        },
-        0
-    );
-
-}
-
-
-function updateCartSummary() {
-
-    const items =
-        cartItems();
-
-    const total =
-        cartTotal();
-
-
-    document
-        .getElementById("summaryItems")
-        .textContent =
-        items;
-
-
-    document
-        .getElementById("summarySubtotal")
-        .textContent =
-        money(total);
-
-
-    document
-        .getElementById("summaryTotal")
-        .textContent =
-        money(total);
-
-
-    document
-        .getElementById("customerCartCount")
-        .textContent =
-        "(" + items + ")";
-
-}
-
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-function fillCheckoutInformation() {
-
-    if (!currentCustomer) return;
-
-
-    document
-        .getElementById("checkoutName")
-        .value =
-        currentCustomer.name;
-
-
-    document
-        .getElementById("checkoutPhone")
-        .value =
-        currentCustomer.phone;
-
-
-    document
-        .getElementById("checkoutEmail")
-        .value =
-        currentCustomer.email;
-
-}
-
-
-function renderCheckout() {
-
-    const container =
-        document.getElementById(
-            "checkoutItems"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (cart.length === 0) {
-
-        container.innerHTML = `
-            <p>
-                Your cart is empty.
-            </p>
-        `;
-
-        document
-            .getElementById("checkoutTotal")
-            .textContent =
-            money(0);
-
-        return;
-
-    }
-
-
-    cart.forEach(
-        function (item) {
-
-            const product =
-                products.find(
-                    function (product) {
-
-                        return (
-                            product.id ===
-                            item.productId
-                        );
-
-                    }
-                );
-
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "checkout-item";
-
-
-            row.innerHTML = `
-
-                <span>
-                    ${product.name}
-                    × ${item.quantity}
-                </span>
-
-                <strong>
-                    ${money(
-                        product.price *
-                        item.quantity
-                    )}
-                </strong>
-
-            `;
-
-
-            container.appendChild(row);
-
-        }
-    );
-
-
-    document
-        .getElementById("checkoutTotal")
-        .textContent =
-        money(cartTotal());
-
-}
-
-
-function placeCustomerOrder(event) {
-
-    event.preventDefault();
-
-
-    if (cart.length === 0) {
-
-        showToast(
-            "Your cart is empty."
-        );
-
-        return;
-
-    }
-
-
-    const name =
-        document
-        .getElementById("checkoutName")
-        .value
-        .trim();
-
-
-    const phone =
-        document
-        .getElementById("checkoutPhone")
-        .value
-        .trim();
-
-
-    const email =
-        document
-        .getElementById("checkoutEmail")
-        .value
-        .trim();
-
-
-    const city =
-        document
-        .getElementById("checkoutCity")
-        .value;
-
-
-    const address =
-        document
-        .getElementById("checkoutAddress")
-        .value
-        .trim();
-
-
-    if (
-        name.length < 3 ||
-        !/^09[0-9]{9}$/.test(phone) ||
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-        city === "" ||
-        address.length < 10
-    ) {
-
-        showToast(
-            "Please complete all required fields correctly."
-        );
-
-        return;
-
-    }
-
-
-    /* STOCK CHECK */
-
-    for (
-        const item of cart
-    ) {
-
-        const product =
-            products.find(
-                function (product) {
-
-                    return (
-                        product.id ===
-                        item.productId
-                    );
-
-                }
-            );
-
-
-        if (
-            !product ||
-            product.stock <
-            item.quantity
-        ) {
-
-            showToast(
-                "Insufficient stock for " +
-                product.name
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    /* ORDER ID */
-
-    const orderId =
-        "ORD-" +
-        String(
-            orders.length + 1
-        )
-        .padStart(4, "0");
-
-
-    const orderItems =
-        cart.map(
-            function (item) {
-
-                const product =
-                    products.find(
-                        function (product) {
-
-                            return (
-                                product.id ===
-                                item.productId
-                            );
-
-                        }
-                    );
-
-
-                return {
-
-                    productId:
-                        product.id,
-
-                    product:
-                        product.name,
-
-                    quantity:
-                        item.quantity,
-
-                    price:
-                        product.price,
-
-                    total:
-                        product.price *
-                        item.quantity
-
-                };
-
-            }
-        );
-
-
-    const total =
-        cartTotal();
-
-
-    const order = {
-
-        id:
-            orderId,
-
-        customerId:
-            currentCustomer.id,
-
-        customer:
-            name,
-
-        email:
-            email,
-
-        phone:
-            phone,
-
-        city:
-            city,
-
-        address:
-            address,
-
-        items:
-            orderItems,
-
-        total:
-            total,
-
-        status:
-            "Confirmed",
-
-        date:
-            new Date()
-            .toISOString()
-            .split("T")[0],
-
-        time:
-            new Date()
-            .toLocaleTimeString()
-
-    };
-
-
-    orders.push(order);
-
-
-    /* REDUCE INVENTORY */
-
-    cart.forEach(
-        function (item) {
-
-            const product =
-                products.find(
-                    function (product) {
-
-                        return (
-                            product.id ===
-                            item.productId
-                        );
-
-                    }
-                );
-
-
-            product.stock -=
-                item.quantity;
-
-        }
-    );
-
-
-    saveData();
-
-
-    /* UPDATE ACCOUNT */
-
-    currentCustomer.phone =
-        phone;
-
-
-    const accountIndex =
-        accounts.findIndex(
-            function (account) {
-
-                return (
-                    account.id ===
-                    currentCustomer.id
-                );
-
-            }
-        );
-
-
-    if (accountIndex !== -1) {
-
-        accounts[accountIndex].phone =
-            phone;
-
-        saveData();
-
-    }
-
-
-    cart = [];
-
-
-    renderCart();
-
-    renderCustomerMenu();
-
-    renderFeaturedProducts();
-
-    renderOrders();
-
-    renderCheckout();
-
-
-    document
-        .getElementById("customerCheckoutForm")
-        .reset();
-
-
-    fillCheckoutInformation();
-
-
-    document
-        .getElementById("successText")
-        .textContent =
-        "Order " +
-        orderId +
-        " has been successfully recorded. " +
-        "Your total amount is " +
-        money(total) +
-        ".";
-
-
-    document
-        .getElementById("successModal")
-        .classList.add("show");
-
-}
-
-
-/* =========================================================
-   ORDER HISTORY
-========================================================= */
-
-function renderOrders() {
-
-    const container =
-        document.getElementById(
-            "customerOrdersContainer"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (!currentCustomer) return;
-
-
-    const customerOrders =
-        orders.filter(
-            function (order) {
-
-                return (
-                    order.customerId ===
-                    currentCustomer.id
-                );
-
-            }
-        )
-        .reverse();
-
-
-    if (customerOrders.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="card">
-
-                <div class="empty-state">
-
-                    <div class="empty-state-icon">
-                        📋
-                    </div>
-
-                    <h3>
-                        No orders yet
-                    </h3>
-
-                    <p>
-                        Your completed orders will appear here.
-                    </p>
-
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    customerOrders.forEach(
-        function (order) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "order-card";
-
-
-            let itemsHTML = "";
-
-
-            order.items.forEach(
-                function (item) {
-
-                    itemsHTML += `
-
-                        <div class="order-product">
-
-                            <span>
-                                ${item.product}
-                                × ${item.quantity}
-                            </span>
-
-                            <strong>
-                                ${money(item.total)}
-                            </strong>
-
-                        </div>
-
-                    `;
-
-                }
-            );
-
-
-            card.innerHTML = `
-
-                <div class="order-header">
-
-                    <div>
-
-                        <div class="order-id">
-                            ${order.id}
-                        </div>
-
-                        <small>
-                            ${order.date}
-                            ·
-                            ${order.time}
-                        </small>
-
-                    </div>
-
-                    <span class="order-status">
-                        ${order.status}
-                    </span>
-
-                </div>
-
-                ${itemsHTML}
-
-                <div class="order-total">
-                    Total:
-                    ${money(order.total)}
-                </div>
-
-                <div style="margin-top:10px;font-size:11px;color:#777;">
-                    Delivery:
-                    ${order.address},
-                    ${order.city}
-                </div>
-
-            `;
-
-
-            container.appendChild(card);
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   CUSTOMER LOGOUT
-========================================================= */
-
-function customerLogout() {
-
-    currentCustomer = null;
-
-    cart = [];
-
-
-    sessionStorage.removeItem(
-        "currentCustomer"
-    );
-
-
-    document
-        .getElementById("customerApp")
-        .style.display =
-        "none";
-
-
-    document
-        .getElementById("authPage")
-        .style.display =
-        "flex";
-
-
-    showAuthForm("signin");
-
-    showToast(
-        "You have been logged out."
-    );
-
-}
-
-
-/* =========================================================
-   ADMIN NAVIGATION
-========================================================= */
-
-function initializeAdminNavigation() {
-
-    document
-        .querySelectorAll(
-            "[data-admin-section]"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        showAdminSection(
-                            button.dataset.adminSection
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-function showAdminSection(section) {
-
-    document
-        .querySelectorAll(".admin-section")
-        .forEach(
-            function (item) {
-
-                item.classList.remove("active");
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            "[data-admin-section]"
-        )
-        .forEach(
-            function (button) {
-
-                button.classList.remove("active");
-
-            }
-        );
-
-
-    let targetId;
-
-
-    if (section === "dashboard") {
-
-        targetId = "adminDashboard";
-
-    }
-
-    if (section === "customers") {
-
-        targetId = "adminCustomers";
-
-    }
-
-    if (section === "inventory") {
-
-        targetId = "adminInventory";
-
-    }
-
-    if (section === "sales") {
-
-        targetId = "adminSales";
-
-    }
-
-
-    document
-        .getElementById(targetId)
-        .classList.add("active");
-
-
-    document
-        .querySelector(
-            `[data-admin-section="${section}"]`
-        )
-        ?.classList.add("active");
-
-}
-
-
-/* =========================================================
-   ADMIN LOGOUT
-========================================================= */
-
-function initializeAdminLogout() {
-
-    document
-        .getElementById("adminLogout")
-        .addEventListener(
-            "click",
-            function () {
-
-                document
-                    .getElementById("adminApp")
-                    .style.display =
-                    "none";
-
-
-                document
-                    .getElementById("authPage")
-                    .style.display =
-                    "flex";
-
-
-                showAuthForm("signin");
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   ADMIN DASHBOARD
-========================================================= */
-
-function renderAdminDashboard() {
-
-    const totalSales =
-        orders.reduce(
-            function (sum, order) {
-
-                return (
-                    sum +
-                    order.total
-                );
-
-            },
-            0
-        );
-
-
-    document
-        .getElementById("adminProductCount")
-        .textContent =
-        products.length;
-
-
-    document
-        .getElementById("adminCustomerCount")
-        .textContent =
-        accounts.length;
-
-
-    document
-        .getElementById("adminOrderCount")
-        .textContent =
-        orders.length;
-
-
-    document
-        .getElementById("adminSalesTotal")
-        .textContent =
-        money(totalSales);
-
-
-    const tbody =
-        document.getElementById(
-            "recentSalesBody"
-        );
-
-
-    tbody.innerHTML = "";
-
-
-    orders
-        .slice(-5)
-        .reverse()
-        .forEach(
-            function (order) {
-
-                order.items.forEach(
-                    function (item) {
-
-                        const row =
-                            document.createElement("tr");
-
-
-                        row.innerHTML = `
-
-                            <td>
-                                ${order.id}
-                            </td>
-
-                            <td>
-                                ${order.customer}
-                            </td>
-
-                            <td>
-                                ${item.product}
-                            </td>
-
-                            <td>
-                                ${item.quantity}
-                            </td>
-
-                            <td>
-                                ${money(item.total)}
-                            </td>
-
-                            <td>
-                                ${order.date}
-                            </td>
-
-                        `;
-
-
-                        tbody.appendChild(row);
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   ADMIN CUSTOMERS
-========================================================= */
-
-function renderAdminCustomers() {
-
-    const tbody =
-        document.getElementById(
-            "adminCustomersBody"
-        );
-
-
-    tbody.innerHTML = "";
-
-
-    accounts.forEach(
-        function (account) {
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${account.id}
-                </td>
-
-                <td>
-                    ${account.name}
-                </td>
-
-                <td>
-                    ${account.email}
-                </td>
-
-                <td>
-                    ${account.phone}
-                </td>
-
-                <td>
-                    ${account.registeredDate}
-                </td>
-
-            `;
-
-
-            tbody.appendChild(row);
-
-        }
-    );
-
-
-    if (accounts.length === 0) {
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td colspan="5" style="text-align:center;">
-                    No customer accounts registered yet.
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   ADMIN INVENTORY
-========================================================= */
-
-function renderAdminInventory() {
-
-    const tbody =
-        document.getElementById(
-            "adminInventoryBody"
-        );
-
-
-    tbody.innerHTML = "";
-
-
-    products.forEach(
-        function (product) {
-
-            let status =
-                "In Stock";
-
-            let className =
-                "status-good";
-
-
-            if (product.stock === 0) {
-
-                status =
-                    "Out of Stock";
-
-                className =
-                    "status-out";
-
-            } else if (product.stock <= 5) {
-
-                status =
-                    "Low Stock";
-
-                className =
-                    "status-low";
-
-            }
-
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${product.id}
-                </td>
-
-                <td>
-                    ${product.name}
-                </td>
-
-                <td>
-                    ${product.category}
-                </td>
-
-                <td>
-                    ${money(product.price)}
-                </td>
-
-                <td>
-                    ${product.stock}
-                </td>
-
-                <td>
-
-                    <span class="status ${className}">
-                        ${status}
-                    </span>
-
-                </td>
-
-            `;
-
-
-            tbody.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ADMIN SALES
-========================================================= */
-
-function renderAdminSales() {
-
-    const tbody =
-        document.getElementById(
-            "adminSalesBody"
-        );
-
-
-    tbody.innerHTML = "";
-
-
-    orders
-        .slice()
-        .reverse()
-        .forEach(
-            function (order) {
-
-                order.items.forEach(
-                    function (item) {
-
-                        const row =
-                            document.createElement("tr");
-
-
-                        row.innerHTML = `
-
-                            <td>
-                                ${order.id}
-                            </td>
-
-                            <td>
-                                ${order.customer}
-                            </td>
-
-                            <td>
-                                ${item.product}
-                            </td>
-
-                            <td>
-                                ${item.quantity}
-                            </td>
-
-                            <td>
-                                ${money(item.total)}
-                            </td>
-
-                            <td>
-                                ${order.date}
-                            </td>
-
-                        `;
-
-
-                        tbody.appendChild(row);
-
-                    }
-                );
-
-            }
-        );
-
-
-    if (orders.length === 0) {
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td colspan="6" style="text-align:center;">
-                    No sales transactions yet.
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   SAVE DATA
-========================================================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "products",
-        JSON.stringify(products)
-    );
-
-
-    localStorage.setItem(
-        "customerAccounts",
-        JSON.stringify(accounts)
-    );
-
-
-    localStorage.setItem(
-        "orders",
-        JSON.stringify(orders)
-    );
-
-}
-
-
-/* =========================================================
-   FIELD VALIDATION
-========================================================= */
-
-function showFieldError(
-    inputId,
-    errorId
-) {
-
-    document
-        .getElementById(inputId)
-        .classList.add(
-            "input-error"
-        );
-
-
-    document
-        .getElementById(errorId)
-        .style.display =
-        "block";
-
-}
-
-
-function clearFieldError(
-    inputId,
-    errorId
-) {
-
-    document
-        .getElementById(inputId)
-        .classList.remove(
-            "input-error"
-        );
-
-
-    document
-        .getElementById(errorId)
-        .style.display =
-        "none";
-
-}
-
-
-/* =========================================================
-   AUTH MESSAGE
-========================================================= */
-
-function showAuthMessage(
-    id,
-    message,
-    type
-) {
-
-    const element =
-        document.getElementById(id);
-
-
-    element.textContent =
-        message;
-
-
-    element.className =
-        "auth-message " +
-        type;
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-
-function showToast(message) {
-
-    const toast =
-        document.getElementById("toast");
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add("show");
-
-
-    clearTimeout(toastTimer);
-
-
-    toastTimer =
-        setTimeout(
-            function () {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2500
-        );
-
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function money(amount) {
-
-    return new Intl.NumberFormat(
-        "en-PH",
-        {
-            style: "currency",
-            currency: "PHP"
-        }
-    ).format(amount);
-
-}
-
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
