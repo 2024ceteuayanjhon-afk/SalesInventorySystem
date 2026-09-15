@@ -1,17 +1,35 @@
 /* =========================================================
+   MARCELINO'S FRIED ITIK
    SALES AND INVENTORY SYSTEM
-   Marcelino's Fried Itik
-   Developed by Jhon Mark C. Uayan
+   FINAL BROWSER-BASED SCHOOL/DEMO SYSTEM
 ========================================================= */
-
-"use strict";
 
 
 /* =========================================================
-   INITIAL DATA
+   LOCAL STORAGE KEYS
 ========================================================= */
 
-const defaultProducts = [
+const STORAGE = {
+
+    PRODUCTS: "marcelinos_products",
+
+    CUSTOMERS: "marcelinos_customers",
+
+    SALES: "marcelinos_sales",
+
+    ACCOUNTS: "marcelinos_accounts",
+
+    CURRENT_CUSTOMER: "marcelinos_current_customer"
+
+};
+
+
+/* =========================================================
+   DEFAULT PRODUCTS
+========================================================= */
+
+const DEFAULT_PRODUCTS = [
+
     {
         id: "P001",
         name: "Fried Itik Original",
@@ -56,167 +74,158 @@ const defaultProducts = [
         stock: 18,
         icon: "🍛"
     }
+
 ];
 
 
-const defaultCustomers = [
+/* =========================================================
+   DEFAULT CUSTOMERS
+========================================================= */
+
+const DEFAULT_CUSTOMERS = [
+
     {
         id: "C001",
-        name: "Juan Dela Cruz",
-        phone: "09171234567",
-        email: "juan@gmail.com",
-        city: "Oroquieta",
-        address: "Poblacion, Oroquieta City"
+        firstName: "Juan",
+        middleName: "",
+        surname: "Dela Cruz",
+        birthdate: "1998-05-12",
+        age: 28,
+        contact: "9171234567",
+        gender: "Male",
+        email: "juan@gmail.com"
     },
 
     {
         id: "C002",
-        name: "Maria Santos",
-        phone: "09281234567",
-        email: "maria@gmail.com",
-        city: "Ozamis",
-        address: "Aguada, Ozamis City"
+        firstName: "Maria",
+        middleName: "",
+        surname: "Santos",
+        birthdate: "1997-08-21",
+        age: 29,
+        contact: "9281234567",
+        gender: "Female",
+        email: "maria@gmail.com"
     },
 
     {
         id: "C003",
-        name: "Mark Reyes",
-        phone: "09391234567",
-        email: "mark@gmail.com",
-        city: "Tangub",
-        address: "Manga, Tangub City"
+        firstName: "Mark",
+        middleName: "",
+        surname: "Reyes",
+        birthdate: "2000-02-10",
+        age: 26,
+        contact: "9391234567",
+        gender: "Male",
+        email: "mark@gmail.com"
     },
 
     {
         id: "C004",
-        name: "Anna Garcia",
-        phone: "09451234567",
-        email: "anna@gmail.com",
-        city: "Pagadian",
-        address: "San Francisco, Pagadian City"
+        firstName: "Anna",
+        middleName: "",
+        surname: "Garcia",
+        birthdate: "1999-11-03",
+        age: 26,
+        contact: "9451234567",
+        gender: "Female",
+        email: "anna@gmail.com"
     },
 
     {
         id: "C005",
-        name: "Pedro Ramos",
-        phone: "09561234567",
-        email: "pedro@gmail.com",
-        city: "Iligan",
-        address: "Pala-o, Iligan City"
+        firstName: "Pedro",
+        middleName: "",
+        surname: "Ramos",
+        birthdate: "1996-06-17",
+        age: 30,
+        contact: "9561234567",
+        gender: "Male",
+        email: "pedro@gmail.com"
     }
+
 ];
 
 
-const defaultSales = [
+/* =========================================================
+   DEFAULT SALES
+========================================================= */
+
+const DEFAULT_SALES = [
+
     {
         id: "S001",
-        customer: "Juan Dela Cruz",
-        product: "Fried Itik Original",
+        customerId: "C001",
+        customerName: "Juan Dela Cruz",
+        productId: "P001",
+        productName: "Fried Itik Original",
         quantity: 2,
         total: 700,
-        payment: "Cash on Delivery",
         date: "2026-09-14"
     },
 
     {
         id: "S002",
-        customer: "Maria Santos",
-        product: "Fried Itik Spicy",
+        customerId: "C002",
+        customerName: "Maria Santos",
+        productId: "P002",
+        productName: "Fried Itik Spicy",
         quantity: 1,
         total: 375,
-        payment: "GCash",
         date: "2026-09-14"
     },
 
     {
         id: "S003",
-        customer: "Mark Reyes",
-        product: "Fried Itik Family Pack",
+        customerId: "C003",
+        customerName: "Mark Reyes",
+        productId: "P003",
+        productName: "Fried Itik Family Pack",
         quantity: 1,
         total: 650,
-        payment: "Cash on Delivery",
         date: "2026-09-14"
     },
 
     {
         id: "S004",
-        customer: "Anna Garcia",
-        product: "Itik Special Sauce",
+        customerId: "C004",
+        customerName: "Anna Garcia",
+        productId: "P004",
+        productName: "Itik Special Sauce",
         quantity: 3,
         total: 360,
-        payment: "GCash",
         date: "2026-09-14"
     },
 
     {
         id: "S005",
-        customer: "Pedro Ramos",
-        product: "Itik Meal Combo",
+        customerId: "C005",
+        customerName: "Pedro Ramos",
+        productId: "P005",
+        productName: "Itik Meal Combo",
         quantity: 2,
         total: 900,
-        payment: "Cash on Delivery",
         date: "2026-09-14"
     }
+
 ];
 
 
 /* =========================================================
-   LOAD DATA FROM LOCAL STORAGE
+   CURRENT DATA
 ========================================================= */
 
-let products =
-    JSON.parse(localStorage.getItem("products")) ||
-    structuredClone(defaultProducts);
+let products = [];
 
-let customers =
-    JSON.parse(localStorage.getItem("customers")) ||
-    structuredClone(defaultCustomers);
+let customers = [];
 
-let sales =
-    JSON.parse(localStorage.getItem("sales")) ||
-    structuredClone(defaultSales);
+let sales = [];
 
-let customerAccounts =
-    JSON.parse(localStorage.getItem("customerAccounts")) || [];
+let accounts = [];
 
-let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+let cart = [];
 
-let currentUser =
-    JSON.parse(localStorage.getItem("currentUser")) || null;
-
-
-/* =========================================================
-   SAVE DATA
-========================================================= */
-
-function saveAllData() {
-
-    localStorage.setItem(
-        "products",
-        JSON.stringify(products)
-    );
-
-    localStorage.setItem(
-        "customers",
-        JSON.stringify(customers)
-    );
-
-    localStorage.setItem(
-        "sales",
-        JSON.stringify(sales)
-    );
-
-    localStorage.setItem(
-        "customerAccounts",
-        JSON.stringify(customerAccounts)
-    );
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-}
+let currentCustomer = null;
 
 
 /* =========================================================
@@ -225,116 +234,498 @@ function saveAllData() {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    initializeAuthentication();
+    initializeStorage();
 
-    renderMenu();
+    loadData();
 
-    renderCustomers();
+    setBirthdateLimits();
 
-    renderInventory();
+    setupEventListeners();
 
-    renderSales();
-
-    renderDashboard();
-
-    renderCart();
-
-    setupForms();
-
-    updateUserInterface();
+    renderAll();
 
 });
 
 
 /* =========================================================
-   AUTHENTICATION
+   INITIALIZE LOCAL STORAGE
 ========================================================= */
 
-function initializeAuthentication() {
+function initializeStorage() {
 
-    const adminForm =
-        document.getElementById("adminLoginForm");
+    if (localStorage.getItem(STORAGE.PRODUCTS) === null) {
 
-    const customerForm =
-        document.getElementById("customerLoginForm");
+        localStorage.setItem(
+            STORAGE.PRODUCTS,
+            JSON.stringify(DEFAULT_PRODUCTS)
+        );
 
-    const signupForm =
-        document.getElementById("customerSignupForm");
+    }
 
+    if (localStorage.getItem(STORAGE.CUSTOMERS) === null) {
 
-    adminForm.addEventListener(
-        "submit",
-        handleAdminLogin
-    );
+        localStorage.setItem(
+            STORAGE.CUSTOMERS,
+            JSON.stringify(DEFAULT_CUSTOMERS)
+        );
 
-    customerForm.addEventListener(
-        "submit",
-        handleCustomerLogin
-    );
+    }
 
-    signupForm.addEventListener(
-        "submit",
-        handleCustomerSignup
-    );
+    if (localStorage.getItem(STORAGE.SALES) === null) {
+
+        localStorage.setItem(
+            STORAGE.SALES,
+            JSON.stringify(DEFAULT_SALES)
+        );
+
+    }
+
+    if (localStorage.getItem(STORAGE.ACCOUNTS) === null) {
+
+        localStorage.setItem(
+            STORAGE.ACCOUNTS,
+            JSON.stringify([])
+        );
+
+    }
+
 }
 
 
 /* =========================================================
-   AUTH FORM SWITCHING
+   LOAD DATA
 ========================================================= */
 
-function showAuthForm(type) {
+function loadData() {
 
-    const adminForm =
-        document.getElementById("adminLoginForm");
+    products = JSON.parse(
+        localStorage.getItem(STORAGE.PRODUCTS)
+    ) || [];
 
-    const customerForm =
-        document.getElementById("customerLoginForm");
+    customers = JSON.parse(
+        localStorage.getItem(STORAGE.CUSTOMERS)
+    ) || [];
 
-    const signupForm =
-        document.getElementById("customerSignupForm");
+    sales = JSON.parse(
+        localStorage.getItem(STORAGE.SALES)
+    ) || [];
 
-    const adminTab =
-        document.getElementById("adminTab");
+    accounts = JSON.parse(
+        localStorage.getItem(STORAGE.ACCOUNTS)
+    ) || [];
 
-    const customerTab =
-        document.getElementById("customerTab");
-
-
-    adminForm.classList.add("hidden");
-
-    customerForm.classList.add("hidden");
-
-    signupForm.classList.add("hidden");
-
-    adminTab.classList.remove("active");
-
-    customerTab.classList.remove("active");
+}
 
 
-    if (type === "admin") {
+/* =========================================================
+   SAVE FUNCTIONS
+========================================================= */
 
-        adminForm.classList.remove("hidden");
+function saveProducts() {
 
-        adminTab.classList.add("active");
+    localStorage.setItem(
+        STORAGE.PRODUCTS,
+        JSON.stringify(products)
+    );
+
+}
+
+
+function saveCustomers() {
+
+    localStorage.setItem(
+        STORAGE.CUSTOMERS,
+        JSON.stringify(customers)
+    );
+
+}
+
+
+function saveSales() {
+
+    localStorage.setItem(
+        STORAGE.SALES,
+        JSON.stringify(sales)
+    );
+
+}
+
+
+function saveAccounts() {
+
+    localStorage.setItem(
+        STORAGE.ACCOUNTS,
+        JSON.stringify(accounts)
+    );
+
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+function setupEventListeners() {
+
+
+    /* ADMIN LOGIN */
+
+    document
+        .getElementById("adminLoginForm")
+        .addEventListener("submit", handleAdminLogin);
+
+
+    /* CUSTOMER LOGIN */
+
+    document
+        .getElementById("customerLoginForm")
+        .addEventListener("submit", handleCustomerLogin);
+
+
+    /* CUSTOMER SIGNUP */
+
+    document
+        .getElementById("customerSignupForm")
+        .addEventListener("submit", handleCustomerSignup);
+
+
+    /* PRODUCT */
+
+    document
+        .getElementById("productForm")
+        .addEventListener("submit", saveProduct);
+
+
+    /* CUSTOMER EDIT */
+
+    document
+        .getElementById("customerEditForm")
+        .addEventListener("submit", saveCustomerEdit);
+
+
+    /* SALES EDIT */
+
+    document
+        .getElementById("saleEditForm")
+        .addEventListener("submit", saveSaleEdit);
+
+
+    /* CHECKOUT */
+
+    document
+        .getElementById("checkoutForm")
+        .addEventListener("submit", processOrder);
+
+
+    /* BIRTHDATE */
+
+    document
+        .getElementById("signupBirthdate")
+        .addEventListener("change", function () {
+
+            document.getElementById("signupAge").value =
+                calculateAge(this.value);
+
+        });
+
+
+    document
+        .getElementById("editBirthdate")
+        .addEventListener("change", function () {
+
+            document.getElementById("editAge").value =
+                calculateAge(this.value);
+
+        });
+
+
+    /* CONTACT NUMBER */
+
+    document
+        .getElementById("signupContact")
+        .addEventListener("input", restrictPhoneInput);
+
+
+    document
+        .getElementById("editContact")
+        .addEventListener("input", restrictPhoneInput);
+
+
+    document
+        .getElementById("checkoutContact")
+        .addEventListener("input", restrictPhoneInput);
+
+}
+
+
+/* =========================================================
+   BIRTHDATE LIMITS
+========================================================= */
+
+function setBirthdateLimits() {
+
+    const today = new Date();
+
+    const todayString =
+        today.toISOString().split("T")[0];
+
+    document.getElementById("signupBirthdate").max =
+        todayString;
+
+    document.getElementById("editBirthdate").max =
+        todayString;
+
+}
+
+
+/* =========================================================
+   PHONE INPUT
+========================================================= */
+
+function restrictPhoneInput(event) {
+
+    event.target.value =
+        event.target.value
+            .replace(/\D/g, "")
+            .substring(0, 10);
+
+}
+
+
+/* =========================================================
+   AGE CALCULATION
+========================================================= */
+
+function calculateAge(birthdate) {
+
+    if (!birthdate) {
+        return "";
+    }
+
+    const birth = new Date(birthdate);
+
+    const today = new Date();
+
+    let age =
+        today.getFullYear() -
+        birth.getFullYear();
+
+    const monthDifference =
+        today.getMonth() -
+        birth.getMonth();
+
+    if (
+        monthDifference < 0 ||
+        (
+            monthDifference === 0 &&
+            today.getDate() < birth.getDate()
+        )
+    ) {
+
+        age--;
 
     }
 
-    else if (type === "customer") {
+    return age;
 
-        customerForm.classList.remove("hidden");
+}
 
-        customerTab.classList.add("active");
+
+/* =========================================================
+   NAME HELPER
+========================================================= */
+
+function getFullName(customer) {
+
+    return [
+
+        customer.firstName,
+
+        customer.middleName,
+
+        customer.surname
+
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+}
+
+
+/* =========================================================
+   ID GENERATOR
+========================================================= */
+
+function generateId(prefix, list) {
+
+    let number = 1;
+
+    while (
+        list.some(
+            item =>
+                item.id ===
+                prefix +
+                String(number).padStart(3, "0")
+        )
+    ) {
+
+        number++;
 
     }
 
-    else if (type === "signup") {
+    return (
+        prefix +
+        String(number).padStart(3, "0")
+    );
 
-        signupForm.classList.remove("hidden");
+}
 
-        customerTab.classList.add("active");
 
-    }
+/* =========================================================
+   MONEY FORMAT
+========================================================= */
+
+function formatMoney(value) {
+
+    return new Intl.NumberFormat(
+        "en-PH",
+        {
+            style: "currency",
+            currency: "PHP"
+        }
+    ).format(value);
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function getToday() {
+
+    return new Date()
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   MODAL FUNCTIONS
+========================================================= */
+
+function openModal(id) {
+
+    document
+        .getElementById(id)
+        .classList.remove("hidden");
+
+}
+
+
+function closeModal(id) {
+
+    document
+        .getElementById(id)
+        .classList.add("hidden");
+
+}
+
+
+/* =========================================================
+   AUTH MODALS
+========================================================= */
+
+function openAdminLogin() {
+
+    closeAllModals();
+
+    document.getElementById("adminLoginForm").reset();
+
+    hideError("adminLoginError");
+
+    openModal("adminLoginModal");
+
+}
+
+
+function openCustomerLogin() {
+
+    closeAllModals();
+
+    document
+        .getElementById("customerLoginForm")
+        .reset();
+
+    hideError("customerLoginError");
+
+    openModal("customerLoginModal");
+
+}
+
+
+function openCustomerSignup() {
+
+    closeAllModals();
+
+    document
+        .getElementById("customerSignupForm")
+        .reset();
+
+    document.getElementById("signupAge").value = "";
+
+    hideError("signupError");
+
+    hideError("signupSuccess");
+
+    openModal("customerSignupModal");
+
+}
+
+
+function switchToSignup() {
+
+    closeModal("customerLoginModal");
+
+    openCustomerSignup();
+
+}
+
+
+function switchToCustomerLogin() {
+
+    closeModal("customerSignupModal");
+
+    openCustomerLogin();
+
+}
+
+
+function closeAllModals() {
+
+    document
+        .querySelectorAll(".modal")
+        .forEach(modal => {
+            modal.classList.add("hidden");
+        });
+
 }
 
 
@@ -347,74 +738,390 @@ function handleAdminLogin(event) {
     event.preventDefault();
 
     const username =
-        document.getElementById("adminUsername").value.trim();
+        document
+            .getElementById("adminUsername")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("adminPassword").value;
-
-    const message =
-        document.getElementById("adminLoginMessage");
-
-
-    if (!username) {
-
-        showAuthMessage(
-            message,
-            "Please enter your username.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if (!password) {
-
-        showAuthMessage(
-            message,
-            "Please enter your password.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    /*
-       DEMO ADMIN ACCOUNT
-       Username: admin
-       Password: admin123
-    */
+        document
+            .getElementById("adminPassword")
+            .value;
 
     if (
         username === "admin" &&
         password === "admin123"
     ) {
 
-        currentUser = {
-            role: "admin",
-            name: "Administrator",
-            email: "admin@marcelinosfrieditik.com"
-        };
+        closeModal("adminLoginModal");
 
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(currentUser)
-        );
+        showAdminPage();
 
-        enterSystem();
+        showToast("Admin login successful.");
 
-    }
+    } else {
 
-    else {
-
-        showAuthMessage(
-            message,
-            "Invalid admin username or password.",
-            "error"
+        showError(
+            "adminLoginError",
+            "Invalid username or password."
         );
 
     }
+
+}
+
+
+/* =========================================================
+   SHOW ADMIN
+========================================================= */
+
+function showAdminPage() {
+
+    document
+        .getElementById("authPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("customerPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("adminPage")
+        .classList.remove("hidden");
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   ADMIN LOGOUT
+========================================================= */
+
+function adminLogout() {
+
+    if (
+        confirm(
+            "Are you sure you want to logout from the administrator account?"
+        )
+    ) {
+
+        document
+            .getElementById("adminPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("authPage")
+            .classList.remove("hidden");
+
+        showToast("Admin logged out.");
+
+    }
+
+}
+
+
+/* =========================================================
+   CUSTOMER SIGNUP
+========================================================= */
+
+function handleCustomerSignup(event) {
+
+    event.preventDefault();
+
+    hideError("signupError");
+
+    hideError("signupSuccess");
+
+
+    const firstName =
+        document
+            .getElementById("signupFirstName")
+            .value
+            .trim();
+
+    const middleName =
+        document
+            .getElementById("signupMiddleName")
+            .value
+            .trim();
+
+    const surname =
+        document
+            .getElementById("signupSurname")
+            .value
+            .trim();
+
+    const birthdate =
+        document
+            .getElementById("signupBirthdate")
+            .value;
+
+    const age =
+        calculateAge(birthdate);
+
+    const contact =
+        document
+            .getElementById("signupContact")
+            .value
+            .trim();
+
+    const gender =
+        document
+            .getElementById("signupGender")
+            .value;
+
+    const email =
+        document
+            .getElementById("signupEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const password =
+        document
+            .getElementById("signupPassword")
+            .value;
+
+    const confirmPassword =
+        document
+            .getElementById("signupConfirmPassword")
+            .value;
+
+
+    /* VALIDATION */
+
+    if (firstName.length < 2) {
+
+        return showError(
+            "signupError",
+            "First name must contain at least 2 characters."
+        );
+
+    }
+
+
+    if (surname.length < 2) {
+
+        return showError(
+            "signupError",
+            "Surname must contain at least 2 characters."
+        );
+
+    }
+
+
+    if (!birthdate) {
+
+        return showError(
+            "signupError",
+            "Please select your birthdate."
+        );
+
+    }
+
+
+    if (age < 13) {
+
+        return showError(
+            "signupError",
+            "Customer must be at least 13 years old."
+        );
+
+    }
+
+
+    if (age > 120) {
+
+        return showError(
+            "signupError",
+            "Please enter a valid birthdate."
+        );
+
+    }
+
+
+    if (!/^\d{10}$/.test(contact)) {
+
+        return showError(
+            "signupError",
+            "Contact number must contain exactly 10 digits after +63."
+        );
+
+    }
+
+
+    if (!contact.startsWith("9")) {
+
+        return showError(
+            "signupError",
+            "Philippine mobile number must start with 9 after +63."
+        );
+
+    }
+
+
+    if (!gender) {
+
+        return showError(
+            "signupError",
+            "Please select your gender."
+        );
+
+    }
+
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+        return showError(
+            "signupError",
+            "Please enter a valid email address."
+        );
+
+    }
+
+
+    if (password.length < 8) {
+
+        return showError(
+            "signupError",
+            "Password must contain at least 8 characters."
+        );
+
+    }
+
+
+    if (password !== confirmPassword) {
+
+        return showError(
+            "signupError",
+            "Password and Confirm Password do not match."
+        );
+
+    }
+
+
+    /* DUPLICATE EMAIL */
+
+    const existingAccount =
+        accounts.find(
+            account =>
+                account.email === email
+        );
+
+    if (existingAccount) {
+
+        return showError(
+            "signupError",
+            "An account with this email address already exists."
+        );
+
+    }
+
+
+    const existingCustomer =
+        customers.find(
+            customer =>
+                customer.email.toLowerCase() === email
+        );
+
+    if (existingCustomer) {
+
+        return showError(
+            "signupError",
+            "This email address is already registered."
+        );
+
+    }
+
+
+    /* CREATE CUSTOMER */
+
+    const customerId =
+        generateId("C", customers);
+
+
+    const newCustomer = {
+
+        id: customerId,
+
+        firstName,
+
+        middleName,
+
+        surname,
+
+        birthdate,
+
+        age,
+
+        contact,
+
+        gender,
+
+        email
+
+    };
+
+
+    customers.push(newCustomer);
+
+
+    /* CREATE ACCOUNT */
+
+    const newAccount = {
+
+        customerId,
+
+        email,
+
+        password
+
+    };
+
+
+    accounts.push(newAccount);
+
+
+    saveCustomers();
+
+    saveAccounts();
+
+
+    document
+        .getElementById("signupSuccess")
+        .textContent =
+        "Customer account created successfully! You can now sign in.";
+
+    document
+        .getElementById("signupSuccess")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("customerSignupForm")
+        .reset();
+
+    document.getElementById("signupAge").value = "";
+
+
+    renderAll();
+
+
+    showToast("Customer account successfully created.");
+
+
+    setTimeout(
+        () => {
+
+            closeModal("customerSignupModal");
+
+            openCustomerLogin();
+
+        },
+        1200
+    );
+
 }
 
 
@@ -426,508 +1133,174 @@ function handleCustomerLogin(event) {
 
     event.preventDefault();
 
+    hideError("customerLoginError");
+
+
     const email =
-        document.getElementById("customerLoginEmail")
+        document
+            .getElementById("customerLoginEmail")
             .value
             .trim()
             .toLowerCase();
 
     const password =
-        document.getElementById("customerLoginPassword")
+        document
+            .getElementById("customerLoginPassword")
             .value;
-
-    const message =
-        document.getElementById("customerLoginMessage");
-
-
-    if (!email || !password) {
-
-        showAuthMessage(
-            message,
-            "Please enter your email and password.",
-            "error"
-        );
-
-        return;
-    }
 
 
     const account =
-        customerAccounts.find(
-            acc =>
-                acc.email.toLowerCase() === email &&
-                acc.password === password
+        accounts.find(
+            item =>
+                item.email === email &&
+                item.password === password
         );
 
 
     if (!account) {
 
-        showAuthMessage(
-            message,
-            "Account not found or password is incorrect.",
-            "error"
+        return showError(
+            "customerLoginError",
+            "Invalid email address or password."
         );
 
-        return;
     }
 
 
-    currentUser = {
-        role: "customer",
-        name: account.name,
-        email: account.email,
-        customerId: account.customerId
-    };
+    const customer =
+        customers.find(
+            item =>
+                item.id === account.customerId
+        );
+
+
+    if (!customer) {
+
+        return showError(
+            "customerLoginError",
+            "Customer record could not be found."
+        );
+
+    }
+
+
+    currentCustomer = customer;
 
 
     localStorage.setItem(
-        "currentUser",
-        JSON.stringify(currentUser)
+        STORAGE.CURRENT_CUSTOMER,
+        JSON.stringify(customer)
     );
 
 
-    enterSystem();
+    closeModal("customerLoginModal");
+
+    showCustomerPage();
+
+    showToast(
+        "Welcome, " +
+        getFullName(customer) +
+        "!"
+    );
+
 }
 
 
 /* =========================================================
-   CUSTOMER SIGN UP
+   SHOW CUSTOMER PAGE
 ========================================================= */
 
-function handleCustomerSignup(event) {
-
-    event.preventDefault();
-
-
-    const name =
-        document.getElementById("signupName")
-            .value
-            .trim();
-
-    const email =
-        document.getElementById("signupEmail")
-            .value
-            .trim()
-            .toLowerCase();
-
-    const phone =
-        document.getElementById("signupPhone")
-            .value
-            .trim();
-
-    const city =
-        document.getElementById("signupCity")
-            .value;
-
-    const address =
-        document.getElementById("signupAddress")
-            .value
-            .trim();
-
-    const password =
-        document.getElementById("signupPassword")
-            .value;
-
-    const confirmPassword =
-        document.getElementById("signupConfirmPassword")
-            .value;
-
-    const message =
-        document.getElementById("signupMessage");
-
-
-    clearFormValidation(
-        document.getElementById("customerSignupForm")
-    );
-
-
-    let valid = true;
-
-
-    if (name.length < 3) {
-
-        showFieldError(
-            "signupName",
-            "Please enter at least 3 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!validateEmail(email)) {
-
-        showFieldError(
-            "signupEmail",
-            "Please enter a valid email address."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!/^09\d{9}$/.test(phone)) {
-
-        showFieldError(
-            "signupPhone",
-            "Use a valid 11-digit mobile number starting with 09."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!city) {
-
-        showFieldError(
-            "signupCity",
-            "Please select your city."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (address.length < 10) {
-
-        showFieldError(
-            "signupAddress",
-            "Address must contain at least 10 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (password.length < 8) {
-
-        showFieldError(
-            "signupPassword",
-            "Password must be at least 8 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (password !== confirmPassword) {
-
-        showFieldError(
-            "signupConfirmPassword",
-            "Passwords do not match."
-        );
-
-        valid = false;
-
-    }
-
-
-    const existingAccount =
-        customerAccounts.find(
-            acc =>
-                acc.email.toLowerCase() === email
-        );
-
-
-    if (existingAccount) {
-
-        showFieldError(
-            "signupEmail",
-            "An account with this email already exists."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!valid) {
-
-        showAuthMessage(
-            message,
-            "Please correct the highlighted fields.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const customerId =
-        generateCustomerId();
-
-
-    const newAccount = {
-
-        id:
-            "A" +
-            Date.now(),
-
-        customerId:
-            customerId,
-
-        name:
-            name,
-
-        email:
-            email,
-
-        phone:
-            phone,
-
-        password:
-            password
-
-    };
-
-
-    const newCustomer = {
-
-        id:
-            customerId,
-
-        name:
-            name,
-
-        phone:
-            phone,
-
-        email:
-            email,
-
-        city:
-            city,
-
-        address:
-            address
-
-    };
-
-
-    customerAccounts.push(newAccount);
-
-    customers.push(newCustomer);
-
-
-    saveAllData();
-
-    renderCustomers();
-
-    renderDashboard();
-
-
-    showAuthMessage(
-        message,
-        "Account created successfully! You can now sign in.",
-        "success"
-    );
-
-
-    document.getElementById(
-        "customerSignupForm"
-    ).reset();
-
-
-    setTimeout(function () {
-
-        showAuthForm("customer");
-
-        document.getElementById(
-            "customerLoginEmail"
-        ).value = email;
-
-    }, 1200);
-}
-
-
-/* =========================================================
-   ENTER SYSTEM
-========================================================= */
-
-function enterSystem() {
+function showCustomerPage() {
 
     document
         .getElementById("authPage")
         .classList.add("hidden");
 
     document
-        .getElementById("mainSystem")
+        .getElementById("adminPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("customerPage")
         .classList.remove("hidden");
 
 
-    updateUserInterface();
+    document
+        .getElementById("customerHeaderName")
+        .textContent =
+        getFullName(currentCustomer);
 
-    renderDashboard();
 
-    renderMenu();
+    document
+        .getElementById("customerWelcomeName")
+        .textContent =
+        currentCustomer.firstName;
+
+
+    renderCustomerMenu();
 
     renderCart();
-}
-
-
-/* =========================================================
-   UPDATE USER INTERFACE
-========================================================= */
-
-function updateUserInterface() {
-
-    const display =
-        document.getElementById(
-            "currentUserDisplay"
-        );
-
-
-    if (!currentUser) {
-
-        display.textContent =
-            "Administrator";
-
-        return;
-    }
-
-
-    display.textContent =
-        currentUser.role === "admin"
-            ? "Admin: " + currentUser.name
-            : "Customer: " + currentUser.name;
-
-
-    const adminOnly =
-        document.querySelectorAll(".admin-only");
-
-
-    adminOnly.forEach(element => {
-
-        if (currentUser.role === "admin") {
-
-            element.style.display = "";
-
-        }
-
-        else {
-
-            element.style.display = "none";
-
-        }
-
-    });
-
-
-    /*
-       Customers can still order.
-       Customers cannot manage system records.
-    */
 
 }
 
 
 /* =========================================================
-   LOGOUT
+   CUSTOMER LOGOUT
 ========================================================= */
 
-function logout() {
+function customerLogout() {
 
     if (
-        !confirm(
+        confirm(
             "Are you sure you want to logout?"
         )
     ) {
 
-        return;
+        currentCustomer = null;
+
+        cart = [];
+
+        localStorage.removeItem(
+            STORAGE.CURRENT_CUSTOMER
+        );
+
+        document
+            .getElementById("customerPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("authPage")
+            .classList.remove("hidden");
+
+        showToast("Customer logged out.");
 
     }
 
+}
 
-    currentUser = null;
 
-    localStorage.removeItem(
-        "currentUser"
-    );
+/* =========================================================
+   ADMIN NAVIGATION
+========================================================= */
+
+function showAdminSection(section, button) {
+
+    document
+        .querySelectorAll(".admin-section")
+        .forEach(item => {
+            item.classList.add("hidden");
+        });
 
 
     document
-        .getElementById("mainSystem")
-        .classList.add("hidden");
-
-    document
-        .getElementById("authPage")
+        .getElementById(section + "Section")
         .classList.remove("hidden");
 
 
     document
-        .getElementById("adminLoginForm")
-        .reset();
-
-    document
-        .getElementById("customerLoginForm")
-        .reset();
-
-
-    showAuthForm("admin");
-}
-
-
-/* =========================================================
-   PASSWORD
-========================================================= */
-
-function togglePassword(id) {
-
-    const input =
-        document.getElementById(id);
-
-    input.type =
-        input.type === "password"
-            ? "text"
-            : "password";
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showSection(sectionId, button) {
-
-    document
-        .querySelectorAll(".content-section")
-        .forEach(section => {
-
-            section.classList.remove(
-                "active-section"
-            );
-
-        });
-
-
-    const target =
-        document.getElementById(sectionId);
-
-
-    if (!target) {
-
-        return;
-
-    }
-
-
-    target.classList.add(
-        "active-section"
-    );
-
-
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(btn => {
-
-            btn.classList.remove("active");
-
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+            item.classList.remove("active");
         });
 
 
@@ -938,154 +1311,1686 @@ function showSection(sectionId, button) {
     }
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    if (section === "dashboard") {
+
+        renderDashboard();
+
+    }
+
+    if (section === "inventory") {
+
+        renderInventory();
+
+    }
+
+    if (section === "customers") {
+
+        renderCustomers();
+
+    }
+
+    if (section === "sales") {
+
+        renderSales();
+
+    }
+
+}
+
+
+function showAdminSectionByName(section) {
+
+    const buttons =
+        document.querySelectorAll(".nav-item");
+
+    buttons.forEach(button => {
+
+        if (
+            button.textContent
+                .toLowerCase()
+                .includes(section)
+        ) {
+
+            showAdminSection(
+                section,
+                button
+            );
+
+        }
+
     });
-}
-
-
-function showSectionById(sectionId) {
-
-    const button =
-        document.querySelector(
-            `.nav-btn[onclick*="'${sectionId}'"]`
-        );
-
-    showSection(
-        sectionId,
-        button
-    );
-}
-
-
-function openMenuFromDashboard() {
-
-    showSectionById("menu");
 
 }
 
 
 /* =========================================================
-   MENU
+   RENDER ALL
 ========================================================= */
 
-function renderMenu() {
+function renderAll() {
 
-    const container =
-        document.getElementById(
-            "menuContainer"
+    loadData();
+
+    renderDashboard();
+
+    renderInventory();
+
+    renderCustomers();
+
+    renderSales();
+
+    renderCustomerMenu();
+
+    renderCart();
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+    const totalSales =
+        sales.reduce(
+            (sum, sale) =>
+                sum + Number(sale.total),
+            0
         );
 
 
-    if (!container) {
+    document
+        .getElementById("dashboardProducts")
+        .textContent =
+        products.length;
+
+
+    document
+        .getElementById("dashboardCustomers")
+        .textContent =
+        customers.length;
+
+
+    document
+        .getElementById("dashboardOrders")
+        .textContent =
+        sales.length;
+
+
+    document
+        .getElementById("dashboardSales")
+        .textContent =
+        formatMoney(totalSales);
+
+
+    const recent =
+        [...sales]
+            .sort(
+                (a, b) =>
+                    new Date(b.date) -
+                    new Date(a.date)
+            )
+            .slice(0, 5);
+
+
+    const tbody =
+        document.getElementById(
+            "recentSalesTable"
+        );
+
+
+    if (!recent.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    style="text-align:center;">
+                    No sales records found.
+                </td>
+            </tr>
+        `;
+
         return;
+
     }
 
 
-    container.innerHTML = "";
+    tbody.innerHTML =
+        recent
+            .map(
+                sale => `
+                <tr>
 
+                    <td>
+                        <strong>
+                            ${escapeHtml(sale.id)}
+                        </strong>
+                    </td>
 
-    products.forEach(product => {
+                    <td>
+                        ${escapeHtml(sale.customerName)}
+                    </td>
 
-        const card =
-            document.createElement("div");
+                    <td>
+                        ${escapeHtml(sale.productName)}
+                    </td>
 
-        card.className =
-            "menu-card";
+                    <td>
+                        ${sale.quantity}
+                    </td>
 
+                    <td>
+                        <strong>
+                            ${formatMoney(sale.total)}
+                        </strong>
+                    </td>
 
-        const outOfStock =
-            product.stock <= 0;
+                    <td>
+                        ${escapeHtml(sale.date)}
+                    </td>
 
-
-        card.innerHTML = `
-
-            <div class="menu-image">
-                ${escapeHtml(product.icon || "🍗")}
-            </div>
-
-            <div class="menu-body">
-
-                <span class="menu-category">
-                    ${escapeHtml(product.category)}
-                </span>
-
-                <h3>
-                    ${escapeHtml(product.name)}
-                </h3>
-
-                <div class="menu-price">
-                    ${formatMoney(product.price)}
-                </div>
-
-                <div class="
-                    menu-stock
-                    ${outOfStock ? "out-stock" : ""}
-                ">
-
-                    ${
-                        outOfStock
-                            ? "Out of Stock"
-                            : "Available Stock: " +
-                              product.stock
-                    }
-
-                </div>
-
-                <button
-                    class="primary-btn full-btn"
-                    ${
-                        outOfStock
-                            ? "disabled"
-                            : ""
-                    }
-                    onclick="addToCart('${product.id}')">
-
-                    ${
-                        outOfStock
-                            ? "Out of Stock"
-                            : "Add to Cart"
-                    }
-
-                </button>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
+                </tr>
+            `
+            )
+            .join("");
 
 }
 
 
 /* =========================================================
-   CART
+   INVENTORY RENDER
 ========================================================= */
 
-function addToCart(productId) {
+function renderInventory() {
+
+    const tbody =
+        document.getElementById(
+            "inventoryTable"
+        );
+
+
+    if (!products.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7"
+                    style="text-align:center;">
+                    No products available.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        products
+            .map(product => {
+
+                let statusClass =
+                    "status-in";
+
+                let statusText =
+                    "In Stock";
+
+
+                if (product.stock === 0) {
+
+                    statusClass =
+                        "status-out";
+
+                    statusText =
+                        "Out of Stock";
+
+                } else if (
+                    product.stock <= 5
+                ) {
+
+                    statusClass =
+                        "status-low";
+
+                    statusText =
+                        "Low Stock";
+
+                }
+
+
+                return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(product.id)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(product.name)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(product.category)}
+                    </td>
+
+                    <td>
+                        ${formatMoney(product.price)}
+                    </td>
+
+                    <td>
+                        ${product.stock}
+                    </td>
+
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${statusText}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <button
+                                class="btn-edit"
+                                onclick="openProductEdit('${product.id}')">
+                                ✏ Edit
+                            </button>
+
+                            <button
+                                class="btn-delete"
+                                onclick="deleteProduct('${product.id}')">
+                                🗑 Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+/* =========================================================
+   PRODUCT MODAL
+========================================================= */
+
+function openProductModal() {
+
+    document
+        .getElementById("productForm")
+        .reset();
+
+    document
+        .getElementById("productEditId")
+        .value = "";
+
+    document
+        .getElementById("productModalTitle")
+        .textContent =
+        "Add Product";
+
+    hideError("productError");
+
+    openModal("productModal");
+
+}
+
+
+/* =========================================================
+   EDIT PRODUCT
+========================================================= */
+
+function openProductEdit(id) {
 
     const product =
         products.find(
-            p => p.id === productId
+            item =>
+                item.id === id
         );
 
 
     if (!product) {
+
         return;
+
+    }
+
+
+    document
+        .getElementById("productEditId")
+        .value =
+        product.id;
+
+
+    document
+        .getElementById("productName")
+        .value =
+        product.name;
+
+
+    document
+        .getElementById("productCategory")
+        .value =
+        product.category;
+
+
+    document
+        .getElementById("productPrice")
+        .value =
+        product.price;
+
+
+    document
+        .getElementById("productStock")
+        .value =
+        product.stock;
+
+
+    document
+        .getElementById("productModalTitle")
+        .textContent =
+        "Edit Product";
+
+
+    hideError("productError");
+
+    openModal("productModal");
+
+}
+
+
+/* =========================================================
+   SAVE PRODUCT
+========================================================= */
+
+function saveProduct(event) {
+
+    event.preventDefault();
+
+    hideError("productError");
+
+
+    const id =
+        document
+            .getElementById("productEditId")
+            .value;
+
+
+    const name =
+        document
+            .getElementById("productName")
+            .value
+            .trim();
+
+
+    const category =
+        document
+            .getElementById("productCategory")
+            .value
+            .trim();
+
+
+    const price =
+        Number(
+            document
+                .getElementById("productPrice")
+                .value
+        );
+
+
+    const stock =
+        Number(
+            document
+                .getElementById("productStock")
+                .value
+        );
+
+
+    if (name.length < 2) {
+
+        return showError(
+            "productError",
+            "Product name must contain at least 2 characters."
+        );
+
+    }
+
+
+    if (category.length < 2) {
+
+        return showError(
+            "productError",
+            "Category is required."
+        );
+
+    }
+
+
+    if (!Number.isFinite(price) || price <= 0) {
+
+        return showError(
+            "productError",
+            "Price must be greater than zero."
+        );
+
+    }
+
+
+    if (
+        !Number.isInteger(stock) ||
+        stock < 0
+    ) {
+
+        return showError(
+            "productError",
+            "Stock must be a whole number and cannot be negative."
+        );
+
+    }
+
+
+    if (id) {
+
+        const product =
+            products.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!product) {
+
+            return;
+
+        }
+
+
+        product.name = name;
+
+        product.category = category;
+
+        product.price = price;
+
+        product.stock = stock;
+
+
+        /* UPDATE PRODUCT NAME IN SALES */
+
+        sales.forEach(sale => {
+
+            if (sale.productId === id) {
+
+                sale.productName =
+                    name;
+
+            }
+
+        });
+
+
+        saveProducts();
+
+        saveSales();
+
+        showToast(
+            "Product updated successfully."
+        );
+
+    } else {
+
+        const newProduct = {
+
+            id: generateId(
+                "P",
+                products
+            ),
+
+            name,
+
+            category,
+
+            price,
+
+            stock,
+
+            icon: "🍽️"
+
+        };
+
+
+        products.push(newProduct);
+
+        saveProducts();
+
+        showToast(
+            "Product added successfully."
+        );
+
+    }
+
+
+    closeModal("productModal");
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
+
+function deleteProduct(id) {
+
+    const product =
+        products.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!product) {
+
+        return;
+
+    }
+
+
+    const usedInSales =
+        sales.some(
+            sale =>
+                sale.productId === id
+        );
+
+
+    let message =
+        `Are you sure you want to delete "${product.name}"?`;
+
+
+    if (usedInSales) {
+
+        message +=
+            "\n\nThis product has existing sales records.";
+
+    }
+
+
+    if (!confirm(message)) {
+
+        return;
+
+    }
+
+
+    products =
+        products.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    /* REMOVE FROM CART */
+
+    cart =
+        cart.filter(
+            item =>
+                item.productId !== id
+        );
+
+
+    saveProducts();
+
+    renderAll();
+
+    showToast(
+        "Product deleted successfully."
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER TABLE
+========================================================= */
+
+function renderCustomers() {
+
+    const tbody =
+        document.getElementById(
+            "customersTable"
+        );
+
+
+    if (!customers.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8"
+                    style="text-align:center;">
+                    No customers registered.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        customers
+            .map(customer => `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(customer.id)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            getFullName(customer)
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(customer.birthdate)}
+                    </td>
+
+                    <td>
+                        ${customer.age}
+                    </td>
+
+                    <td>
+                        +63 ${escapeHtml(customer.contact)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(customer.gender)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(customer.email)}
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <button
+                                class="btn-edit"
+                                onclick="openCustomerEdit('${customer.id}')">
+                                ✏ Edit
+                            </button>
+
+                            <button
+                                class="btn-delete"
+                                onclick="deleteCustomer('${customer.id}')">
+                                🗑 Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   EDIT CUSTOMER
+========================================================= */
+
+function openCustomerEdit(id) {
+
+    const customer =
+        customers.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!customer) {
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("customerEditId")
+        .value =
+        customer.id;
+
+
+    document
+        .getElementById("editFirstName")
+        .value =
+        customer.firstName;
+
+
+    document
+        .getElementById("editMiddleName")
+        .value =
+        customer.middleName;
+
+
+    document
+        .getElementById("editSurname")
+        .value =
+        customer.surname;
+
+
+    document
+        .getElementById("editBirthdate")
+        .value =
+        customer.birthdate;
+
+
+    document
+        .getElementById("editAge")
+        .value =
+        calculateAge(customer.birthdate);
+
+
+    document
+        .getElementById("editGender")
+        .value =
+        customer.gender;
+
+
+    document
+        .getElementById("editContact")
+        .value =
+        customer.contact;
+
+
+    document
+        .getElementById("editEmail")
+        .value =
+        customer.email;
+
+
+    hideError("customerEditError");
+
+    openModal("customerEditModal");
+
+}
+
+
+/* =========================================================
+   SAVE CUSTOMER EDIT
+========================================================= */
+
+function saveCustomerEdit(event) {
+
+    event.preventDefault();
+
+    hideError("customerEditError");
+
+
+    const id =
+        document
+            .getElementById("customerEditId")
+            .value;
+
+
+    const customer =
+        customers.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!customer) {
+
+        return;
+
+    }
+
+
+    const firstName =
+        document
+            .getElementById("editFirstName")
+            .value
+            .trim();
+
+
+    const middleName =
+        document
+            .getElementById("editMiddleName")
+            .value
+            .trim();
+
+
+    const surname =
+        document
+            .getElementById("editSurname")
+            .value
+            .trim();
+
+
+    const birthdate =
+        document
+            .getElementById("editBirthdate")
+            .value;
+
+
+    const age =
+        calculateAge(birthdate);
+
+
+    const gender =
+        document
+            .getElementById("editGender")
+            .value;
+
+
+    const contact =
+        document
+            .getElementById("editContact")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("editEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    /* VALIDATION */
+
+    if (firstName.length < 2) {
+
+        return showError(
+            "customerEditError",
+            "First name must contain at least 2 characters."
+        );
+
+    }
+
+
+    if (surname.length < 2) {
+
+        return showError(
+            "customerEditError",
+            "Surname must contain at least 2 characters."
+        );
+
+    }
+
+
+    if (!birthdate) {
+
+        return showError(
+            "customerEditError",
+            "Birthdate is required."
+        );
+
+    }
+
+
+    if (age < 13 || age > 120) {
+
+        return showError(
+            "customerEditError",
+            "Please enter a valid birthdate."
+        );
+
+    }
+
+
+    if (
+        !/^\d{10}$/.test(contact) ||
+        !contact.startsWith("9")
+    ) {
+
+        return showError(
+            "customerEditError",
+            "Contact number must be a valid Philippine mobile number after +63."
+        );
+
+    }
+
+
+    if (!gender) {
+
+        return showError(
+            "customerEditError",
+            "Please select gender."
+        );
+
+    }
+
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+        return showError(
+            "customerEditError",
+            "Please enter a valid email address."
+        );
+
+    }
+
+
+    /* DUPLICATE EMAIL */
+
+    const duplicate =
+        customers.find(
+            item =>
+                item.id !== id &&
+                item.email.toLowerCase() === email
+        );
+
+
+    if (duplicate) {
+
+        return showError(
+            "customerEditError",
+            "Another customer is already using this email."
+        );
+
+    }
+
+
+    /* UPDATE */
+
+    customer.firstName =
+        firstName;
+
+    customer.middleName =
+        middleName;
+
+    customer.surname =
+        surname;
+
+    customer.birthdate =
+        birthdate;
+
+    customer.age =
+        age;
+
+    customer.contact =
+        contact;
+
+    customer.gender =
+        gender;
+
+    customer.email =
+        email;
+
+
+    /* UPDATE ACCOUNT */
+
+    const account =
+        accounts.find(
+            item =>
+                item.customerId === id
+        );
+
+
+    if (account) {
+
+        account.email =
+            email;
+
+    }
+
+
+    /* UPDATE SALES CUSTOMER NAME */
+
+    sales.forEach(sale => {
+
+        if (sale.customerId === id) {
+
+            sale.customerName =
+                getFullName(customer);
+
+        }
+
+    });
+
+
+    saveCustomers();
+
+    saveAccounts();
+
+    saveSales();
+
+
+    /* UPDATE CURRENT CUSTOMER */
+
+    if (
+        currentCustomer &&
+        currentCustomer.id === id
+    ) {
+
+        currentCustomer =
+            customer;
+
+        localStorage.setItem(
+            STORAGE.CURRENT_CUSTOMER,
+            JSON.stringify(customer)
+        );
+
+    }
+
+
+    closeModal("customerEditModal");
+
+    renderAll();
+
+    showToast(
+        "Customer updated successfully."
+    );
+
+}
+
+
+/* =========================================================
+   DELETE CUSTOMER
+========================================================= */
+
+function deleteCustomer(id) {
+
+    const customer =
+        customers.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!customer) {
+
+        return;
+
+    }
+
+
+    const name =
+        getFullName(customer);
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to delete customer "${name}"?\n\nThe customer's account will also be removed.`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    customers =
+        customers.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    accounts =
+        accounts.filter(
+            item =>
+                item.customerId !== id
+        );
+
+
+    saveCustomers();
+
+    saveAccounts();
+
+
+    if (
+        currentCustomer &&
+        currentCustomer.id === id
+    ) {
+
+        currentCustomer = null;
+
+        cart = [];
+
+        localStorage.removeItem(
+            STORAGE.CURRENT_CUSTOMER
+        );
+
+        document
+            .getElementById("customerPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("authPage")
+            .classList.remove("hidden");
+
+    }
+
+
+    renderAll();
+
+    showToast(
+        "Customer deleted successfully."
+    );
+
+}
+
+
+/* =========================================================
+   SALES TABLE
+========================================================= */
+
+function renderSales() {
+
+    const tbody =
+        document.getElementById(
+            "salesTable"
+        );
+
+
+    if (!sales.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7"
+                    style="text-align:center;">
+                    No sales records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        [...sales].sort(
+            (a, b) =>
+                new Date(b.date) -
+                new Date(a.date)
+        );
+
+
+    tbody.innerHTML =
+        sorted
+            .map(
+                sale => `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(sale.id)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(sale.customerName)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(sale.productName)}
+                    </td>
+
+                    <td>
+                        ${sale.quantity}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${formatMoney(sale.total)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(sale.date)}
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <button
+                                class="btn-edit"
+                                onclick="openSaleEdit('${sale.id}')">
+                                ✏ Edit
+                            </button>
+
+                            <button
+                                class="btn-delete"
+                                onclick="deleteSale('${sale.id}')">
+                                🗑 Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   EDIT SALE
+========================================================= */
+
+function openSaleEdit(id) {
+
+    const sale =
+        sales.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!sale) {
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("saleEditId")
+        .value =
+        sale.id;
+
+
+    document
+        .getElementById("editSaleCustomer")
+        .value =
+        sale.customerName;
+
+
+    document
+        .getElementById("editSaleProduct")
+        .value =
+        sale.productName;
+
+
+    document
+        .getElementById("editSaleQuantity")
+        .value =
+        sale.quantity;
+
+
+    document
+        .getElementById("editSaleDate")
+        .value =
+        sale.date;
+
+
+    hideError("saleEditError");
+
+    openModal("saleEditModal");
+
+}
+
+
+/* =========================================================
+   SAVE SALE EDIT
+========================================================= */
+
+function saveSaleEdit(event) {
+
+    event.preventDefault();
+
+    hideError("saleEditError");
+
+
+    const id =
+        document
+            .getElementById("saleEditId")
+            .value;
+
+
+    const sale =
+        sales.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!sale) {
+
+        return;
+
+    }
+
+
+    const customerName =
+        document
+            .getElementById("editSaleCustomer")
+            .value
+            .trim();
+
+
+    const newQuantity =
+        Number(
+            document
+                .getElementById("editSaleQuantity")
+                .value
+        );
+
+
+    const newDate =
+        document
+            .getElementById("editSaleDate")
+            .value;
+
+
+    if (customerName.length < 2) {
+
+        return showError(
+            "saleEditError",
+            "Customer name is required."
+        );
+
+    }
+
+
+    if (
+        !Number.isInteger(newQuantity) ||
+        newQuantity < 1
+    ) {
+
+        return showError(
+            "saleEditError",
+            "Quantity must be at least 1."
+        );
+
+    }
+
+
+    if (!newDate) {
+
+        return showError(
+            "saleEditError",
+            "Date is required."
+        );
+
+    }
+
+
+    const product =
+        products.find(
+            item =>
+                item.id === sale.productId
+        );
+
+
+    if (!product) {
+
+        return showError(
+            "saleEditError",
+            "The product associated with this sale no longer exists."
+        );
+
+    }
+
+
+    /*
+       Restore the previous quantity first.
+       Then subtract the new quantity.
+    */
+
+    const availableStock =
+        product.stock +
+        sale.quantity;
+
+
+    if (newQuantity > availableStock) {
+
+        return showError(
+            "saleEditError",
+            `Only ${availableStock} item(s) are available for this transaction.`
+        );
+
+    }
+
+
+    product.stock =
+        availableStock -
+        newQuantity;
+
+
+    sale.customerName =
+        customerName;
+
+    sale.quantity =
+        newQuantity;
+
+    sale.total =
+        product.price *
+        newQuantity;
+
+    sale.date =
+        newDate;
+
+    sale.productName =
+        product.name;
+
+
+    saveProducts();
+
+    saveSales();
+
+    closeModal("saleEditModal");
+
+    renderAll();
+
+    showToast(
+        "Sale updated successfully."
+    );
+
+}
+
+
+/* =========================================================
+   DELETE SALE
+========================================================= */
+
+function deleteSale(id) {
+
+    const sale =
+        sales.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!sale) {
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            `Are you sure you want to delete sale ${sale.id}?\n\nThe transaction will be removed.`
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    /* RESTORE STOCK */
+
+    const product =
+        products.find(
+            item =>
+                item.id === sale.productId
+        );
+
+
+    if (product) {
+
+        product.stock +=
+            Number(sale.quantity);
+
+        saveProducts();
+
+    }
+
+
+    sales =
+        sales.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveSales();
+
+    renderAll();
+
+    showToast(
+        "Sale deleted successfully."
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER MENU
+========================================================= */
+
+function renderCustomerMenu() {
+
+    const menu =
+        document.getElementById(
+            "customerMenu"
+        );
+
+
+    if (!menu) {
+
+        return;
+
+    }
+
+
+    menu.innerHTML =
+        products
+            .map(
+                product => `
+
+                <div class="menu-card">
+
+                    <div class="menu-image">
+                        ${product.icon || "🍽️"}
+                    </div>
+
+                    <div class="menu-info">
+
+                        <span class="menu-category">
+                            ${escapeHtml(product.category)}
+                        </span>
+
+                        <h3>
+                            ${escapeHtml(product.name)}
+                        </h3>
+
+                        <div class="menu-price">
+                            ${formatMoney(product.price)}
+                        </div>
+
+                        <div class="stock-text">
+                            Available Stock:
+                            ${product.stock}
+                        </div>
+
+                        <button
+                            class="btn btn-primary btn-large"
+                            onclick="addToCart('${product.id}')"
+                            ${product.stock <= 0 ? "disabled" : ""}>
+
+                            ${
+                                product.stock <= 0
+                                ? "Out of Stock"
+                                : "Add to Cart"
+                            }
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+function addToCart(productId) {
+
+    if (!currentCustomer) {
+
+        openCustomerLogin();
+
+        return;
+
+    }
+
+
+    const product =
+        products.find(
+            item =>
+                item.id === productId
+        );
+
+
+    if (!product) {
+
+        return;
+
     }
 
 
     if (product.stock <= 0) {
 
-        alert(
-            "This product is currently out of stock."
+        showToast(
+            "This product is out of stock."
         );
 
         return;
+
     }
 
 
@@ -1103,133 +3008,35 @@ function addToCart(productId) {
             product.stock
         ) {
 
-            alert(
+            showToast(
                 "You cannot add more than the available stock."
             );
 
             return;
-        }
 
+        }
 
         existing.quantity++;
 
-    }
-
-    else {
+    } else {
 
         cart.push({
 
-            productId:
-                productId,
+            productId,
 
-            quantity:
-                1
+            quantity: 1
 
         });
 
     }
 
 
-    saveAllData();
-
     renderCart();
 
-    updateCartBadge();
-
-}
-
-
-function increaseQuantity(productId) {
-
-    const item =
-        cart.find(
-            item =>
-                item.productId === productId
-        );
-
-    const product =
-        products.find(
-            p =>
-                p.id === productId
-        );
-
-
-    if (!item || !product) {
-        return;
-    }
-
-
-    if (
-        item.quantity >=
-        product.stock
-    ) {
-
-        alert(
-            "Maximum available stock reached."
-        );
-
-        return;
-    }
-
-
-    item.quantity++;
-
-    saveAllData();
-
-    renderCart();
-
-}
-
-
-function decreaseQuantity(productId) {
-
-    const item =
-        cart.find(
-            item =>
-                item.productId === productId
-        );
-
-
-    if (!item) {
-        return;
-    }
-
-
-    item.quantity--;
-
-
-    if (item.quantity <= 0) {
-
-        cart =
-            cart.filter(
-                item =>
-                    item.productId !==
-                    productId
-            );
-
-    }
-
-
-    saveAllData();
-
-    renderCart();
-
-}
-
-
-function removeFromCart(productId) {
-
-    cart =
-        cart.filter(
-            item =>
-                item.productId !==
-                productId
-        );
-
-
-    saveAllData();
-
-    renderCart();
+    showToast(
+        product.name +
+        " added to cart."
+    );
 
 }
 
@@ -1242,79 +3049,570 @@ function renderCart() {
 
     const container =
         document.getElementById(
-            "cartContainer"
-        );
-
-    const summary =
-        document.getElementById(
-            "cartSummary"
+            "cartItems"
         );
 
 
     if (!container) {
+
         return;
+
     }
 
 
-    container.innerHTML = "";
+    let subtotal = 0;
+
+    let totalQuantity = 0;
 
 
-    if (cart.length === 0) {
+    if (!cart.length) {
 
         container.innerHTML = `
 
-            <div class="empty-state">
+            <div class="empty-cart">
 
-                <div class="empty-icon">
-                    🛒
-                </div>
+                🛒
 
                 <h3>
                     Your cart is empty
                 </h3>
 
                 <p>
-                    Add products from the menu
-                    to start your order.
+                    Add products from the menu.
                 </p>
-
-                <br>
-
-                <button
-                    class="primary-btn"
-                    onclick="showSectionById('menu')">
-                    Browse Menu
-                </button>
 
             </div>
 
         `;
 
+    } else {
 
-        summary.classList.add("hidden");
+        container.innerHTML =
+            cart
+                .map(item => {
 
-        updateCartBadge();
+                    const product =
+                        products.find(
+                            product =>
+                                product.id ===
+                                item.productId
+                        );
 
-        return;
+
+                    if (!product) {
+
+                        return "";
+
+                    }
+
+
+                    const itemTotal =
+                        product.price *
+                        item.quantity;
+
+
+                    subtotal +=
+                        itemTotal;
+
+
+                    totalQuantity +=
+                        item.quantity;
+
+
+                    return `
+
+                    <div class="cart-item">
+
+                        <div class="cart-item-info">
+
+                            <h3>
+                                ${escapeHtml(product.name)}
+                            </h3>
+
+                            <p>
+                                ${formatMoney(product.price)}
+                                each
+                            </p>
+
+                        </div>
+
+
+                        <div class="quantity-control">
+
+                            <button
+                                onclick="changeCartQuantity('${product.id}', -1)">
+                                −
+                            </button>
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                onclick="changeCartQuantity('${product.id}', 1)">
+                                +
+                            </button>
+
+                        </div>
+
+
+                        <div class="cart-item-total">
+
+                            ${formatMoney(itemTotal)}
+
+                        </div>
+
+
+                        <button
+                            class="btn btn-delete btn-small"
+                            onclick="removeFromCart('${product.id}')">
+
+                            🗑
+
+                        </button>
+
+                    </div>
+
+                    `;
+
+                })
+                .join("");
+
     }
 
 
-    summary.classList.remove(
-        "hidden"
+    const deliveryFee =
+        cart.length
+            ? 50
+            : 0;
+
+
+    const total =
+        subtotal +
+        deliveryFee;
+
+
+    document
+        .getElementById("cartSubtotal")
+        .textContent =
+        formatMoney(subtotal);
+
+
+    document
+        .getElementById("cartTotal")
+        .textContent =
+        formatMoney(total);
+
+
+    document
+        .getElementById("cartCount")
+        .textContent =
+        totalQuantity;
+
+
+    const checkoutButton =
+        document.getElementById(
+            "checkoutButton"
+        );
+
+
+    checkoutButton.disabled =
+        cart.length === 0;
+
+}
+
+
+/* =========================================================
+   CHANGE CART QUANTITY
+========================================================= */
+
+function changeCartQuantity(
+    productId,
+    amount
+) {
+
+    const item =
+        cart.find(
+            item =>
+                item.productId === productId
+        );
+
+
+    const product =
+        products.find(
+            product =>
+                product.id === productId
+        );
+
+
+    if (!item || !product) {
+
+        return;
+
+    }
+
+
+    const newQuantity =
+        item.quantity +
+        amount;
+
+
+    if (newQuantity <= 0) {
+
+        removeFromCart(productId);
+
+        return;
+
+    }
+
+
+    if (
+        newQuantity >
+        product.stock
+    ) {
+
+        showToast(
+            "Quantity exceeds available stock."
+        );
+
+        return;
+
+    }
+
+
+    item.quantity =
+        newQuantity;
+
+
+    renderCart();
+
+}
+
+
+/* =========================================================
+   REMOVE FROM CART
+========================================================= */
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item =>
+                item.productId !==
+                productId
+        );
+
+
+    renderCart();
+
+    showToast(
+        "Item removed from cart."
     );
+
+}
+
+
+/* =========================================================
+   SCROLL TO CART
+========================================================= */
+
+function scrollToCart() {
+
+    document
+        .getElementById("cartSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* =========================================================
+   CHECKOUT MODAL
+========================================================= */
+
+function openCheckoutModal() {
+
+    if (!currentCustomer) {
+
+        openCustomerLogin();
+
+        return;
+
+    }
+
+
+    if (!cart.length) {
+
+        showToast(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    const subtotal =
+        calculateCartSubtotal();
+
+
+    const total =
+        subtotal + 50;
+
+
+    document
+        .getElementById("checkoutName")
+        .value =
+        getFullName(currentCustomer);
+
+
+    document
+        .getElementById("checkoutContact")
+        .value =
+        currentCustomer.contact;
+
+
+    document
+        .getElementById("checkoutEmail")
+        .value =
+        currentCustomer.email;
+
+
+    document
+        .getElementById("checkoutAddress")
+        .value =
+        currentCustomer.address || "";
+
+
+    document
+        .getElementById("checkoutTotal")
+        .textContent =
+        formatMoney(total);
+
+
+    hideError("checkoutError");
+
+
+    openModal("checkoutModal");
+
+}
+
+
+/* =========================================================
+   CALCULATE SUBTOTAL
+========================================================= */
+
+function calculateCartSubtotal() {
+
+    return cart.reduce(
+        (sum, item) => {
+
+            const product =
+                products.find(
+                    product =>
+                        product.id ===
+                        item.productId
+                );
+
+
+            if (!product) {
+
+                return sum;
+
+            }
+
+
+            return (
+                sum +
+                product.price *
+                item.quantity
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   PROCESS ORDER
+========================================================= */
+
+function processOrder(event) {
+
+    event.preventDefault();
+
+    hideError("checkoutError");
+
+
+    if (!currentCustomer) {
+
+        return showError(
+            "checkoutError",
+            "Please sign in first."
+        );
+
+    }
+
+
+    if (!cart.length) {
+
+        return showError(
+            "checkoutError",
+            "Your cart is empty."
+        );
+
+    }
+
+
+    const contact =
+        document
+            .getElementById("checkoutContact")
+            .value
+            .trim();
+
+
+    const address =
+        document
+            .getElementById("checkoutAddress")
+            .value
+            .trim();
+
+
+    /* VALIDATE CONTACT */
+
+    if (
+        !/^\d{10}$/.test(contact) ||
+        !contact.startsWith("9")
+    ) {
+
+        return showError(
+            "checkoutError",
+            "Please enter a valid Philippine contact number."
+        );
+
+    }
+
+
+    /* VALIDATE ADDRESS */
+
+    if (address.length < 10) {
+
+        return showError(
+            "checkoutError",
+            "Please enter a complete delivery address."
+        );
+
+    }
+
+
+    /*
+       CHECK ALL STOCK
+    */
+
+    for (const item of cart) {
+
+        const product =
+            products.find(
+                product =>
+                    product.id ===
+                    item.productId
+            );
+
+
+        if (!product) {
+
+            return showError(
+                "checkoutError",
+                "A product in your cart is no longer available."
+            );
+
+        }
+
+
+        if (
+            item.quantity >
+            product.stock
+        ) {
+
+            return showError(
+                "checkoutError",
+                `${product.name} does not have enough stock.`
+            );
+
+        }
+
+    }
+
+
+    /*
+       UPDATE CUSTOMER
+    */
+
+    currentCustomer.contact =
+        contact;
+
+    currentCustomer.address =
+        address;
+
+
+    const storedCustomer =
+        customers.find(
+            customer =>
+                customer.id ===
+                currentCustomer.id
+        );
+
+
+    if (storedCustomer) {
+
+        storedCustomer.contact =
+            contact;
+
+        storedCustomer.address =
+            address;
+
+    }
+
+
+    /*
+       CREATE SALES RECORDS
+    */
+
+    const orderNumber =
+        generateId(
+            "S",
+            sales
+        );
+
+
+    const orderDate =
+        getToday();
+
+
+    const customerName =
+        getFullName(currentCustomer);
+
+
+    let orderTotal = 0;
 
 
     cart.forEach(item => {
 
         const product =
             products.find(
-                p =>
-                    p.id === item.productId
+                product =>
+                    product.id ===
+                    item.productId
             );
 
 
         if (!product) {
+
             return;
+
         }
 
 
@@ -1323,2325 +3621,140 @@ function renderCart() {
             item.quantity;
 
 
-        const div =
-            document.createElement("div");
+        orderTotal +=
+            itemTotal;
 
-        div.className =
-            "cart-item";
-
-
-        div.innerHTML = `
-
-            <div class="cart-icon">
-                ${escapeHtml(product.icon)}
-            </div>
-
-            <div>
-                <h3>
-                    ${escapeHtml(product.name)}
-                </h3>
-
-                <p>
-                    ${formatMoney(product.price)}
-                    each
-                </p>
-            </div>
-
-            <div class="quantity-controls">
-
-                <button
-                    class="quantity-btn"
-                    onclick="
-                        decreaseQuantity(
-                            '${product.id}'
-                        )
-                    ">
-                    −
-                </button>
-
-                <span class="quantity-number">
-                    ${item.quantity}
-                </span>
-
-                <button
-                    class="quantity-btn"
-                    onclick="
-                        increaseQuantity(
-                            '${product.id}'
-                        )
-                    ">
-                    +
-                </button>
-
-            </div>
-
-            <div class="cart-item-price">
-                ${formatMoney(itemTotal)}
-            </div>
-
-            <button
-                class="danger-btn"
-                onclick="
-                    removeFromCart(
-                        '${product.id}'
-                    )
-                ">
-                Remove
-            </button>
-
-        `;
-
-
-        container.appendChild(div);
-
-    });
-
-
-    updateCartTotals();
-
-    updateCartBadge();
-
-}
-
-
-function calculateCartTotal() {
-
-    return cart.reduce(
-        (total, item) => {
-
-            const product =
-                products.find(
-                    p =>
-                        p.id ===
-                        item.productId
-                );
-
-
-            if (!product) {
-                return total;
-            }
-
-
-            return total +
-                product.price *
-                item.quantity;
-
-        },
-
-        0
-    );
-}
-
-
-function calculateCartItems() {
-
-    return cart.reduce(
-        (total, item) =>
-            total + item.quantity,
-
-        0
-    );
-}
-
-
-function updateCartTotals() {
-
-    const count =
-        calculateCartItems();
-
-    const total =
-        calculateCartTotal();
-
-
-    document.getElementById(
-        "cartItemCount"
-    ).textContent = count;
-
-
-    document.getElementById(
-        "cartSubtotal"
-    ).textContent =
-        formatMoney(total);
-
-
-    document.getElementById(
-        "cartTotal"
-    ).textContent =
-        formatMoney(total);
-
-}
-
-
-function updateCartBadge() {
-
-    const badge =
-        document.getElementById(
-            "cartBadge"
-        );
-
-
-    if (!badge) {
-        return;
-    }
-
-
-    badge.textContent =
-        calculateCartItems();
-
-}
-
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-function openCheckout() {
-
-    if (cart.length === 0) {
-
-        alert(
-            "Your cart is empty."
-        );
-
-        return;
-    }
-
-
-    const customer =
-        currentUser &&
-        currentUser.role === "customer"
-            ? customers.find(
-                c =>
-                    c.id ===
-                    currentUser.customerId
-            )
-            : null;
-
-
-    if (customer) {
-
-        document.getElementById(
-            "customerName"
-        ).value =
-            customer.name;
-
-        document.getElementById(
-            "customerPhone"
-        ).value =
-            customer.phone;
-
-        document.getElementById(
-            "customerEmail"
-        ).value =
-            customer.email;
-
-        document.getElementById(
-            "customerCity"
-        ).value =
-            customer.city;
-
-        document.getElementById(
-            "customerAddress"
-        ).value =
-            customer.address;
-
-    }
-
-
-    renderCheckoutSummary();
-
-
-    showSectionById(
-        "checkout"
-    );
-
-}
-
-
-function renderCheckoutSummary() {
-
-    const container =
-        document.getElementById(
-            "checkoutSummary"
-        );
-
-
-    container.innerHTML = "";
-
-
-    cart.forEach(item => {
-
-        const product =
-            products.find(
-                p =>
-                    p.id ===
-                    item.productId
-            );
-
-
-        if (!product) {
-            return;
-        }
-
-
-        const total =
-            product.price *
-            item.quantity;
-
-
-        const row =
-            document.createElement("div");
-
-        row.className =
-            "order-preview-item";
-
-
-        row.innerHTML = `
-
-            <span>
-                ${escapeHtml(product.name)}
-                × ${item.quantity}
-            </span>
-
-            <strong>
-                ${formatMoney(total)}
-            </strong>
-
-        `;
-
-
-        container.appendChild(row);
-
-    });
-
-
-    const total =
-        calculateCartTotal();
-
-
-    const totalDiv =
-        document.createElement("div");
-
-
-    totalDiv.className =
-        "order-preview-total";
-
-
-    totalDiv.innerHTML = `
-
-        <span>Total</span>
-
-        <strong>
-            ${formatMoney(total)}
-        </strong>
-
-    `;
-
-
-    container.appendChild(
-        totalDiv
-    );
-
-}
-
-
-/* =========================================================
-   CHECKOUT FORM
-========================================================= */
-
-function setupForms() {
-
-    document
-        .getElementById(
-            "checkoutForm"
-        )
-        .addEventListener(
-            "submit",
-            processOrder
-        );
-
-
-    document
-        .getElementById(
-            "customerForm"
-        )
-        .addEventListener(
-            "submit",
-            saveCustomer
-        );
-
-
-    document
-        .getElementById(
-            "productForm"
-        )
-        .addEventListener(
-            "submit",
-            saveProduct
-        );
-
-
-    document
-        .getElementById(
-            "saleForm"
-        )
-        .addEventListener(
-            "submit",
-            saveSale
-        );
-
-}
-
-
-function processOrder(event) {
-
-    event.preventDefault();
-
-
-    const name =
-        document.getElementById(
-            "customerName"
-        ).value.trim();
-
-    const phone =
-        document.getElementById(
-            "customerPhone"
-        ).value.trim();
-
-    const email =
-        document.getElementById(
-            "customerEmail"
-        ).value.trim();
-
-    const city =
-        document.getElementById(
-            "customerCity"
-        ).value;
-
-    const address =
-        document.getElementById(
-            "customerAddress"
-        ).value.trim();
-
-    const payment =
-        document.getElementById(
-            "paymentMethod"
-        ).value;
-
-
-    const message =
-        document.getElementById(
-            "checkoutMessage"
-        );
-
-
-    clearCheckoutValidation();
-
-
-    let valid = true;
-
-
-    if (name.length < 3) {
-
-        showCheckoutError(
-            "customerName",
-            "Please enter a valid name."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!/^09\d{9}$/.test(phone)) {
-
-        showCheckoutError(
-            "customerPhone",
-            "Enter a valid 11-digit mobile number."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!validateEmail(email)) {
-
-        showCheckoutError(
-            "customerEmail",
-            "Enter a valid email address."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!city) {
-
-        showCheckoutError(
-            "customerCity",
-            "Please select a city."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (address.length < 10) {
-
-        showCheckoutError(
-            "customerAddress",
-            "Address must be at least 10 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!payment) {
-
-        showCheckoutError(
-            "paymentMethod",
-            "Please select a payment method."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!valid) {
-
-        showAuthMessage(
-            message,
-            "Please correct the highlighted fields.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    /*
-       Check stock before processing.
-    */
-
-    for (const item of cart) {
-
-        const product =
-            products.find(
-                p =>
-                    p.id ===
-                    item.productId
-            );
-
-
-        if (
-            !product ||
-            item.quantity >
-            product.stock
-        ) {
-
-            showAuthMessage(
-                message,
-                "Some products no longer have enough stock.",
-                "error"
-            );
-
-            renderMenu();
-
-            return;
-        }
-
-    }
-
-
-    /*
-       Find existing customer.
-    */
-
-    let customer =
-        customers.find(
-            c =>
-                c.email.toLowerCase() ===
-                email.toLowerCase()
-        );
-
-
-    /*
-       If customer does not exist,
-       create a customer record.
-    */
-
-    if (!customer) {
-
-        customer = {
-
-            id:
-                generateCustomerId(),
-
-            name:
-                name,
-
-            phone:
-                phone,
-
-            email:
-                email,
-
-            city:
-                city,
-
-            address:
-                address
-
-        };
-
-
-        customers.push(
-            customer
-        );
-
-    }
-
-    else {
 
         /*
-           Update customer's information.
+           REDUCE STOCK
         */
 
-        customer.name =
-            name;
-
-        customer.phone =
-            phone;
-
-        customer.city =
-            city;
-
-        customer.address =
-            address;
-
-    }
-
-
-    /*
-       If customer is logged in,
-       update current customer account.
-    */
-
-    if (
-        currentUser &&
-        currentUser.role === "customer"
-    ) {
-
-        currentUser.name =
-            name;
-
-        currentUser.customerId =
-            customer.id;
-
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(currentUser)
-        );
-
-    }
-
-
-    /*
-       Create sales records.
-    */
-
-    const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
-
-
-    cart.forEach(item => {
-
-        const product =
-            products.find(
-                p =>
-                    p.id ===
-                    item.productId
-            );
-
-
-        if (!product) {
-            return;
-        }
-
-
-        const total =
-            product.price *
+        product.stock -=
             item.quantity;
 
+
+        /*
+           CREATE SALE
+        */
 
         sales.push({
 
             id:
-                generateSaleId(),
+                sales.length === 0
+                    ? orderNumber
+                    : generateId("S", sales),
 
-            customer:
-                customer.name,
+            customerId:
+                currentCustomer.id,
 
-            product:
+            customerName,
+
+            productId:
+                product.id,
+
+            productName:
                 product.name,
 
             quantity:
                 item.quantity,
 
             total:
-                total,
-
-            payment:
-                payment,
+                itemTotal,
 
             date:
-                today
+                orderDate
 
         });
-
-
-        /*
-           Reduce inventory.
-        */
-
-        product.stock -=
-            item.quantity;
 
     });
 
 
-    const orderNumber =
-        "ORD-" +
-        Date.now();
+    /*
+       DELIVERY FEE
+    */
+
+    orderTotal += 50;
+
+
+    saveProducts();
+
+    saveCustomers();
+
+    saveSales();
 
 
     /*
-       Clear cart.
+       CLEAR CART
     */
 
     cart = [];
 
 
-    saveAllData();
-
-
     /*
-       Refresh interface.
-    */
-
-    renderMenu();
-
-    renderCart();
-
-    renderCustomers();
-
-    renderInventory();
-
-    renderSales();
-
-    renderDashboard();
-
-    updateUserInterface();
-
-
-    /*
-       Reset checkout.
+       SHOW SUCCESS
     */
 
     document
-        .getElementById(
-            "checkoutForm"
-        )
-        .reset();
-
-
-    /*
-       Show success message.
-    */
-
-    document.getElementById(
-        "successMessage"
-    ).textContent =
-        `Order ${orderNumber} has been successfully recorded. Thank you for ordering from Marcelino's Fried Itik!`;
+        .getElementById("successOrderId")
+        .textContent =
+        orderNumber;
 
 
     document
-        .getElementById(
-            "successModal"
-        )
-        .classList.add("show");
+        .getElementById("successOrderTotal")
+        .textContent =
+        formatMoney(orderTotal);
 
 
-    showSectionById(
-        "dashboard"
-    );
+    closeModal("checkoutModal");
 
-}
+    renderAll();
 
-
-/* =========================================================
-   CUSTOMER CRUD
-========================================================= */
-
-function renderCustomers() {
-
-    const tbody =
-        document.getElementById(
-            "customerTableBody"
-        );
-
-
-    if (!tbody) {
-        return;
-    }
-
-
-    tbody.innerHTML = "";
-
-
-    customers.forEach(customer => {
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                <strong>
-                    ${escapeHtml(customer.id)}
-                </strong>
-            </td>
-
-            <td>
-                ${escapeHtml(customer.name)}
-            </td>
-
-            <td>
-                ${escapeHtml(customer.phone)}
-            </td>
-
-            <td>
-                ${escapeHtml(customer.email)}
-            </td>
-
-            <td>
-                ${escapeHtml(customer.city)}
-            </td>
-
-            <td>
-                ${escapeHtml(customer.address)}
-            </td>
-
-            <td>
-
-                <div class="action-buttons">
-
-                    <button
-                        class="action-btn edit-btn"
-                        onclick="
-                            editCustomer(
-                                '${customer.id}'
-                            )
-                        ">
-                        Edit
-                    </button>
-
-                    <button
-                        class="action-btn delete-btn"
-                        onclick="
-                            deleteCustomer(
-                                '${customer.id}'
-                            )
-                        ">
-                        Delete
-                    </button>
-
-                </div>
-
-            </td>
-
-        `;
-
-
-        tbody.appendChild(row);
-
-    });
+    openModal("orderSuccessModal");
 
 }
 
 
 /* =========================================================
-   ADD CUSTOMER MODAL
+   ERROR HELPERS
 ========================================================= */
 
-function openCustomerModal() {
-
-    document.getElementById(
-        "customerModalTitle"
-    ).textContent =
-        "Add Customer";
-
-
-    document.getElementById(
-        "customerForm"
-    ).reset();
-
-
-    document.getElementById(
-        "editCustomerId"
-    ).value = "";
-
-
-    document.getElementById(
-        "customerModal"
-    ).classList.add("show");
-
-}
-
-
-/* =========================================================
-   EDIT CUSTOMER
-========================================================= */
-
-function editCustomer(id) {
-
-    const customer =
-        customers.find(
-            c =>
-                c.id === id
-        );
-
-
-    if (!customer) {
-        return;
-    }
-
-
-    document.getElementById(
-        "customerModalTitle"
-    ).textContent =
-        "Edit Customer";
-
-
-    document.getElementById(
-        "editCustomerId"
-    ).value =
-        customer.id;
-
-
-    document.getElementById(
-        "modalCustomerName"
-    ).value =
-        customer.name;
-
-
-    document.getElementById(
-        "modalCustomerPhone"
-    ).value =
-        customer.phone;
-
-
-    document.getElementById(
-        "modalCustomerEmail"
-    ).value =
-        customer.email;
-
-
-    document.getElementById(
-        "modalCustomerCity"
-    ).value =
-        customer.city;
-
-
-    document.getElementById(
-        "modalCustomerAddress"
-    ).value =
-        customer.address;
-
-
-    document.getElementById(
-        "customerModal"
-    ).classList.add("show");
-
-}
-
-
-/* =========================================================
-   SAVE CUSTOMER
-========================================================= */
-
-function saveCustomer(event) {
-
-    event.preventDefault();
-
-
-    const id =
-        document.getElementById(
-            "editCustomerId"
-        ).value;
-
-
-    const name =
-        document.getElementById(
-            "modalCustomerName"
-        ).value.trim();
-
-    const phone =
-        document.getElementById(
-            "modalCustomerPhone"
-        ).value.trim();
-
-    const email =
-        document.getElementById(
-            "modalCustomerEmail"
-        ).value.trim()
-        .toLowerCase();
-
-    const city =
-        document.getElementById(
-            "modalCustomerCity"
-        ).value;
-
-    const address =
-        document.getElementById(
-            "modalCustomerAddress"
-        ).value.trim();
-
-
-    let valid = true;
-
-
-    clearFormValidation(
-        document.getElementById(
-            "customerForm"
-        )
-    );
-
-
-    if (name.length < 3) {
-
-        showFieldError(
-            "modalCustomerName",
-            "Name must contain at least 3 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!/^09\d{9}$/.test(phone)) {
-
-        showFieldError(
-            "modalCustomerPhone",
-            "Enter a valid mobile number."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!validateEmail(email)) {
-
-        showFieldError(
-            "modalCustomerEmail",
-            "Enter a valid email address."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!city) {
-
-        showFieldError(
-            "modalCustomerCity",
-            "Please select a city."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (address.length < 10) {
-
-        showFieldError(
-            "modalCustomerAddress",
-            "Address must be at least 10 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    /*
-       Prevent duplicate emails.
-    */
-
-    const duplicate =
-        customers.find(
-            c =>
-                c.email.toLowerCase() === email &&
-                c.id !== id
-        );
-
-
-    if (duplicate) {
-
-        showFieldError(
-            "modalCustomerEmail",
-            "Another customer already uses this email."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!valid) {
-        return;
-    }
-
-
-    if (id) {
-
-        /*
-           UPDATE
-        */
-
-        const customer =
-            customers.find(
-                c =>
-                    c.id === id
-            );
-
-
-        if (customer) {
-
-            customer.name =
-                name;
-
-            customer.phone =
-                phone;
-
-            customer.email =
-                email;
-
-            customer.city =
-                city;
-
-            customer.address =
-                address;
-
-        }
-
-
-        /*
-           Update account information
-           if this customer has an account.
-        */
-
-        const account =
-            customerAccounts.find(
-                a =>
-                    a.customerId === id
-            );
-
-
-        if (account) {
-
-            account.name =
-                name;
-
-            account.email =
-                email;
-
-            account.phone =
-                phone;
-
-        }
-
-
-        /*
-           Update related sales.
-        */
-
-        sales.forEach(sale => {
-
-            if (
-                sale.customer ===
-                customer.name
-            ) {
-
-                sale.customer =
-                    name;
-
-            }
-
-        });
-
-        alert(
-            "Customer record updated successfully."
-        );
-
-    }
-
-    else {
-
-        /*
-           INSERT
-        */
-
-        const newCustomer = {
-
-            id:
-                generateCustomerId(),
-
-            name:
-                name,
-
-            phone:
-                phone,
-
-            email:
-                email,
-
-            city:
-                city,
-
-            address:
-                address
-
-        };
-
-
-        customers.push(
-            newCustomer
-        );
-
-
-        alert(
-            "Customer added successfully."
-        );
-
-    }
-
-
-    saveAllData();
-
-    renderCustomers();
-
-    renderSales();
-
-    renderDashboard();
-
-    closeModal(
-        "customerModal"
-    );
-
-}
-
-
-/* =========================================================
-   DELETE CUSTOMER
-========================================================= */
-
-function deleteCustomer(id) {
-
-    const customer =
-        customers.find(
-            c =>
-                c.id === id
-        );
-
-
-    if (!customer) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            `Are you sure you want to permanently delete ${customer.name}?`
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    customers =
-        customers.filter(
-            c =>
-                c.id !== id
-        );
-
-
-    /*
-       Remove account associated
-       with customer.
-    */
-
-    customerAccounts =
-        customerAccounts.filter(
-            account =>
-                account.customerId !== id
-        );
-
-
-    saveAllData();
-
-    renderCustomers();
-
-    renderDashboard();
-
-
-    alert(
-        "Customer record deleted successfully."
-    );
-
-}
-
-
-/* =========================================================
-   INVENTORY CRUD
-========================================================= */
-
-function renderInventory() {
-
-    const tbody =
-        document.getElementById(
-            "inventoryTableBody"
-        );
-
-
-    if (!tbody) {
-        return;
-    }
-
-
-    tbody.innerHTML = "";
-
-
-    products.forEach(product => {
-
-        let statusClass =
-            "status-good";
-
-        let statusText =
-            "In Stock";
-
-
-        if (product.stock === 0) {
-
-            statusClass =
-                "status-out";
-
-            statusText =
-                "Out of Stock";
-
-        }
-
-        else if (product.stock <= 5) {
-
-            statusClass =
-                "status-low";
-
-            statusText =
-                "Low Stock";
-
-        }
-
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                <strong>
-                    ${escapeHtml(product.id)}
-                </strong>
-            </td>
-
-            <td>
-                ${escapeHtml(product.name)}
-            </td>
-
-            <td>
-                ${escapeHtml(product.category)}
-            </td>
-
-            <td>
-                ${formatMoney(product.price)}
-            </td>
-
-            <td>
-                ${product.stock}
-            </td>
-
-            <td>
-
-                <span class="status ${statusClass}">
-                    ${statusText}
-                </span>
-
-            </td>
-
-            <td>
-
-                <div class="action-buttons">
-
-                    <button
-                        class="action-btn edit-btn"
-                        onclick="
-                            editProduct(
-                                '${product.id}'
-                            )
-                        ">
-                        Edit
-                    </button>
-
-                    <button
-                        class="action-btn delete-btn"
-                        onclick="
-                            deleteProduct(
-                                '${product.id}'
-                            )
-                        ">
-                        Delete
-                    </button>
-
-                </div>
-
-            </td>
-
-        `;
-
-
-        tbody.appendChild(row);
-
-    });
-
-}
-
-
-/* =========================================================
-   ADD PRODUCT
-========================================================= */
-
-function openProductModal() {
-
-    document.getElementById(
-        "productModalTitle"
-    ).textContent =
-        "Add Product";
-
-
-    document.getElementById(
-        "productForm"
-    ).reset();
-
-
-    document.getElementById(
-        "editProductId"
-    ).value = "";
-
-
-    document.getElementById(
-        "productModal"
-    ).classList.add("show");
-
-}
-
-
-/* =========================================================
-   EDIT PRODUCT
-========================================================= */
-
-function editProduct(id) {
-
-    const product =
-        products.find(
-            p =>
-                p.id === id
-        );
-
-
-    if (!product) {
-        return;
-    }
-
-
-    document.getElementById(
-        "productModalTitle"
-    ).textContent =
-        "Edit Product";
-
-
-    document.getElementById(
-        "editProductId"
-    ).value =
-        product.id;
-
-
-    document.getElementById(
-        "modalProductName"
-    ).value =
-        product.name;
-
-
-    document.getElementById(
-        "modalProductCategory"
-    ).value =
-        product.category;
-
-
-    document.getElementById(
-        "modalProductPrice"
-    ).value =
-        product.price;
-
-
-    document.getElementById(
-        "modalProductStock"
-    ).value =
-        product.stock;
-
-
-    document.getElementById(
-        "modalProductIcon"
-    ).value =
-        product.icon;
-
-
-    document.getElementById(
-        "productModal"
-    ).classList.add("show");
-
-}
-
-
-/* =========================================================
-   SAVE PRODUCT
-========================================================= */
-
-function saveProduct(event) {
-
-    event.preventDefault();
-
-
-    const id =
-        document.getElementById(
-            "editProductId"
-        ).value;
-
-
-    const name =
-        document.getElementById(
-            "modalProductName"
-        ).value.trim();
-
-    const category =
-        document.getElementById(
-            "modalProductCategory"
-        ).value.trim();
-
-    const price =
-        Number(
-            document.getElementById(
-                "modalProductPrice"
-            ).value
-        );
-
-    const stock =
-        Number(
-            document.getElementById(
-                "modalProductStock"
-            ).value
-        );
-
-    const icon =
-        document.getElementById(
-            "modalProductIcon"
-        ).value.trim() ||
-        "🍗";
-
-
-    let valid = true;
-
-
-    clearFormValidation(
-        document.getElementById(
-            "productForm"
-        )
-    );
-
-
-    if (name.length < 3) {
-
-        showFieldError(
-            "modalProductName",
-            "Product name must contain at least 3 characters."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (category.length < 3) {
-
-        showFieldError(
-            "modalProductCategory",
-            "Category is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (
-        !Number.isFinite(price) ||
-        price <= 0
-    ) {
-
-        showFieldError(
-            "modalProductPrice",
-            "Price must be greater than zero."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (
-        !Number.isInteger(stock) ||
-        stock < 0
-    ) {
-
-        showFieldError(
-            "modalProductStock",
-            "Stock cannot be negative."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (!valid) {
-        return;
-    }
-
-
-    if (id) {
-
-        /*
-           UPDATE PRODUCT
-        */
-
-        const product =
-            products.find(
-                p =>
-                    p.id === id
-            );
-
-
-        if (product) {
-
-            product.name =
-                name;
-
-            product.category =
-                category;
-
-            product.price =
-                price;
-
-            product.stock =
-                stock;
-
-            product.icon =
-                icon;
-
-        }
-
-
-        alert(
-            "Product updated successfully."
-        );
-
-    }
-
-    else {
-
-        /*
-           INSERT PRODUCT
-        */
-
-        const newProduct = {
-
-            id:
-                generateProductId(),
-
-            name:
-                name,
-
-            category:
-                category,
-
-            price:
-                price,
-
-            stock:
-                stock,
-
-            icon:
-                icon
-
-        };
-
-
-        products.push(
-            newProduct
-        );
-
-
-        alert(
-            "Product added successfully."
-        );
-
-    }
-
-
-    saveAllData();
-
-    renderProductsAfterChange();
-
-    closeModal(
-        "productModal"
-    );
-
-}
-
-
-/* =========================================================
-   DELETE PRODUCT
-========================================================= */
-
-function deleteProduct(id) {
-
-    const product =
-        products.find(
-            p =>
-                p.id === id
-        );
-
-
-    if (!product) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            `Are you sure you want to permanently delete ${product.name}?`
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    /*
-       Check if product is in cart.
-    */
-
-    const cartItem =
-        cart.find(
-            item =>
-                item.productId === id
-        );
-
-
-    if (cartItem) {
-
-        alert(
-            "This product is currently in the cart. Remove it from the cart first."
-        );
-
-        return;
-    }
-
-
-    products =
-        products.filter(
-            p =>
-                p.id !== id
-        );
-
-
-    saveAllData();
-
-    renderProductsAfterChange();
-
-
-    alert(
-        "Product deleted successfully."
-    );
-
-}
-
-
-function renderProductsAfterChange() {
-
-    renderMenu();
-
-    renderInventory();
-
-    renderDashboard();
-
-}
-
-
-/* =========================================================
-   SALES CRUD
-========================================================= */
-
-function renderSales() {
-
-    const tbody =
-        document.getElementById(
-            "salesTableBody"
-        );
-
-
-    if (!tbody) {
-        return;
-    }
-
-
-    tbody.innerHTML = "";
-
-
-    sales.forEach(sale => {
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                <strong>
-                    ${escapeHtml(sale.id)}
-                </strong>
-            </td>
-
-            <td>
-                ${escapeHtml(sale.customer)}
-            </td>
-
-            <td>
-                ${escapeHtml(sale.product)}
-            </td>
-
-            <td>
-                ${sale.quantity}
-            </td>
-
-            <td>
-                <strong>
-                    ${formatMoney(sale.total)}
-                </strong>
-            </td>
-
-            <td>
-                ${escapeHtml(sale.payment)}
-            </td>
-
-            <td>
-                ${escapeHtml(sale.date)}
-            </td>
-
-            <td>
-
-                <div class="action-buttons">
-
-                    <button
-                        class="action-btn edit-btn"
-                        onclick="
-                            editSale(
-                                '${sale.id}'
-                            )
-                        ">
-                        Edit
-                    </button>
-
-                    <button
-                        class="action-btn delete-btn"
-                        onclick="
-                            deleteSale(
-                                '${sale.id}'
-                            )
-                        ">
-                        Delete
-                    </button>
-
-                </div>
-
-            </td>
-
-        `;
-
-
-        tbody.appendChild(row);
-
-    });
-
-}
-
-
-/* =========================================================
-   EDIT SALE
-========================================================= */
-
-function editSale(id) {
-
-    const sale =
-        sales.find(
-            s =>
-                s.id === id
-        );
-
-
-    if (!sale) {
-        return;
-    }
-
-
-    document.getElementById(
-        "editSaleId"
-    ).value =
-        sale.id;
-
-
-    document.getElementById(
-        "modalSaleCustomer"
-    ).value =
-        sale.customer;
-
-
-    document.getElementById(
-        "modalSaleProduct"
-    ).value =
-        sale.product;
-
-
-    document.getElementById(
-        "modalSaleQuantity"
-    ).value =
-        sale.quantity;
-
-
-    document.getElementById(
-        "modalSaleTotal"
-    ).value =
-        sale.total;
-
-
-    document.getElementById(
-        "modalSalePayment"
-    ).value =
-        sale.payment;
-
-
-    document.getElementById(
-        "saleModal"
-    ).classList.add("show");
-
-}
-
-
-/* =========================================================
-   UPDATE SALE
-========================================================= */
-
-function saveSale(event) {
-
-    event.preventDefault();
-
-
-    const id =
-        document.getElementById(
-            "editSaleId"
-        ).value;
-
-
-    const customer =
-        document.getElementById(
-            "modalSaleCustomer"
-        ).value.trim();
-
-    const product =
-        document.getElementById(
-            "modalSaleProduct"
-        ).value.trim();
-
-    const quantity =
-        Number(
-            document.getElementById(
-                "modalSaleQuantity"
-            ).value
-        );
-
-    const total =
-        Number(
-            document.getElementById(
-                "modalSaleTotal"
-            ).value
-        );
-
-    const payment =
-        document.getElementById(
-            "modalSalePayment"
-        ).value;
-
-
-    if (
-        customer.length < 3 ||
-        !product ||
-        quantity < 1 ||
-        total < 0 ||
-        !payment
-    ) {
-
-        alert(
-            "Please enter valid sales information."
-        );
-
-        return;
-    }
-
-
-    const sale =
-        sales.find(
-            s =>
-                s.id === id
-        );
-
-
-    if (!sale) {
-        return;
-    }
-
-
-    sale.customer =
-        customer;
-
-    sale.product =
-        product;
-
-    sale.quantity =
-        quantity;
-
-    sale.total =
-        total;
-
-    sale.payment =
-        payment;
-
-
-    saveAllData();
-
-    renderSales();
-
-    renderDashboard();
-
-    closeModal(
-        "saleModal"
-    );
-
-
-    alert(
-        "Sales record updated successfully."
-    );
-
-}
-
-
-/* =========================================================
-   DELETE SALE
-========================================================= */
-
-function deleteSale(id) {
-
-    const sale =
-        sales.find(
-            s =>
-                s.id === id
-        );
-
-
-    if (!sale) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            `Are you sure you want to permanently delete sales record ${sale.id}?`
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    sales =
-        sales.filter(
-            s =>
-                s.id !== id
-        );
-
-
-    saveAllData();
-
-    renderSales();
-
-    renderDashboard();
-
-
-    alert(
-        "Sales record deleted successfully."
-    );
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function renderDashboard() {
-
-    const productCount =
-        document.getElementById(
-            "dashboardProducts"
-        );
-
-    const customerCount =
-        document.getElementById(
-            "dashboardCustomers"
-        );
-
-    const orderCount =
-        document.getElementById(
-            "dashboardOrders"
-        );
-
-    const totalSales =
-        document.getElementById(
-            "dashboardSales"
-        );
-
-
-    if (!productCount) {
-        return;
-    }
-
-
-    productCount.textContent =
-        products.length;
-
-
-    customerCount.textContent =
-        customers.length;
-
-
-    orderCount.textContent =
-        sales.length;
-
-
-    const total =
-        sales.reduce(
-            (sum, sale) =>
-                sum +
-                Number(sale.total || 0),
-
-            0
-        );
-
-
-    totalSales.textContent =
-        formatMoney(total);
-
-}
-
-
-/* =========================================================
-   VALIDATION FUNCTIONS
-========================================================= */
-
-function validateEmail(email) {
-
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        .test(email);
-
-}
-
-
-function showFieldError(
-    fieldId,
+function showError(
+    elementId,
     message
 ) {
 
-    const field =
+    const element =
         document.getElementById(
-            fieldId
+            elementId
         );
-
-
-    if (!field) {
-        return;
-    }
-
-
-    field.classList.add(
-        "input-error"
-    );
-
-
-    const error =
-        document.getElementById(
-            fieldId + "Error"
-        );
-
-
-    if (error) {
-
-        error.textContent =
-            message;
-
-    }
-
-}
-
-
-function clearFormValidation(form) {
-
-    form
-        .querySelectorAll(
-            "input, select, textarea"
-        )
-        .forEach(field => {
-
-            field.classList.remove(
-                "input-error"
-            );
-
-            field.classList.remove(
-                "input-valid"
-            );
-
-        });
-
-
-    form
-        .querySelectorAll(
-            ".error-message"
-        )
-        .forEach(error => {
-
-            error.textContent = "";
-
-        });
-
-}
-
-
-function clearCheckoutValidation() {
-
-    const form =
-        document.getElementById(
-            "checkoutForm"
-        );
-
-
-    clearFormValidation(form);
-
-}
-
-
-function showCheckoutError(
-    fieldId,
-    message
-) {
-
-    showFieldError(
-        fieldId,
-        message
-    );
-
-}
-
-
-function showAuthMessage(
-    element,
-    message,
-    type
-) {
-
-    if (!element) {
-        return;
-    }
 
 
     element.textContent =
         message;
 
 
-    element.className =
-        "auth-message " +
-        type;
+    element.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-/* =========================================================
-   MODALS
-========================================================= */
+function hideError(elementId) {
 
-function closeModal(id) {
-
-    const modal =
-        document.getElementById(id);
+    const element =
+        document.getElementById(
+            elementId
+        );
 
 
-    if (modal) {
+    if (element) {
 
-        modal.classList.remove(
-            "show"
+        element.textContent = "";
+
+        element.classList.add(
+            "hidden"
         );
 
     }
@@ -3649,10 +3762,51 @@ function closeModal(id) {
 }
 
 
-/*
-   Close modal if user clicks
-   outside modal content.
-*/
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING BACKDROP
+========================================================= */
 
 document.addEventListener(
     "click",
@@ -3664,8 +3818,8 @@ document.addEventListener(
             )
         ) {
 
-            event.target.classList.remove(
-                "show"
+            event.target.classList.add(
+                "hidden"
             );
 
         }
@@ -3675,171 +3829,40 @@ document.addEventListener(
 
 
 /* =========================================================
-   ID GENERATORS
+   ESCAPE KEY CLOSES MODAL
 ========================================================= */
 
-function generateCustomerId() {
+document.addEventListener(
+    "keydown",
+    function (event) {
 
-    let number =
-        customers.length + 1;
+        if (event.key === "Escape") {
 
-
-    let id =
-        "C" +
-        String(number)
-            .padStart(3, "0");
-
-
-    while (
-        customers.some(
-            customer =>
-                customer.id === id
-        )
-    ) {
-
-        number++;
-
-        id =
-            "C" +
-            String(number)
-                .padStart(3, "0");
-
-    }
-
-
-    return id;
-}
-
-
-function generateProductId() {
-
-    let number =
-        products.length + 1;
-
-
-    let id =
-        "P" +
-        String(number)
-            .padStart(3, "0");
-
-
-    while (
-        products.some(
-            product =>
-                product.id === id
-        )
-    ) {
-
-        number++;
-
-        id =
-            "P" +
-            String(number)
-                .padStart(3, "0");
-
-    }
-
-
-    return id;
-}
-
-
-function generateSaleId() {
-
-    let number =
-        sales.length + 1;
-
-
-    let id =
-        "S" +
-        String(number)
-            .padStart(3, "0");
-
-
-    while (
-        sales.some(
-            sale =>
-                sale.id === id
-        )
-    ) {
-
-        number++;
-
-        id =
-            "S" +
-            String(number)
-                .padStart(3, "0");
-
-    }
-
-
-    return id;
-}
-
-
-/* =========================================================
-   MONEY FORMAT
-========================================================= */
-
-function formatMoney(amount) {
-
-    return new Intl.NumberFormat(
-        "en-PH",
-        {
-            style: "currency",
-            currency: "PHP"
-        }
-    ).format(
-        Number(amount) || 0
-    );
-
-}
-
-
-/* =========================================================
-   HTML SECURITY
-========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-   AUTO LOGIN IF SESSION EXISTS
-========================================================= */
-
-if (currentUser) {
-
-    window.addEventListener(
-        "load",
-        function () {
-
-            enterSystem();
+            closeAllModals();
 
         }
-    );
 
-}
+    }
+);
+
+
+/* =========================================================
+   PREVENT NEGATIVE QUANTITIES
+========================================================= */
+
+document.addEventListener(
+    "input",
+    function (event) {
+
+        if (
+            event.target.type ===
+            "number" &&
+            event.target.value < 0
+        ) {
+
+            event.target.value = 0;
+
+        }
+
+    }
+);
