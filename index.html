@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sales and Inventory System | Marcelino's Fried Itik</title>
+    <title>Sales and Inventory System - Marcelino's Fried Itik</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,62 +25,61 @@
 
 <div id="authPage" class="auth-page">
 
-    <div class="auth-card">
+    <div class="auth-container">
 
-        <div class="auth-logo-container">
-            <img
-                src="images/logo.jpg"
-                class="auth-logo"
-                alt="Marcelino's Fried Itik Logo"
-                onerror="this.style.display='none'"
-            >
+        <div class="brand-section">
+
+            <div class="logo-wrapper">
+                <img
+                    src="images/logo.jpg"
+                    alt="Marcelino's Fried Itik Logo"
+                    onerror="this.style.display='none';"
+                >
+            </div>
+
+            <h1>Sales and Inventory System</h1>
+
+            <h2>Marcelino's Fried Itik</h2>
+
+            <p>
+                A browser-based Point of Sale and Inventory Management System
+                for managing products, customers, orders and sales.
+            </p>
+
         </div>
-
-        <h1>Sales and Inventory System</h1>
-
-        <h3>Marcelino's Fried Itik</h3>
-
-        <p class="auth-description">
-            Manage products, inventory, customers, sales transactions,
-            and customer orders in one centralized system.
-        </p>
 
         <div class="auth-buttons">
 
             <button
                 type="button"
                 class="btn btn-primary btn-large"
-                onclick="openAdminLogin()"
+                id="adminLoginBtn"
             >
-                Admin Sign In
+                🔐 Admin Sign In
             </button>
 
             <button
                 type="button"
                 class="btn btn-secondary btn-large"
-                onclick="openCustomerLogin()"
+                id="customerLoginBtn"
             >
-                Customer Sign In
+                👤 Customer Sign In
             </button>
 
             <button
                 type="button"
                 class="btn btn-outline btn-large"
-                onclick="openSignup()"
+                id="customerSignupBtn"
             >
-                Create Customer Account
+                📝 Create Customer Account
             </button>
 
         </div>
 
-        <div class="demo-account">
-            <strong>Admin Demo Account</strong>
+        <div class="demo-login">
+            <strong>Demo Administrator</strong>
             <p>Username: <b>admin</b></p>
             <p>Password: <b>admin123</b></p>
-        </div>
-
-        <div class="developer">
-            Developed by <strong>Jhon Mark C. Uayan</strong>
         </div>
 
     </div>
@@ -89,32 +88,29 @@
 
 
 <!-- =========================================================
-     ADMIN DASHBOARD
+     ADMIN SYSTEM
 ========================================================= -->
 
-<div id="adminPage" class="app-page hidden">
+<div id="adminApp" class="app hidden">
 
-    <header class="top-header">
+    <header class="topbar">
 
-        <div class="brand">
-            <img
-                src="images/logo.jpg"
-                alt="Logo"
-                onerror="this.style.display='none'"
-            >
+        <div class="topbar-brand">
+            <div class="mini-logo">🍗</div>
 
             <div>
                 <h2>Marcelino's Fried Itik</h2>
-                <span>Sales and Inventory System</span>
+                <span>Sales & Inventory POS</span>
             </div>
         </div>
 
-        <div class="header-user">
+        <div class="topbar-user">
             <span>Administrator</span>
 
             <button
+                type="button"
                 class="btn btn-danger btn-small"
-                onclick="adminLogout()"
+                id="adminLogoutBtn"
             >
                 Logout
             </button>
@@ -123,36 +119,48 @@
     </header>
 
 
-    <div class="admin-layout">
+    <div class="layout">
 
-        <!-- SIDEBAR -->
+        <!-- ADMIN SIDEBAR -->
 
         <aside class="sidebar">
 
             <button
+                type="button"
                 class="nav-btn active"
-                onclick="showAdminSection('dashboard', this)"
+                data-section="dashboardSection"
             >
                 📊 Dashboard
             </button>
 
             <button
+                type="button"
                 class="nav-btn"
-                onclick="showAdminSection('inventory', this)"
+                data-section="posSection"
+            >
+                🛒 POS
+            </button>
+
+            <button
+                type="button"
+                class="nav-btn"
+                data-section="inventorySection"
             >
                 📦 Inventory
             </button>
 
             <button
+                type="button"
                 class="nav-btn"
-                onclick="showAdminSection('customers', this)"
+                data-section="customersSection"
             >
                 👥 Customers
             </button>
 
             <button
+                type="button"
                 class="nav-btn"
-                onclick="showAdminSection('sales', this)"
+                data-section="salesSection"
             >
                 💰 Sales
             </button>
@@ -166,20 +174,20 @@
 
             <!-- DASHBOARD -->
 
-            <section id="dashboardSection" class="admin-section">
+            <section id="dashboardSection" class="system-section active-section">
 
-                <div class="section-heading">
+                <div class="page-header">
                     <div>
                         <h1>Dashboard</h1>
-                        <p>Overview of your sales and inventory system.</p>
+                        <p>Welcome to Marcelino's Fried Itik POS System.</p>
                     </div>
                 </div>
 
 
-                <div class="dashboard-cards">
+                <div class="stats-grid">
 
-                    <div class="dashboard-card">
-                        <div class="card-icon">📦</div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
 
                         <div>
                             <span>Total Products</span>
@@ -187,9 +195,8 @@
                         </div>
                     </div>
 
-
-                    <div class="dashboard-card">
-                        <div class="card-icon">👥</div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
 
                         <div>
                             <span>Total Customers</span>
@@ -197,9 +204,8 @@
                         </div>
                     </div>
 
-
-                    <div class="dashboard-card">
-                        <div class="card-icon">🧾</div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🧾</div>
 
                         <div>
                             <span>Total Orders</span>
@@ -207,9 +213,8 @@
                         </div>
                     </div>
 
-
-                    <div class="dashboard-card">
-                        <div class="card-icon">💰</div>
+                    <div class="stat-card">
+                        <div class="stat-icon">₱</div>
 
                         <div>
                             <span>Total Sales</span>
@@ -220,7 +225,7 @@
                 </div>
 
 
-                <div class="dashboard-grid">
+                <div class="dashboard-panels">
 
                     <div class="panel">
 
@@ -228,7 +233,23 @@
                             <h2>Low Stock Products</h2>
                         </div>
 
-                        <div id="lowStockContainer"></div>
+                        <div class="table-container">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="lowStockTable"></tbody>
+
+                            </table>
+
+                        </div>
 
                     </div>
 
@@ -239,7 +260,89 @@
                             <h2>Recent Sales</h2>
                         </div>
 
-                        <div id="recentSalesContainer"></div>
+                        <div class="table-container">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="recentSalesTable"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- POS -->
+
+            <section id="posSection" class="system-section">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Point of Sale</h1>
+                        <p>Select products and process customer orders.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="pos-layout">
+
+                    <div class="pos-products">
+
+                        <div class="section-title">
+                            <h2>Menu</h2>
+                        </div>
+
+                        <div
+                            id="adminMenuGrid"
+                            class="menu-grid"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="cart-panel">
+
+                        <div class="cart-header">
+                            <h2>Current Order</h2>
+                        </div>
+
+                        <div
+                            id="adminCartItems"
+                            class="cart-items"
+                        ></div>
+
+                        <div class="cart-total">
+
+                            <span>Total</span>
+
+                            <strong id="adminCartTotal">
+                                ₱0.00
+                            </strong>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary full-width"
+                            id="adminCheckoutBtn"
+                        >
+                            Complete Order
+                        </button>
 
                     </div>
 
@@ -250,20 +353,21 @@
 
             <!-- INVENTORY -->
 
-            <section id="inventorySection" class="admin-section hidden">
+            <section id="inventorySection" class="system-section">
 
-                <div class="section-heading">
+                <div class="page-header">
 
                     <div>
                         <h1>Inventory Management</h1>
                         <p>
-                            Create, edit, and delete product records.
+                            Add, edit and delete product records.
                         </p>
                     </div>
 
                     <button
+                        type="button"
                         class="btn btn-primary"
-                        onclick="openProductModal()"
+                        id="addProductBtn"
                     >
                         + Add Product
                     </button>
@@ -273,23 +377,25 @@
 
                 <div class="panel">
 
-                    <div class="table-wrapper">
+                    <div class="table-container">
 
                         <table>
 
                             <thead>
+
                                 <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
+                                    <th>ID</th>
+                                    <th>Product</th>
                                     <th>Category</th>
                                     <th>Price</th>
                                     <th>Stock</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
+
                             </thead>
 
-                            <tbody id="inventoryTableBody"></tbody>
+                            <tbody id="inventoryTable"></tbody>
 
                         </table>
 
@@ -302,9 +408,9 @@
 
             <!-- CUSTOMERS -->
 
-            <section id="customersSection" class="admin-section hidden">
+            <section id="customersSection" class="system-section">
 
-                <div class="section-heading">
+                <div class="page-header">
 
                     <div>
                         <h1>Customer Management</h1>
@@ -318,25 +424,26 @@
 
                 <div class="panel">
 
-                    <div class="table-wrapper">
+                    <div class="table-container">
 
                         <table>
 
                             <thead>
+
                                 <tr>
-                                    <th>Customer ID</th>
+                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Birthdate</th>
                                     <th>Age</th>
                                     <th>Gender</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>Address</th>
                                     <th>Actions</th>
                                 </tr>
+
                             </thead>
 
-                            <tbody id="customersTableBody"></tbody>
+                            <tbody id="customersTable"></tbody>
 
                         </table>
 
@@ -349,14 +456,14 @@
 
             <!-- SALES -->
 
-            <section id="salesSection" class="admin-section hidden">
+            <section id="salesSection" class="system-section">
 
-                <div class="section-heading">
+                <div class="page-header">
 
                     <div>
-                        <h1>Sales Transactions</h1>
+                        <h1>Sales Records</h1>
                         <p>
-                            Manage completed customer transactions.
+                            View, edit and delete completed transactions.
                         </p>
                     </div>
 
@@ -365,23 +472,25 @@
 
                 <div class="panel">
 
-                    <div class="table-wrapper">
+                    <div class="table-container">
 
                         <table>
 
                             <thead>
+
                                 <tr>
-                                    <th>Sale ID</th>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
                                     <th>Customer</th>
                                     <th>Product</th>
-                                    <th>Quantity</th>
+                                    <th>Qty</th>
                                     <th>Total</th>
-                                    <th>Date</th>
                                     <th>Actions</th>
                                 </tr>
+
                             </thead>
 
-                            <tbody id="salesTableBody"></tbody>
+                            <tbody id="salesTable"></tbody>
 
                         </table>
 
@@ -399,38 +508,35 @@
 
 
 <!-- =========================================================
-     CUSTOMER PORTAL
+     CUSTOMER APP
 ========================================================= -->
 
-<div id="customerPage" class="app-page hidden">
+<div id="customerApp" class="customer-app hidden">
 
-    <header class="top-header">
+    <header class="customer-topbar">
 
-        <div class="brand">
+        <div class="topbar-brand">
 
-            <img
-                src="images/logo.jpg"
-                alt="Logo"
-                onerror="this.style.display='none'"
-            >
+            <div class="mini-logo">🍗</div>
 
             <div>
                 <h2>Marcelino's Fried Itik</h2>
-                <span>Customer Ordering Portal</span>
+                <span>Customer Ordering</span>
             </div>
 
         </div>
 
 
-        <div class="header-user">
+        <div class="customer-user">
 
-            <span id="customerHeaderName">
+            <span id="customerWelcome">
                 Customer
             </span>
 
             <button
+                type="button"
                 class="btn btn-danger btn-small"
-                onclick="customerLogout()"
+                id="customerLogoutBtn"
             >
                 Logout
             </button>
@@ -442,64 +548,52 @@
 
     <main class="customer-content">
 
-        <div class="customer-welcome">
+        <div class="customer-page-header">
 
             <div>
                 <h1>Our Menu</h1>
-
-                <p>
-                    Welcome,
-                    <strong id="customerWelcomeName">Customer</strong>.
-                    Choose your favorite Fried Itik products.
-                </p>
+                <p>Select your favorite Fried Itik products.</p>
             </div>
 
             <button
-                class="btn btn-secondary"
-                onclick="showCustomerAccount()"
+                type="button"
+                class="btn btn-primary"
+                id="customerCartScrollBtn"
             >
-                My Account
+                🛒 Cart
+                <span id="customerCartCount">0</span>
             </button>
 
         </div>
 
 
-        <div class="customer-layout">
-
-            <section>
-
-                <div
-                    id="customerMenu"
-                    class="menu-grid"
-                ></div>
-
-            </section>
+        <div
+            id="customerMenuGrid"
+            class="menu-grid customer-menu"
+        ></div>
 
 
-            <aside class="cart-panel">
+        <section class="customer-cart-section" id="customerCartSection">
 
-                <div class="cart-header">
+            <div class="customer-cart-box">
 
-                    <h2>🛒 Your Cart</h2>
+                <div class="panel-header">
 
-                    <span
-                        id="cartCount"
-                        class="cart-count"
-                    >
-                        0
-                    </span>
+                    <h2>Your Cart</h2>
 
                 </div>
 
-
-                <div id="cartItems"></div>
+                <div
+                    id="customerCartItems"
+                    class="cart-items"
+                ></div>
 
 
                 <div class="cart-total">
 
                     <span>Total</span>
 
-                    <strong id="cartTotal">
+                    <strong id="customerCartTotal">
                         ₱0.00
                     </strong>
 
@@ -507,16 +601,16 @@
 
 
                 <button
-                    id="checkoutButton"
-                    class="btn btn-primary btn-full"
-                    onclick="openCheckout()"
+                    type="button"
+                    class="btn btn-primary full-width"
+                    id="customerCheckoutBtn"
                 >
                     Proceed to Checkout
                 </button>
 
-            </aside>
+            </div>
 
-        </div>
+        </section>
 
     </main>
 
@@ -527,28 +621,26 @@
      ADMIN LOGIN MODAL
 ========================================================= -->
 
-<div id="adminLoginModal" class="modal hidden">
+<div id="adminLoginModal" class="modal">
 
-    <div class="modal-card">
+    <div class="modal-content small-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('adminLoginModal')"
+            data-close="adminLoginModal"
         >
             ×
         </button>
 
-        <h2>Admin Sign In</h2>
+        <h2>Administrator Sign In</h2>
 
         <p class="modal-description">
-            Sign in to manage inventory, customers and sales.
+            Enter the administrator credentials.
         </p>
 
 
-        <form
-            id="adminLoginForm"
-            novalidate
-        >
+        <form id="adminLoginForm" novalidate>
 
             <div class="form-group">
 
@@ -559,13 +651,11 @@
                 <input
                     type="text"
                     id="adminUsername"
-                    placeholder="Enter username"
+                    autocomplete="username"
+                    required
                 >
 
-                <small
-                    id="adminUsernameError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
@@ -579,20 +669,18 @@
                 <input
                     type="password"
                     id="adminPassword"
-                    placeholder="Enter password"
+                    autocomplete="current-password"
+                    required
                 >
 
-                <small
-                    id="adminPasswordError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
                 Sign In
             </button>
@@ -608,13 +696,14 @@
      CUSTOMER LOGIN MODAL
 ========================================================= -->
 
-<div id="customerLoginModal" class="modal hidden">
+<div id="customerLoginModal" class="modal">
 
-    <div class="modal-card">
+    <div class="modal-content small-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('customerLoginModal')"
+            data-close="customerLoginModal"
         >
             ×
         </button>
@@ -622,75 +711,63 @@
         <h2>Customer Sign In</h2>
 
         <p class="modal-description">
-            Sign in to order from our menu.
+            Sign in using your registered email and password.
         </p>
 
 
-        <form
-            id="customerLoginForm"
-            novalidate
-        >
+        <form id="customerLoginForm" novalidate>
 
             <div class="form-group">
 
-                <label for="customerLoginEmail">
+                <label for="loginEmail">
                     Email Address
                 </label>
 
                 <input
                     type="email"
-                    id="customerLoginEmail"
-                    placeholder="example@email.com"
+                    id="loginEmail"
+                    required
                 >
 
-                <small
-                    id="customerLoginEmailError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
             <div class="form-group">
 
-                <label for="customerLoginPassword">
+                <label for="loginPassword">
                     Password
                 </label>
 
                 <input
                     type="password"
-                    id="customerLoginPassword"
-                    placeholder="Enter password"
+                    id="loginPassword"
+                    required
                 >
 
-                <small
-                    id="customerLoginPasswordError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
                 Sign In
             </button>
 
-        </form>
 
-
-        <p class="modal-footer-text">
-            Don't have an account?
             <button
                 type="button"
                 class="text-button"
-                onclick="switchToSignup()"
+                id="openSignupFromLogin"
             >
-                Create Account
+                Don't have an account? Create one
             </button>
-        </p>
+
+        </form>
 
     </div>
 
@@ -701,13 +778,14 @@
      CUSTOMER SIGN UP MODAL
 ========================================================= -->
 
-<div id="signupModal" class="modal hidden">
+<div id="customerSignupModal" class="modal">
 
-    <div class="modal-card modal-large">
+    <div class="modal-content large-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('signupModal')"
+            data-close="customerSignupModal"
         >
             ×
         </button>
@@ -715,15 +793,12 @@
         <h2>Create Customer Account</h2>
 
         <p class="modal-description">
-            All fields are required. Customer must be
-            <strong>18 years old or above</strong>.
+            All fields are required. Customers must be at least
+            <strong>18 years old</strong>.
         </p>
 
 
-        <form
-            id="signupForm"
-            novalidate
-        >
+        <form id="customerSignupForm" novalidate>
 
             <div class="form-grid">
 
@@ -738,14 +813,11 @@
                     <input
                         type="text"
                         id="signupName"
-                        placeholder="Enter name"
                         maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="signupNameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -761,14 +833,11 @@
                     <input
                         type="text"
                         id="signupMiddleName"
-                        placeholder="Enter middle name"
                         maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="signupMiddleNameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -784,14 +853,11 @@
                     <input
                         type="text"
                         id="signupSurname"
-                        placeholder="Enter surname"
                         maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="signupSurnameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -807,16 +873,14 @@
                     <input
                         type="date"
                         id="signupBirthdate"
+                        required
                     >
 
-                    <small class="input-note">
-                        Must be 18 years old or above.
+                    <small class="helper-text">
+                        You must be 18 years old or above.
                     </small>
 
-                    <small
-                        id="signupBirthdateError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -836,14 +900,44 @@
                         placeholder="Automatically calculated"
                     >
 
-                    <small class="input-note">
+                    <small class="helper-text">
                         Automatically calculated from birthdate.
                     </small>
 
-                    <small
-                        id="signupAgeError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
+
+                </div>
+
+
+                <!-- CONTACT -->
+
+                <div class="form-group">
+
+                    <label for="signupContact">
+                        Contact Number *
+                    </label>
+
+                    <div class="contact-input">
+
+                        <span>63+</span>
+
+                        <input
+                            type="text"
+                            id="signupContact"
+                            maxlength="10"
+                            inputmode="numeric"
+                            placeholder="9171234567"
+                            required
+                        >
+
+                    </div>
+
+                    <small class="helper-text">
+                        Format: 63 + 10 digits, example:
+                        639171234567
+                    </small>
+
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -856,7 +950,7 @@
                         Gender *
                     </label>
 
-                    <select id="signupGender">
+                    <select id="signupGender" required>
 
                         <option value="">
                             Select Gender
@@ -876,38 +970,7 @@
 
                     </select>
 
-                    <small
-                        id="signupGenderError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-
-                <!-- CONTACT -->
-
-                <div class="form-group">
-
-                    <label for="signupContact">
-                        Contact Number *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="signupContact"
-                        placeholder="63XXXXXXXXXX"
-                        maxlength="12"
-                    >
-
-                    <small class="input-note">
-                        Philippine format: 63 + 10 digits.
-                        Example: 639171234567
-                    </small>
-
-                    <small
-                        id="signupContactError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -923,14 +986,12 @@
                     <input
                         type="email"
                         id="signupEmail"
-                        placeholder="example@email.com"
                         maxlength="100"
+                        placeholder="example@email.com"
+                        required
                     >
 
-                    <small
-                        id="signupEmailError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -946,13 +1007,15 @@
                     <input
                         type="password"
                         id="signupPassword"
-                        placeholder="Minimum 8 characters"
+                        minlength="8"
+                        required
                     >
 
-                    <small
-                        id="signupPasswordError"
-                        class="error-message"
-                    ></small>
+                    <small class="helper-text">
+                        Minimum of 8 characters.
+                    </small>
+
+                    <small class="error-message"></small>
 
                 </div>
 
@@ -968,74 +1031,26 @@
                     <input
                         type="password"
                         id="signupConfirmPassword"
-                        placeholder="Repeat password"
+                        required
                     >
 
-                    <small
-                        id="signupConfirmPasswordError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-
-                <!-- CITY -->
-
-                <div class="form-group">
-
-                    <label for="signupCity">
-                        City *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="signupCity"
-                        placeholder="Enter city"
-                    >
-
-                    <small
-                        id="signupCityError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-
-                <!-- ADDRESS -->
-
-                <div class="form-group full-width">
-
-                    <label for="signupAddress">
-                        Complete Address *
-                    </label>
-
-                    <textarea
-                        id="signupAddress"
-                        rows="3"
-                        placeholder="House number, street, barangay, city"
-                        maxlength="200"
-                    ></textarea>
-
-                    <small
-                        id="signupAddressError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
             </div>
 
 
-            <div class="age-warning">
+            <div class="form-notice">
                 <strong>Age Requirement:</strong>
-                Customer registration is only allowed for users
-                who are 18 years old or above.
+                Customer accounts are available only to users
+                who are <strong>18 years old or older</strong>.
             </div>
 
 
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
                 Create Customer Account
             </button>
@@ -1051,13 +1066,14 @@
      PRODUCT MODAL
 ========================================================= -->
 
-<div id="productModal" class="modal hidden">
+<div id="productModal" class="modal">
 
-    <div class="modal-card">
+    <div class="modal-content medium-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('productModal')"
+            data-close="productModal"
         >
             ×
         </button>
@@ -1067,35 +1083,12 @@
         </h2>
 
 
-        <form
-            id="productForm"
-            novalidate
-        >
+        <form id="productForm" novalidate>
 
             <input
                 type="hidden"
-                id="productOriginalId"
+                id="productEditId"
             >
-
-
-            <div class="form-group">
-
-                <label for="productId">
-                    Product ID *
-                </label>
-
-                <input
-                    type="text"
-                    id="productId"
-                    placeholder="P006"
-                >
-
-                <small
-                    id="productIdError"
-                    class="error-message"
-                ></small>
-
-            </div>
 
 
             <div class="form-group">
@@ -1107,13 +1100,11 @@
                 <input
                     type="text"
                     id="productName"
-                    placeholder="Product name"
+                    maxlength="80"
+                    required
                 >
 
-                <small
-                    id="productNameError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
@@ -1127,57 +1118,53 @@
                 <input
                     type="text"
                     id="productCategory"
-                    placeholder="Category"
+                    maxlength="50"
+                    required
                 >
 
-                <small
-                    id="productCategoryError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
-            <div class="form-group">
+            <div class="form-grid">
 
-                <label for="productPrice">
-                    Price *
-                </label>
+                <div class="form-group">
 
-                <input
-                    type="number"
-                    id="productPrice"
-                    min="1"
-                    step="0.01"
-                    placeholder="0.00"
-                >
+                    <label for="productPrice">
+                        Price *
+                    </label>
 
-                <small
-                    id="productPriceError"
-                    class="error-message"
-                ></small>
+                    <input
+                        type="number"
+                        id="productPrice"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
 
-            </div>
+                    <small class="error-message"></small>
+
+                </div>
 
 
-            <div class="form-group">
+                <div class="form-group">
 
-                <label for="productStock">
-                    Stock Quantity *
-                </label>
+                    <label for="productStock">
+                        Stock *
+                    </label>
 
-                <input
-                    type="number"
-                    id="productStock"
-                    min="0"
-                    step="1"
-                    placeholder="0"
-                >
+                    <input
+                        type="number"
+                        id="productStock"
+                        min="0"
+                        step="1"
+                        required
+                    >
 
-                <small
-                    id="productStockError"
-                    class="error-message"
-                ></small>
+                    <small class="error-message"></small>
+
+                </div>
 
             </div>
 
@@ -1191,8 +1178,8 @@
                 <input
                     type="text"
                     id="productIcon"
+                    maxlength="4"
                     placeholder="🍗"
-                    maxlength="5"
                 >
 
             </div>
@@ -1200,7 +1187,7 @@
 
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
                 Save Product
             </button>
@@ -1216,13 +1203,14 @@
      CUSTOMER EDIT MODAL
 ========================================================= -->
 
-<div id="customerEditModal" class="modal hidden">
+<div id="customerEditModal" class="modal">
 
-    <div class="modal-card modal-large">
+    <div class="modal-content large-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('customerEditModal')"
+            data-close="customerEditModal"
         >
             ×
         </button>
@@ -1230,14 +1218,11 @@
         <h2>Edit Customer Record</h2>
 
 
-        <form
-            id="customerEditForm"
-            novalidate
-        >
+        <form id="customerEditForm" novalidate>
 
             <input
                 type="hidden"
-                id="editCustomerId"
+                id="customerEditId"
             >
 
 
@@ -1245,89 +1230,84 @@
 
                 <div class="form-group">
 
-                    <label for="editCustomerName">
+                    <label for="editName">
                         Name *
                     </label>
 
                     <input
                         type="text"
-                        id="editCustomerName"
+                        id="editName"
+                        maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="editCustomerNameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerMiddleName">
+                    <label for="editMiddleName">
                         Middle Name *
                     </label>
 
                     <input
                         type="text"
-                        id="editCustomerMiddleName"
+                        id="editMiddleName"
+                        maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="editCustomerMiddleNameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerSurname">
+                    <label for="editSurname">
                         Surname *
                     </label>
 
                     <input
                         type="text"
-                        id="editCustomerSurname"
+                        id="editSurname"
+                        maxlength="50"
+                        required
                     >
 
-                    <small
-                        id="editCustomerSurnameError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerBirthdate">
+                    <label for="editBirthdate">
                         Birthdate *
                     </label>
 
                     <input
                         type="date"
-                        id="editCustomerBirthdate"
+                        id="editBirthdate"
+                        required
                     >
 
-                    <small
-                        id="editCustomerBirthdateError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerAge">
+                    <label for="editAge">
                         Age
                     </label>
 
                     <input
                         type="number"
-                        id="editCustomerAge"
+                        id="editAge"
                         readonly
                     >
 
@@ -1336,11 +1316,11 @@
 
                 <div class="form-group">
 
-                    <label for="editCustomerGender">
+                    <label for="editGender">
                         Gender *
                     </label>
 
-                    <select id="editCustomerGender">
+                    <select id="editGender" required>
 
                         <option value="">
                             Select Gender
@@ -1360,97 +1340,64 @@
 
                     </select>
 
-                    <small
-                        id="editCustomerGenderError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerContact">
+                    <label for="editContact">
                         Contact Number *
                     </label>
 
-                    <input
-                        type="text"
-                        id="editCustomerContact"
-                        maxlength="12"
-                        placeholder="639171234567"
-                    >
+                    <div class="contact-input">
 
-                    <small
-                        id="editCustomerContactError"
-                        class="error-message"
-                    ></small>
+                        <span>63+</span>
+
+                        <input
+                            type="text"
+                            id="editContact"
+                            maxlength="10"
+                            inputmode="numeric"
+                            required
+                        >
+
+                    </div>
+
+                    <small class="error-message"></small>
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="editCustomerEmail">
+                    <label for="editEmail">
                         Email Address *
                     </label>
 
                     <input
                         type="email"
-                        id="editCustomerEmail"
+                        id="editEmail"
+                        maxlength="100"
+                        required
                     >
 
-                    <small
-                        id="editCustomerEmailError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="editCustomerCity">
-                        City *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="editCustomerCity"
-                    >
-
-                    <small
-                        id="editCustomerCityError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-
-                <div class="form-group full-width">
-
-                    <label for="editCustomerAddress">
-                        Complete Address *
-                    </label>
-
-                    <textarea
-                        id="editCustomerAddress"
-                        rows="3"
-                    ></textarea>
-
-                    <small
-                        id="editCustomerAddressError"
-                        class="error-message"
-                    ></small>
+                    <small class="error-message"></small>
 
                 </div>
 
             </div>
 
 
+            <div class="form-notice">
+                The customer must remain 18 years old or above.
+            </div>
+
+
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
                 Update Customer
             </button>
@@ -1463,31 +1410,29 @@
 
 
 <!-- =========================================================
-     SALES EDIT MODAL
+     SALE EDIT MODAL
 ========================================================= -->
 
-<div id="saleEditModal" class="modal hidden">
+<div id="saleEditModal" class="modal">
 
-    <div class="modal-card">
+    <div class="modal-content medium-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('saleEditModal')"
+            data-close="saleEditModal"
         >
             ×
         </button>
 
-        <h2>Edit Sales Record</h2>
+        <h2>Edit Sale Record</h2>
 
 
-        <form
-            id="saleEditForm"
-            novalidate
-        >
+        <form id="saleEditForm" novalidate>
 
             <input
                 type="hidden"
-                id="editSaleId"
+                id="saleEditId"
             >
 
 
@@ -1499,7 +1444,7 @@
 
                 <input
                     type="text"
-                    id="editSaleProduct"
+                    id="saleProductName"
                     readonly
                 >
 
@@ -1508,80 +1453,62 @@
 
             <div class="form-group">
 
-                <label for="editSaleCustomer">
+                <label for="saleCustomerName">
                     Customer Name *
                 </label>
 
                 <input
                     type="text"
-                    id="editSaleCustomer"
+                    id="saleCustomerName"
+                    required
                 >
 
-                <small
-                    id="editSaleCustomerError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
             <div class="form-group">
 
-                <label for="editSaleQuantity">
+                <label for="saleQuantity">
                     Quantity *
                 </label>
 
                 <input
                     type="number"
-                    id="editSaleQuantity"
+                    id="saleQuantity"
                     min="1"
+                    step="1"
+                    required
                 >
 
-                <small
-                    id="editSaleQuantityError"
-                    class="error-message"
-                ></small>
+                <small class="error-message"></small>
 
             </div>
 
 
             <div class="form-group">
 
-                <label for="editSaleDate">
+                <label for="saleDate">
                     Date *
                 </label>
 
                 <input
                     type="date"
-                    id="editSaleDate"
+                    id="saleDate"
+                    required
                 >
 
-                <small
-                    id="editSaleDateError"
-                    class="error-message"
-                ></small>
-
-            </div>
-
-
-            <div class="sale-preview">
-
-                <span>
-                    New Total
-                </span>
-
-                <strong id="editSaleTotal">
-                    ₱0.00
-                </strong>
+                <small class="error-message"></small>
 
             </div>
 
 
             <button
                 type="submit"
-                class="btn btn-primary btn-full"
+                class="btn btn-primary full-width"
             >
-                Update Sales Record
+                Update Sale
             </button>
 
         </form>
@@ -1595,124 +1522,35 @@
      CHECKOUT MODAL
 ========================================================= -->
 
-<div id="checkoutModal" class="modal hidden">
+<div id="checkoutModal" class="modal">
 
-    <div class="modal-card modal-large">
+    <div class="modal-content medium-modal">
 
         <button
+            type="button"
             class="modal-close"
-            onclick="closeModal('checkoutModal')"
+            data-close="checkoutModal"
         >
             ×
         </button>
 
-        <h2>Checkout</h2>
+        <h2>Complete Order</h2>
 
         <p class="modal-description">
-            Confirm your information before placing the order.
+            Review the order before completing the transaction.
         </p>
 
 
-        <form
-            id="checkoutForm"
-            novalidate
+        <div id="checkoutSummary"></div>
+
+
+        <button
+            type="button"
+            class="btn btn-primary full-width"
+            id="confirmCheckoutBtn"
         >
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label for="checkoutName">
-                        Customer Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="checkoutName"
-                        readonly
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="checkoutContact">
-                        Contact Number
-                    </label>
-
-                    <input
-                        type="text"
-                        id="checkoutContact"
-                        readonly
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="checkoutEmail">
-                        Email Address
-                    </label>
-
-                    <input
-                        type="email"
-                        id="checkoutEmail"
-                        readonly
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="checkoutAddress">
-                        Delivery Address *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="checkoutAddress"
-                    >
-
-                    <small
-                        id="checkoutAddressError"
-                        class="error-message"
-                    ></small>
-
-                </div>
-
-            </div>
-
-
-            <div class="checkout-summary">
-
-                <h3>Order Summary</h3>
-
-                <div id="checkoutSummary"></div>
-
-                <div class="checkout-grand-total">
-
-                    <span>Total</span>
-
-                    <strong id="checkoutTotal">
-                        ₱0.00
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="btn btn-primary btn-full"
-            >
-                Place Order
-            </button>
-
-        </form>
+            Confirm Order
+        </button>
 
     </div>
 
@@ -1720,56 +1558,28 @@
 
 
 <!-- =========================================================
-     ORDER SUCCESS MODAL
+     SUCCESS MODAL
 ========================================================= -->
 
-<div id="successModal" class="modal hidden">
+<div id="successModal" class="modal">
 
-    <div class="modal-card success-card">
+    <div class="modal-content small-modal success-modal">
 
         <div class="success-icon">
             ✓
         </div>
 
-        <h2>Order Successfully Placed!</h2>
+        <h2>Order Completed!</h2>
 
-        <p>
-            Thank you for ordering from
-            <strong>Marcelino's Fried Itik</strong>.
-        </p>
-
-        <div id="successOrderDetails"></div>
+        <p id="successMessage"></p>
 
         <button
-            class="btn btn-primary btn-full"
-            onclick="closeModal('successModal')"
+            type="button"
+            class="btn btn-primary full-width"
+            data-close="successModal"
         >
-            Continue Shopping
+            Continue
         </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     ACCOUNT MODAL
-========================================================= -->
-
-<div id="accountModal" class="modal hidden">
-
-    <div class="modal-card">
-
-        <button
-            class="modal-close"
-            onclick="closeModal('accountModal')"
-        >
-            ×
-        </button>
-
-        <h2>My Account</h2>
-
-        <div id="accountDetails"></div>
 
     </div>
 
@@ -1780,10 +1590,7 @@
      TOAST
 ========================================================= -->
 
-<div
-    id="toast"
-    class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 
 <script src="js/script.js"></script>
