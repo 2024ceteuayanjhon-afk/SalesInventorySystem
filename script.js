@@ -1,7 +1,20 @@
+"use strict";
+
 /* =========================================================
-   MARCELINO'S FRIED ITIK
    SALES AND INVENTORY SYSTEM
-   FINAL BROWSER-BASED SCHOOL/DEMO SYSTEM
+   MARCELINO'S FRIED ITIK
+
+   Features:
+   - Customer registration
+   - 18+ age restriction
+   - Data validation
+   - LocalStorage
+   - Customer ordering
+   - Inventory management
+   - Sales management
+   - Edit
+   - Delete
+   - CRUD
 ========================================================= */
 
 
@@ -10,17 +23,12 @@
 ========================================================= */
 
 const STORAGE = {
-
-    PRODUCTS: "marcelinos_products",
-
-    CUSTOMERS: "marcelinos_customers",
-
-    SALES: "marcelinos_sales",
-
-    ACCOUNTS: "marcelinos_accounts",
-
-    CURRENT_CUSTOMER: "marcelinos_current_customer"
-
+    products: "marcelinos_products",
+    customers: "marcelinos_customers",
+    sales: "marcelinos_sales",
+    accounts: "marcelinos_accounts",
+    cart: "marcelinos_cart",
+    currentCustomer: "marcelinos_current_customer"
 };
 
 
@@ -29,7 +37,6 @@ const STORAGE = {
 ========================================================= */
 
 const DEFAULT_PRODUCTS = [
-
     {
         id: "P001",
         name: "Fried Itik Original",
@@ -38,7 +45,6 @@ const DEFAULT_PRODUCTS = [
         stock: 25,
         icon: "🍗"
     },
-
     {
         id: "P002",
         name: "Fried Itik Spicy",
@@ -47,7 +53,6 @@ const DEFAULT_PRODUCTS = [
         stock: 20,
         icon: "🌶️"
     },
-
     {
         id: "P003",
         name: "Fried Itik Family Pack",
@@ -56,7 +61,6 @@ const DEFAULT_PRODUCTS = [
         stock: 15,
         icon: "🍱"
     },
-
     {
         id: "P004",
         name: "Itik Special Sauce",
@@ -65,7 +69,6 @@ const DEFAULT_PRODUCTS = [
         stock: 30,
         icon: "🥣"
     },
-
     {
         id: "P005",
         name: "Itik Meal Combo",
@@ -74,7 +77,6 @@ const DEFAULT_PRODUCTS = [
         stock: 18,
         icon: "🍛"
     }
-
 ];
 
 
@@ -83,67 +85,45 @@ const DEFAULT_PRODUCTS = [
 ========================================================= */
 
 const DEFAULT_CUSTOMERS = [
-
     {
         id: "C001",
-        firstName: "Juan",
-        middleName: "",
+        name: "Juan",
+        middleName: "Santos",
         surname: "Dela Cruz",
-        birthdate: "1998-05-12",
-        age: 28,
-        contact: "9171234567",
+        birthdate: "1995-06-15",
+        age: 31,
         gender: "Male",
-        email: "juan@gmail.com"
+        contact: "639171234567",
+        email: "juan@gmail.com",
+        city: "Oroquieta",
+        address: "Oroquieta City, Misamis Occidental"
     },
-
     {
         id: "C002",
-        firstName: "Maria",
-        middleName: "",
+        name: "Maria",
+        middleName: "L.",
         surname: "Santos",
-        birthdate: "1997-08-21",
-        age: 29,
-        contact: "9281234567",
+        birthdate: "1992-03-20",
+        age: 34,
         gender: "Female",
-        email: "maria@gmail.com"
+        contact: "639281234567",
+        email: "maria@gmail.com",
+        city: "Ozamis",
+        address: "Ozamiz City, Misamis Occidental"
     },
-
     {
         id: "C003",
-        firstName: "Mark",
-        middleName: "",
+        name: "Mark",
+        middleName: "R.",
         surname: "Reyes",
-        birthdate: "2000-02-10",
-        age: 26,
-        contact: "9391234567",
+        birthdate: "1998-08-11",
+        age: 28,
         gender: "Male",
-        email: "mark@gmail.com"
-    },
-
-    {
-        id: "C004",
-        firstName: "Anna",
-        middleName: "",
-        surname: "Garcia",
-        birthdate: "1999-11-03",
-        age: 26,
-        contact: "9451234567",
-        gender: "Female",
-        email: "anna@gmail.com"
-    },
-
-    {
-        id: "C005",
-        firstName: "Pedro",
-        middleName: "",
-        surname: "Ramos",
-        birthdate: "1996-06-17",
-        age: 30,
-        contact: "9561234567",
-        gender: "Male",
-        email: "pedro@gmail.com"
+        contact: "639391234567",
+        email: "mark@gmail.com",
+        city: "Tangub",
+        address: "Tangub City, Misamis Occidental"
     }
-
 ];
 
 
@@ -152,7 +132,6 @@ const DEFAULT_CUSTOMERS = [
 ========================================================= */
 
 const DEFAULT_SALES = [
-
     {
         id: "S001",
         customerId: "C001",
@@ -163,7 +142,6 @@ const DEFAULT_SALES = [
         total: 700,
         date: "2026-09-14"
     },
-
     {
         id: "S002",
         customerId: "C002",
@@ -172,9 +150,8 @@ const DEFAULT_SALES = [
         productName: "Fried Itik Spicy",
         quantity: 1,
         total: 375,
-        date: "2026-09-14"
+        date: "2026-09-15"
     },
-
     {
         id: "S003",
         customerId: "C003",
@@ -183,181 +160,161 @@ const DEFAULT_SALES = [
         productName: "Fried Itik Family Pack",
         quantity: 1,
         total: 650,
-        date: "2026-09-14"
+        date: "2026-09-16"
     },
-
     {
         id: "S004",
-        customerId: "C004",
-        customerName: "Anna Garcia",
+        customerId: "C001",
+        customerName: "Juan Dela Cruz",
         productId: "P004",
         productName: "Itik Special Sauce",
         quantity: 3,
         total: 360,
-        date: "2026-09-14"
+        date: "2026-09-17"
     },
-
     {
         id: "S005",
-        customerId: "C005",
-        customerName: "Pedro Ramos",
+        customerId: "C002",
+        customerName: "Maria Santos",
         productId: "P005",
         productName: "Itik Meal Combo",
         quantity: 2,
         total: 900,
-        date: "2026-09-14"
+        date: "2026-09-18"
     }
-
 ];
 
 
 /* =========================================================
-   CURRENT DATA
+   GLOBAL VARIABLES
 ========================================================= */
 
 let products = [];
-
 let customers = [];
-
 let sales = [];
-
 let accounts = [];
-
 let cart = [];
-
 let currentCustomer = null;
+
+let editingProductId = null;
 
 
 /* =========================================================
-   DOM READY
+   INITIALIZATION
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     initializeStorage();
 
     loadData();
 
-    setBirthdateLimits();
-
     setupEventListeners();
 
+    setupBirthdateLimits();
+
     renderAll();
+
+    showAuthPage();
 
 });
 
 
 /* =========================================================
-   INITIALIZE LOCAL STORAGE
+   STORAGE
 ========================================================= */
 
 function initializeStorage() {
 
-    if (localStorage.getItem(STORAGE.PRODUCTS) === null) {
-
-        localStorage.setItem(
-            STORAGE.PRODUCTS,
-            JSON.stringify(DEFAULT_PRODUCTS)
-        );
-
+    if (localStorage.getItem(STORAGE.products) === null) {
+        saveStorage(STORAGE.products, DEFAULT_PRODUCTS);
     }
 
-    if (localStorage.getItem(STORAGE.CUSTOMERS) === null) {
-
-        localStorage.setItem(
-            STORAGE.CUSTOMERS,
-            JSON.stringify(DEFAULT_CUSTOMERS)
-        );
-
+    if (localStorage.getItem(STORAGE.customers) === null) {
+        saveStorage(STORAGE.customers, DEFAULT_CUSTOMERS);
     }
 
-    if (localStorage.getItem(STORAGE.SALES) === null) {
-
-        localStorage.setItem(
-            STORAGE.SALES,
-            JSON.stringify(DEFAULT_SALES)
-        );
-
+    if (localStorage.getItem(STORAGE.sales) === null) {
+        saveStorage(STORAGE.sales, DEFAULT_SALES);
     }
 
-    if (localStorage.getItem(STORAGE.ACCOUNTS) === null) {
+    if (localStorage.getItem(STORAGE.accounts) === null) {
+        saveStorage(STORAGE.accounts, []);
+    }
 
-        localStorage.setItem(
-            STORAGE.ACCOUNTS,
-            JSON.stringify([])
-        );
-
+    if (localStorage.getItem(STORAGE.cart) === null) {
+        saveStorage(STORAGE.cart, []);
     }
 
 }
 
-
-/* =========================================================
-   LOAD DATA
-========================================================= */
 
 function loadData() {
 
-    products = JSON.parse(
-        localStorage.getItem(STORAGE.PRODUCTS)
-    ) || [];
+    products = getStorage(
+        STORAGE.products,
+        DEFAULT_PRODUCTS
+    );
 
-    customers = JSON.parse(
-        localStorage.getItem(STORAGE.CUSTOMERS)
-    ) || [];
+    customers = getStorage(
+        STORAGE.customers,
+        DEFAULT_CUSTOMERS
+    );
 
-    sales = JSON.parse(
-        localStorage.getItem(STORAGE.SALES)
-    ) || [];
+    sales = getStorage(
+        STORAGE.sales,
+        DEFAULT_SALES
+    );
 
-    accounts = JSON.parse(
-        localStorage.getItem(STORAGE.ACCOUNTS)
-    ) || [];
+    accounts = getStorage(
+        STORAGE.accounts,
+        []
+    );
+
+    cart = getStorage(
+        STORAGE.cart,
+        []
+    );
+
+    const savedCustomer = getStorage(
+        STORAGE.currentCustomer,
+        null
+    );
+
+    if (savedCustomer) {
+        currentCustomer = savedCustomer;
+    }
 
 }
 
 
-/* =========================================================
-   SAVE FUNCTIONS
-========================================================= */
+function getStorage(key, fallback) {
 
-function saveProducts() {
+    try {
 
-    localStorage.setItem(
-        STORAGE.PRODUCTS,
-        JSON.stringify(products)
-    );
+        const value = localStorage.getItem(key);
 
+        if (value === null) {
+            return fallback;
+        }
+
+        return JSON.parse(value);
+
+    } catch (error) {
+
+        console.error(error);
+
+        return fallback;
+    }
 }
 
 
-function saveCustomers() {
+function saveStorage(key, data) {
 
     localStorage.setItem(
-        STORAGE.CUSTOMERS,
-        JSON.stringify(customers)
+        key,
+        JSON.stringify(data)
     );
-
-}
-
-
-function saveSales() {
-
-    localStorage.setItem(
-        STORAGE.SALES,
-        JSON.stringify(sales)
-    );
-
-}
-
-
-function saveAccounts() {
-
-    localStorage.setItem(
-        STORAGE.ACCOUNTS,
-        JSON.stringify(accounts)
-    );
-
 }
 
 
@@ -367,142 +324,122 @@ function saveAccounts() {
 
 function setupEventListeners() {
 
-
-    /* ADMIN LOGIN */
-
     document
         .getElementById("adminLoginForm")
         .addEventListener("submit", handleAdminLogin);
-
-
-    /* CUSTOMER LOGIN */
 
     document
         .getElementById("customerLoginForm")
         .addEventListener("submit", handleCustomerLogin);
 
-
-    /* CUSTOMER SIGNUP */
-
     document
-        .getElementById("customerSignupForm")
-        .addEventListener("submit", handleCustomerSignup);
-
-
-    /* PRODUCT */
+        .getElementById("signupForm")
+        .addEventListener("submit", handleSignup);
 
     document
         .getElementById("productForm")
         .addEventListener("submit", saveProduct);
 
-
-    /* CUSTOMER EDIT */
-
     document
         .getElementById("customerEditForm")
         .addEventListener("submit", saveCustomerEdit);
 
-
-    /* SALES EDIT */
-
     document
         .getElementById("saleEditForm")
         .addEventListener("submit", saveSaleEdit);
-
-
-    /* CHECKOUT */
 
     document
         .getElementById("checkoutForm")
         .addEventListener("submit", processOrder);
 
 
-    /* BIRTHDATE */
-
     document
         .getElementById("signupBirthdate")
-        .addEventListener("change", function () {
+        .addEventListener("change", () => {
 
-            document.getElementById("signupAge").value =
-                calculateAge(this.value);
+            updateAge(
+                "signupBirthdate",
+                "signupAge"
+            );
+
+        });
+
+
+    document
+        .getElementById("editCustomerBirthdate")
+        .addEventListener("change", () => {
+
+            updateAge(
+                "editCustomerBirthdate",
+                "editCustomerAge"
+            );
 
         });
 
 
     document
-        .getElementById("editBirthdate")
-        .addEventListener("change", function () {
-
-            document.getElementById("editAge").value =
-                calculateAge(this.value);
-
-        });
-
-
-    /* CONTACT NUMBER */
-
-    document
-        .getElementById("signupContact")
-        .addEventListener("input", restrictPhoneInput);
-
-
-    document
-        .getElementById("editContact")
-        .addEventListener("input", restrictPhoneInput);
-
-
-    document
-        .getElementById("checkoutContact")
-        .addEventListener("input", restrictPhoneInput);
+        .getElementById("editSaleQuantity")
+        .addEventListener("input", updateSalePreview);
 
 }
 
 
 /* =========================================================
-   BIRTHDATE LIMITS
+   AGE LIMIT
 ========================================================= */
 
-function setBirthdateLimits() {
+function setupBirthdateLimits() {
 
     const today = new Date();
 
-    const todayString =
-        today.toISOString().split("T")[0];
+    const maxBirthdate = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDate()
+    );
 
-    document.getElementById("signupBirthdate").max =
-        todayString;
+    const maxDate = formatDateInput(maxBirthdate);
 
-    document.getElementById("editBirthdate").max =
-        todayString;
+    document
+        .getElementById("signupBirthdate")
+        .max = maxDate;
 
-}
-
-
-/* =========================================================
-   PHONE INPUT
-========================================================= */
-
-function restrictPhoneInput(event) {
-
-    event.target.value =
-        event.target.value
-            .replace(/\D/g, "")
-            .substring(0, 10);
+    document
+        .getElementById("editCustomerBirthdate")
+        .max = maxDate;
 
 }
 
 
-/* =========================================================
-   AGE CALCULATION
-========================================================= */
+function formatDateInput(date) {
+
+    const year = date.getFullYear();
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
 
 function calculateAge(birthdate) {
 
     if (!birthdate) {
-        return "";
+        return null;
     }
 
-    const birth = new Date(birthdate);
+    const birth = new Date(
+        birthdate + "T00:00:00"
+    );
+
+    if (Number.isNaN(birth.getTime())) {
+        return null;
+    }
 
     const today = new Date();
 
@@ -521,145 +458,62 @@ function calculateAge(birthdate) {
             today.getDate() < birth.getDate()
         )
     ) {
-
         age--;
-
     }
 
     return age;
+}
+
+
+function updateAge(
+    birthdateId,
+    ageId
+) {
+
+    const birthdate =
+        document.getElementById(
+            birthdateId
+        ).value;
+
+    const age =
+        calculateAge(birthdate);
+
+    document.getElementById(
+        ageId
+    ).value =
+        age !== null ? age : "";
 
 }
 
 
 /* =========================================================
-   NAME HELPER
+   AUTH PAGE
 ========================================================= */
 
-function getFullName(customer) {
-
-    return [
-
-        customer.firstName,
-
-        customer.middleName,
-
-        customer.surname
-
-    ]
-        .filter(Boolean)
-        .join(" ");
-
-}
-
-
-/* =========================================================
-   ID GENERATOR
-========================================================= */
-
-function generateId(prefix, list) {
-
-    let number = 1;
-
-    while (
-        list.some(
-            item =>
-                item.id ===
-                prefix +
-                String(number).padStart(3, "0")
-        )
-    ) {
-
-        number++;
-
-    }
-
-    return (
-        prefix +
-        String(number).padStart(3, "0")
-    );
-
-}
-
-
-/* =========================================================
-   MONEY FORMAT
-========================================================= */
-
-function formatMoney(value) {
-
-    return new Intl.NumberFormat(
-        "en-PH",
-        {
-            style: "currency",
-            currency: "PHP"
-        }
-    ).format(value);
-
-}
-
-
-/* =========================================================
-   DATE
-========================================================= */
-
-function getToday() {
-
-    return new Date()
-        .toISOString()
-        .split("T")[0];
-
-}
-
-
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================================================
-   MODAL FUNCTIONS
-========================================================= */
-
-function openModal(id) {
+function showAuthPage() {
 
     document
-        .getElementById(id)
+        .getElementById("authPage")
         .classList.remove("hidden");
 
-}
-
-
-function closeModal(id) {
+    document
+        .getElementById("adminPage")
+        .classList.add("hidden");
 
     document
-        .getElementById(id)
+        .getElementById("customerPage")
         .classList.add("hidden");
 
 }
 
 
-/* =========================================================
-   AUTH MODALS
-========================================================= */
-
 function openAdminLogin() {
 
-    closeAllModals();
+    clearErrors();
 
-    document.getElementById("adminLoginForm").reset();
-
-    hideError("adminLoginError");
+    document
+        .getElementById("adminLoginForm")
+        .reset();
 
     openModal("adminLoginModal");
 
@@ -668,34 +522,30 @@ function openAdminLogin() {
 
 function openCustomerLogin() {
 
-    closeAllModals();
+    clearErrors();
 
     document
         .getElementById("customerLoginForm")
         .reset();
-
-    hideError("customerLoginError");
 
     openModal("customerLoginModal");
 
 }
 
 
-function openCustomerSignup() {
+function openSignup() {
 
-    closeAllModals();
+    clearErrors();
 
     document
-        .getElementById("customerSignupForm")
+        .getElementById("signupForm")
         .reset();
 
-    document.getElementById("signupAge").value = "";
+    document
+        .getElementById("signupAge")
+        .value = "";
 
-    hideError("signupError");
-
-    hideError("signupSuccess");
-
-    openModal("customerSignupModal");
+    openModal("signupModal");
 
 }
 
@@ -704,27 +554,9 @@ function switchToSignup() {
 
     closeModal("customerLoginModal");
 
-    openCustomerSignup();
-
-}
-
-
-function switchToCustomerLogin() {
-
-    closeModal("customerSignupModal");
-
-    openCustomerLogin();
-
-}
-
-
-function closeAllModals() {
-
-    document
-        .querySelectorAll(".modal")
-        .forEach(modal => {
-            modal.classList.add("hidden");
-        });
+    setTimeout(() => {
+        openSignup();
+    }, 150);
 
 }
 
@@ -737,52 +569,69 @@ function handleAdminLogin(event) {
 
     event.preventDefault();
 
+    clearErrors();
+
     const username =
-        document
-            .getElementById("adminUsername")
-            .value
-            .trim();
+        document.getElementById(
+            "adminUsername"
+        ).value.trim();
 
     const password =
-        document
-            .getElementById("adminPassword")
-            .value;
+        document.getElementById(
+            "adminPassword"
+        ).value;
 
-    if (
-        username === "admin" &&
-        password === "admin123"
-    ) {
+    let valid = true;
 
-        closeModal("adminLoginModal");
 
-        showAdminPage();
-
-        showToast("Admin login successful.");
-
-    } else {
+    if (!username) {
 
         showError(
-            "adminLoginError",
-            "Invalid username or password."
+            "adminUsername",
+            "adminUsernameError",
+            "Username is required."
         );
 
+        valid = false;
     }
 
-}
+
+    if (!password) {
+
+        showError(
+            "adminPassword",
+            "adminPasswordError",
+            "Password is required."
+        );
+
+        valid = false;
+    }
 
 
-/* =========================================================
-   SHOW ADMIN
-========================================================= */
+    if (!valid) {
+        return;
+    }
 
-function showAdminPage() {
+
+    if (
+        username !== "admin" ||
+        password !== "admin123"
+    ) {
+
+        showError(
+            "adminPassword",
+            "adminPasswordError",
+            "Invalid admin username or password."
+        );
+
+        return;
+    }
+
+
+    closeModal("adminLoginModal");
 
     document
         .getElementById("authPage")
-        .classList.add("hidden");
-
-    document
-        .getElementById("customerPage")
         .classList.add("hidden");
 
     document
@@ -790,6 +639,10 @@ function showAdminPage() {
         .classList.remove("hidden");
 
     renderAll();
+
+    showToast(
+        "Admin login successful."
+    );
 
 }
 
@@ -800,23 +653,19 @@ function showAdminPage() {
 
 function adminLogout() {
 
-    if (
-        confirm(
-            "Are you sure you want to logout from the administrator account?"
-        )
-    ) {
+    const confirmed = confirm(
+        "Are you sure you want to logout?"
+    );
 
-        document
-            .getElementById("adminPage")
-            .classList.add("hidden");
-
-        document
-            .getElementById("authPage")
-            .classList.remove("hidden");
-
-        showToast("Admin logged out.");
-
+    if (!confirmed) {
+        return;
     }
+
+    showAuthPage();
+
+    showToast(
+        "Admin logged out successfully."
+    );
 
 }
 
@@ -825,302 +674,395 @@ function adminLogout() {
    CUSTOMER SIGNUP
 ========================================================= */
 
-function handleCustomerSignup(event) {
+function handleSignup(event) {
 
     event.preventDefault();
 
-    hideError("signupError");
+    clearErrors();
 
-    hideError("signupSuccess");
+    const data = {
+
+        name:
+            document.getElementById(
+                "signupName"
+            ).value.trim(),
+
+        middleName:
+            document.getElementById(
+                "signupMiddleName"
+            ).value.trim(),
+
+        surname:
+            document.getElementById(
+                "signupSurname"
+            ).value.trim(),
+
+        birthdate:
+            document.getElementById(
+                "signupBirthdate"
+            ).value,
+
+        gender:
+            document.getElementById(
+                "signupGender"
+            ).value,
+
+        contact:
+            document.getElementById(
+                "signupContact"
+            ).value.trim(),
+
+        email:
+            document.getElementById(
+                "signupEmail"
+            ).value.trim().toLowerCase(),
+
+        password:
+            document.getElementById(
+                "signupPassword"
+            ).value,
+
+        confirmPassword:
+            document.getElementById(
+                "signupConfirmPassword"
+            ).value,
+
+        city:
+            document.getElementById(
+                "signupCity"
+            ).value.trim(),
+
+        address:
+            document.getElementById(
+                "signupAddress"
+            ).value.trim()
+
+    };
 
 
-    const firstName =
-        document
-            .getElementById("signupFirstName")
-            .value
-            .trim();
+    let valid = true;
 
-    const middleName =
-        document
-            .getElementById("signupMiddleName")
-            .value
-            .trim();
 
-    const surname =
-        document
-            .getElementById("signupSurname")
-            .value
-            .trim();
+    /* NAME */
 
-    const birthdate =
-        document
-            .getElementById("signupBirthdate")
-            .value;
+    if (
+        data.name.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(data.name)
+    ) {
+
+        showError(
+            "signupName",
+            "signupNameError",
+            "Enter a valid name."
+        );
+
+        valid = false;
+    }
+
+
+    /* MIDDLE NAME */
+
+    if (
+        data.middleName.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(data.middleName)
+    ) {
+
+        showError(
+            "signupMiddleName",
+            "signupMiddleNameError",
+            "Enter a valid middle name."
+        );
+
+        valid = false;
+    }
+
+
+    /* SURNAME */
+
+    if (
+        data.surname.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(data.surname)
+    ) {
+
+        showError(
+            "signupSurname",
+            "signupSurnameError",
+            "Enter a valid surname."
+        );
+
+        valid = false;
+    }
+
+
+    /* BIRTHDATE */
 
     const age =
-        calculateAge(birthdate);
+        calculateAge(data.birthdate);
 
-    const contact =
-        document
-            .getElementById("signupContact")
-            .value
-            .trim();
+    if (!data.birthdate) {
 
-    const gender =
-        document
-            .getElementById("signupGender")
-            .value;
-
-    const email =
-        document
-            .getElementById("signupEmail")
-            .value
-            .trim()
-            .toLowerCase();
-
-    const password =
-        document
-            .getElementById("signupPassword")
-            .value;
-
-    const confirmPassword =
-        document
-            .getElementById("signupConfirmPassword")
-            .value;
-
-
-    /* VALIDATION */
-
-    if (firstName.length < 2) {
-
-        return showError(
-            "signupError",
-            "First name must contain at least 2 characters."
+        showError(
+            "signupBirthdate",
+            "signupBirthdateError",
+            "Birthdate is required."
         );
 
+        valid = false;
+
+    } else if (age === null) {
+
+        showError(
+            "signupBirthdate",
+            "signupBirthdateError",
+            "Enter a valid birthdate."
+        );
+
+        valid = false;
+
+    } else if (age < 18) {
+
+        showError(
+            "signupBirthdate",
+            "signupBirthdateError",
+            "Registration is only available to customers 18 years old or above."
+        );
+
+        valid = false;
     }
 
 
-    if (surname.length < 2) {
+    /* GENDER */
 
-        return showError(
-            "signupError",
-            "Surname must contain at least 2 characters."
+    if (!data.gender) {
+
+        showError(
+            "signupGender",
+            "signupGenderError",
+            "Please select a gender."
         );
 
+        valid = false;
     }
 
 
-    if (!birthdate) {
+    /* CONTACT */
 
-        return showError(
-            "signupError",
-            "Please select your birthdate."
+    if (
+        !/^639\d{9}$/.test(data.contact)
+    ) {
+
+        showError(
+            "signupContact",
+            "signupContactError",
+            "Contact must start with 63 and contain 12 digits. Example: 639171234567"
         );
 
+        valid = false;
     }
 
 
-    if (age < 13) {
+    /* EMAIL */
 
-        return showError(
-            "signupError",
-            "Customer must be at least 13 years old."
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            data.email
+        )
+    ) {
+
+        showError(
+            "signupEmail",
+            "signupEmailError",
+            "Enter a valid email address."
         );
 
-    }
-
-
-    if (age > 120) {
-
-        return showError(
-            "signupError",
-            "Please enter a valid birthdate."
-        );
-
-    }
-
-
-    if (!/^\d{10}$/.test(contact)) {
-
-        return showError(
-            "signupError",
-            "Contact number must contain exactly 10 digits after +63."
-        );
-
-    }
-
-
-    if (!contact.startsWith("9")) {
-
-        return showError(
-            "signupError",
-            "Philippine mobile number must start with 9 after +63."
-        );
-
-    }
-
-
-    if (!gender) {
-
-        return showError(
-            "signupError",
-            "Please select your gender."
-        );
-
-    }
-
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-
-        return showError(
-            "signupError",
-            "Please enter a valid email address."
-        );
-
-    }
-
-
-    if (password.length < 8) {
-
-        return showError(
-            "signupError",
-            "Password must contain at least 8 characters."
-        );
-
-    }
-
-
-    if (password !== confirmPassword) {
-
-        return showError(
-            "signupError",
-            "Password and Confirm Password do not match."
-        );
-
+        valid = false;
     }
 
 
     /* DUPLICATE EMAIL */
 
-    const existingAccount =
-        accounts.find(
+    if (
+        accounts.some(
             account =>
-                account.email === email
+                account.email.toLowerCase() ===
+                data.email
+        )
+    ) {
+
+        showError(
+            "signupEmail",
+            "signupEmailError",
+            "An account with this email already exists."
         );
 
-    if (existingAccount) {
-
-        return showError(
-            "signupError",
-            "An account with this email address already exists."
-        );
-
+        valid = false;
     }
 
 
-    const existingCustomer =
-        customers.find(
-            customer =>
-                customer.email.toLowerCase() === email
+    /* PASSWORD */
+
+    if (data.password.length < 8) {
+
+        showError(
+            "signupPassword",
+            "signupPasswordError",
+            "Password must contain at least 8 characters."
         );
 
-    if (existingCustomer) {
-
-        return showError(
-            "signupError",
-            "This email address is already registered."
-        );
-
+        valid = false;
     }
 
 
-    /* CREATE CUSTOMER */
+    /* CONFIRM PASSWORD */
+
+    if (
+        data.password !==
+        data.confirmPassword
+    ) {
+
+        showError(
+            "signupConfirmPassword",
+            "signupConfirmPasswordError",
+            "Passwords do not match."
+        );
+
+        valid = false;
+    }
+
+
+    /* CITY */
+
+    if (data.city.length < 2) {
+
+        showError(
+            "signupCity",
+            "signupCityError",
+            "City is required."
+        );
+
+        valid = false;
+    }
+
+
+    /* ADDRESS */
+
+    if (data.address.length < 5) {
+
+        showError(
+            "signupAddress",
+            "signupAddressError",
+            "Please enter your complete address."
+        );
+
+        valid = false;
+    }
+
+
+    if (!valid) {
+
+        showToast(
+            "Please correct the highlighted fields."
+        );
+
+        return;
+    }
+
+
+    /* CREATE CUSTOMER ID */
 
     const customerId =
-        generateId("C", customers);
+        generateId(
+            "C",
+            customers
+        );
 
 
-    const newCustomer = {
+    const customer = {
 
         id: customerId,
 
-        firstName,
+        name: data.name,
 
-        middleName,
+        middleName:
+            data.middleName,
 
-        surname,
+        surname:
+            data.surname,
 
-        birthdate,
+        birthdate:
+            data.birthdate,
 
-        age,
+        age: age,
 
-        contact,
+        gender:
+            data.gender,
 
-        gender,
+        contact:
+            data.contact,
 
-        email
+        email:
+            data.email,
+
+        city:
+            data.city,
+
+        address:
+            data.address
 
     };
-
-
-    customers.push(newCustomer);
 
 
     /* CREATE ACCOUNT */
 
-    const newAccount = {
+    const account = {
 
-        customerId,
+        customerId:
+            customerId,
 
-        email,
+        email:
+            data.email,
 
-        password
+        password:
+            data.password
 
     };
 
 
-    accounts.push(newAccount);
+    customers.push(customer);
+
+    accounts.push(account);
 
 
-    saveCustomers();
+    saveStorage(
+        STORAGE.customers,
+        customers
+    );
 
-    saveAccounts();
+    saveStorage(
+        STORAGE.accounts,
+        accounts
+    );
 
 
     document
-        .getElementById("signupSuccess")
-        .textContent =
-        "Customer account created successfully! You can now sign in.";
-
-    document
-        .getElementById("signupSuccess")
-        .classList.remove("hidden");
-
-
-    document
-        .getElementById("customerSignupForm")
+        .getElementById("signupForm")
         .reset();
 
-    document.getElementById("signupAge").value = "";
+
+    document
+        .getElementById("signupAge")
+        .value = "";
+
+
+    closeModal("signupModal");
+
+
+    showToast(
+        "Customer account created successfully. You can now sign in."
+    );
 
 
     renderAll();
-
-
-    showToast("Customer account successfully created.");
-
-
-    setTimeout(
-        () => {
-
-            closeModal("customerSignupModal");
-
-            openCustomerLogin();
-
-        },
-        1200
-    );
 
 }
 
@@ -1133,81 +1075,119 @@ function handleCustomerLogin(event) {
 
     event.preventDefault();
 
-    hideError("customerLoginError");
-
+    clearErrors();
 
     const email =
-        document
-            .getElementById("customerLoginEmail")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById(
+            "customerLoginEmail"
+        ).value.trim().toLowerCase();
 
     const password =
-        document
-            .getElementById("customerLoginPassword")
-            .value;
+        document.getElementById(
+            "customerLoginPassword"
+        ).value;
+
+    let valid = true;
+
+
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            email
+        )
+    ) {
+
+        showError(
+            "customerLoginEmail",
+            "customerLoginEmailError",
+            "Enter a valid email address."
+        );
+
+        valid = false;
+    }
+
+
+    if (!password) {
+
+        showError(
+            "customerLoginPassword",
+            "customerLoginPasswordError",
+            "Password is required."
+        );
+
+        valid = false;
+    }
+
+
+    if (!valid) {
+        return;
+    }
 
 
     const account =
         accounts.find(
             item =>
-                item.email === email &&
+                item.email.toLowerCase() === email &&
                 item.password === password
         );
 
 
     if (!account) {
 
-        return showError(
-            "customerLoginError",
-            "Invalid email address or password."
+        showError(
+            "customerLoginPassword",
+            "customerLoginPasswordError",
+            "Invalid email or password."
         );
 
+        return;
     }
 
 
     const customer =
         customers.find(
             item =>
-                item.id === account.customerId
+                item.id ===
+                account.customerId
         );
 
 
     if (!customer) {
 
-        return showError(
-            "customerLoginError",
-            "Customer record could not be found."
+        showError(
+            "customerLoginEmail",
+            "customerLoginEmailError",
+            "Customer record was not found."
         );
 
+        return;
     }
 
 
     currentCustomer = customer;
 
 
-    localStorage.setItem(
-        STORAGE.CURRENT_CUSTOMER,
-        JSON.stringify(customer)
+    saveStorage(
+        STORAGE.currentCustomer,
+        currentCustomer
+    );
+
+
+    cart = getStorage(
+        STORAGE.cart,
+        []
     );
 
 
     closeModal("customerLoginModal");
 
-    showCustomerPage();
 
-    showToast(
-        "Welcome, " +
-        getFullName(customer) +
-        "!"
-    );
+    showCustomerPage();
 
 }
 
 
 /* =========================================================
-   SHOW CUSTOMER PAGE
+   CUSTOMER PAGE
 ========================================================= */
 
 function showCustomerPage() {
@@ -1225,16 +1205,17 @@ function showCustomerPage() {
         .classList.remove("hidden");
 
 
-    document
-        .getElementById("customerHeaderName")
-        .textContent =
+    const fullName =
         getFullName(currentCustomer);
 
 
     document
+        .getElementById("customerHeaderName")
+        .textContent = fullName;
+
+    document
         .getElementById("customerWelcomeName")
-        .textContent =
-        currentCustomer.firstName;
+        .textContent = currentCustomer.name;
 
 
     renderCustomerMenu();
@@ -1244,37 +1225,777 @@ function showCustomerPage() {
 }
 
 
-/* =========================================================
-   CUSTOMER LOGOUT
-========================================================= */
-
 function customerLogout() {
 
-    if (
-        confirm(
-            "Are you sure you want to logout?"
-        )
-    ) {
+    const confirmed = confirm(
+        "Are you sure you want to logout?"
+    );
 
-        currentCustomer = null;
+    if (!confirmed) {
+        return;
+    }
 
-        cart = [];
+    currentCustomer = null;
 
-        localStorage.removeItem(
-            STORAGE.CURRENT_CUSTOMER
+    localStorage.removeItem(
+        STORAGE.currentCustomer
+    );
+
+    cart = [];
+
+    saveStorage(
+        STORAGE.cart,
+        []
+    );
+
+    showAuthPage();
+
+    showToast(
+        "Customer logged out successfully."
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER MENU
+========================================================= */
+
+function renderCustomerMenu() {
+
+    const container =
+        document.getElementById(
+            "customerMenu"
         );
 
-        document
-            .getElementById("customerPage")
-            .classList.add("hidden");
 
-        document
-            .getElementById("authPage")
-            .classList.remove("hidden");
+    if (!products.length) {
 
-        showToast("Customer logged out.");
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">📦</div>
+                <p>No products are currently available.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        products.map(product => {
+
+            const stockStatus =
+                product.stock === 0
+                    ? "Out of stock"
+                    : `${product.stock} available`;
+
+
+            return `
+                <div class="menu-card">
+
+                    <div class="menu-image">
+                        ${escapeHtml(product.icon || "🍗")}
+                    </div>
+
+                    <div class="menu-content">
+
+                        <h3>
+                            ${escapeHtml(product.name)}
+                        </h3>
+
+                        <div class="menu-category">
+                            ${escapeHtml(product.category)}
+                        </div>
+
+                        <div class="menu-price">
+                            ${formatMoney(product.price)}
+                        </div>
+
+                        <div class="menu-stock">
+                            ${stockStatus}
+                        </div>
+
+                        <button
+                            class="btn btn-primary btn-full"
+                            onclick="addToCart('${product.id}')"
+                            ${product.stock <= 0 ? "disabled" : ""}
+                        >
+                            ${
+                                product.stock <= 0
+                                    ? "Out of Stock"
+                                    : "Add to Cart"
+                            }
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+function addToCart(productId) {
+
+    const product =
+        products.find(
+            item => item.id === productId
+        );
+
+
+    if (!product) {
+        return;
+    }
+
+
+    if (product.stock <= 0) {
+
+        showToast(
+            "This product is out of stock."
+        );
+
+        return;
+    }
+
+
+    const existing =
+        cart.find(
+            item =>
+                item.productId === productId
+        );
+
+
+    if (existing) {
+
+        if (
+            existing.quantity >=
+            product.stock
+        ) {
+
+            showToast(
+                "You cannot add more than the available stock."
+            );
+
+            return;
+        }
+
+        existing.quantity++;
+
+    } else {
+
+        cart.push({
+            productId: product.id,
+            quantity: 1
+        });
 
     }
+
+
+    saveStorage(
+        STORAGE.cart,
+        cart
+    );
+
+
+    renderCart();
+
+    showToast(
+        `${product.name} added to cart.`
+    );
+
+}
+
+
+function changeCartQuantity(
+    productId,
+    change
+) {
+
+    const item =
+        cart.find(
+            cartItem =>
+                cartItem.productId ===
+                productId
+        );
+
+
+    const product =
+        products.find(
+            productItem =>
+                productItem.id ===
+                productId
+        );
+
+
+    if (!item || !product) {
+        return;
+    }
+
+
+    const newQuantity =
+        item.quantity + change;
+
+
+    if (newQuantity <= 0) {
+
+        cart =
+            cart.filter(
+                cartItem =>
+                    cartItem.productId !==
+                    productId
+            );
+
+    } else if (
+        newQuantity <= product.stock
+    ) {
+
+        item.quantity =
+            newQuantity;
+
+    } else {
+
+        showToast(
+            "Quantity cannot exceed available stock."
+        );
+
+        return;
+    }
+
+
+    saveStorage(
+        STORAGE.cart,
+        cart
+    );
+
+
+    renderCart();
+
+}
+
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item =>
+                item.productId !== productId
+        );
+
+
+    saveStorage(
+        STORAGE.cart,
+        cart
+    );
+
+
+    renderCart();
+
+}
+
+
+function renderCart() {
+
+    const container =
+        document.getElementById(
+            "cartItems"
+        );
+
+    const countElement =
+        document.getElementById(
+            "cartCount"
+        );
+
+    const totalElement =
+        document.getElementById(
+            "cartTotal"
+        );
+
+    const checkoutButton =
+        document.getElementById(
+            "checkoutButton"
+        );
+
+
+    if (!cart.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">🛒</div>
+                <p>Your cart is empty.</p>
+            </div>
+        `;
+
+        countElement.textContent = "0";
+
+        totalElement.textContent =
+            formatMoney(0);
+
+        checkoutButton.disabled = true;
+
+        return;
+    }
+
+
+    let total = 0;
+
+    let itemCount = 0;
+
+
+    container.innerHTML =
+        cart.map(item => {
+
+            const product =
+                products.find(
+                    productItem =>
+                        productItem.id ===
+                        item.productId
+                );
+
+
+            if (!product) {
+                return "";
+            }
+
+
+            const subtotal =
+                product.price *
+                item.quantity;
+
+
+            total += subtotal;
+
+            itemCount += item.quantity;
+
+
+            return `
+                <div class="cart-item">
+
+                    <div class="cart-item-top">
+
+                        <h4>
+                            ${escapeHtml(product.name)}
+                        </h4>
+
+                        <span class="cart-item-price">
+                            ${formatMoney(subtotal)}
+                        </span>
+
+                    </div>
+
+                    <div class="quantity-controls">
+
+                        <button
+                            onclick="changeCartQuantity(
+                                '${product.id}',
+                                -1
+                            )"
+                        >
+                            −
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button
+                            onclick="changeCartQuantity(
+                                '${product.id}',
+                                1
+                            )"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            onclick="removeFromCart(
+                                '${product.id}'
+                            )"
+                            title="Remove"
+                        >
+                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    countElement.textContent =
+        itemCount;
+
+    totalElement.textContent =
+        formatMoney(total);
+
+    checkoutButton.disabled = false;
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+function openCheckout() {
+
+    if (!currentCustomer) {
+
+        showToast(
+            "Please sign in as a customer first."
+        );
+
+        return;
+    }
+
+
+    if (!cart.length) {
+
+        showToast(
+            "Your cart is empty."
+        );
+
+        return;
+    }
+
+
+    document
+        .getElementById("checkoutName")
+        .value =
+        getFullName(currentCustomer);
+
+    document
+        .getElementById("checkoutContact")
+        .value =
+        currentCustomer.contact;
+
+    document
+        .getElementById("checkoutEmail")
+        .value =
+        currentCustomer.email;
+
+    document
+        .getElementById("checkoutAddress")
+        .value =
+        currentCustomer.address;
+
+
+    renderCheckoutSummary();
+
+    openModal("checkoutModal");
+
+}
+
+
+function renderCheckoutSummary() {
+
+    const container =
+        document.getElementById(
+            "checkoutSummary"
+        );
+
+    let total = 0;
+
+
+    container.innerHTML =
+        cart.map(item => {
+
+            const product =
+                products.find(
+                    productItem =>
+                        productItem.id ===
+                        item.productId
+                );
+
+
+            if (!product) {
+                return "";
+            }
+
+
+            const subtotal =
+                product.price *
+                item.quantity;
+
+
+            total += subtotal;
+
+
+            return `
+                <div class="checkout-row">
+
+                    <span>
+                        ${escapeHtml(product.name)}
+                        × ${item.quantity}
+                    </span>
+
+                    <strong>
+                        ${formatMoney(subtotal)}
+                    </strong>
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    document
+        .getElementById("checkoutTotal")
+        .textContent =
+        formatMoney(total);
+
+}
+
+
+function processOrder(event) {
+
+    event.preventDefault();
+
+    clearErrors();
+
+
+    const address =
+        document
+            .getElementById(
+                "checkoutAddress"
+            )
+            .value.trim();
+
+
+    if (address.length < 5) {
+
+        showError(
+            "checkoutAddress",
+            "checkoutAddressError",
+            "Please enter a valid delivery address."
+        );
+
+        return;
+    }
+
+
+    if (!cart.length) {
+
+        showToast(
+            "Your cart is empty."
+        );
+
+        closeModal("checkoutModal");
+
+        return;
+    }
+
+
+    /* CHECK STOCK */
+
+    for (const item of cart) {
+
+        const product =
+            products.find(
+                productItem =>
+                    productItem.id ===
+                    item.productId
+            );
+
+
+        if (
+            !product ||
+            item.quantity > product.stock
+        ) {
+
+            showToast(
+                `Insufficient stock for ${
+                    product
+                        ? product.name
+                        : "a product"
+                }.`
+            );
+
+            renderCustomerMenu();
+
+            return;
+        }
+
+    }
+
+
+    /* UPDATE CUSTOMER ADDRESS */
+
+    const customerIndex =
+        customers.findIndex(
+            customer =>
+                customer.id ===
+                currentCustomer.id
+        );
+
+
+    if (customerIndex !== -1) {
+
+        customers[customerIndex].address =
+            address;
+
+        currentCustomer =
+            customers[customerIndex];
+
+
+        saveStorage(
+            STORAGE.customers,
+            customers
+        );
+
+        saveStorage(
+            STORAGE.currentCustomer,
+            currentCustomer
+        );
+
+    }
+
+
+    const orderId =
+        generateId(
+            "S",
+            sales
+        );
+
+
+    const orderDate =
+        getToday();
+
+
+    let orderTotal = 0;
+
+
+    /* CREATE SALES RECORDS */
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                productItem =>
+                    productItem.id ===
+                    item.productId
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const subtotal =
+            product.price *
+            item.quantity;
+
+
+        orderTotal += subtotal;
+
+
+        sales.push({
+
+            id: generateId(
+                "S",
+                sales
+            ),
+
+            customerId:
+                currentCustomer.id,
+
+            customerName:
+                getFullName(currentCustomer),
+
+            productId:
+                product.id,
+
+            productName:
+                product.name,
+
+            quantity:
+                item.quantity,
+
+            total:
+                subtotal,
+
+            date:
+                orderDate
+
+        });
+
+
+        /* REDUCE INVENTORY */
+
+        product.stock -=
+            item.quantity;
+
+    });
+
+
+    saveStorage(
+        STORAGE.products,
+        products
+    );
+
+    saveStorage(
+        STORAGE.sales,
+        sales
+    );
+
+
+    /* CLEAR CART */
+
+    cart = [];
+
+    saveStorage(
+        STORAGE.cart,
+        cart
+    );
+
+
+    closeModal("checkoutModal");
+
+
+    document
+        .getElementById(
+            "successOrderDetails"
+        ).innerHTML = `
+            <div class="success-details">
+
+                <div>
+                    <strong>Order Date:</strong>
+                    ${formatDisplayDate(orderDate)}
+                </div>
+
+                <div>
+                    <strong>Customer:</strong>
+                    ${escapeHtml(
+                        getFullName(currentCustomer)
+                    )}
+                </div>
+
+                <div>
+                    <strong>Total:</strong>
+                    ${formatMoney(orderTotal)}
+                </div>
+
+            </div>
+        `;
+
+
+    openModal("successModal");
+
+
+    renderAll();
+
+    renderCustomerMenu();
+
+    renderCart();
 
 }
 
@@ -1283,105 +2004,54 @@ function customerLogout() {
    ADMIN NAVIGATION
 ========================================================= */
 
-function showAdminSection(section, button) {
+function showAdminSection(
+    section,
+    button
+) {
 
     document
         .querySelectorAll(".admin-section")
-        .forEach(item => {
-            item.classList.add("hidden");
+        .forEach(element => {
+
+            element.classList.add(
+                "hidden"
+            );
+
         });
 
 
-    document
-        .getElementById(section + "Section")
-        .classList.remove("hidden");
+    const target =
+        document.getElementById(
+            `${section}Section`
+        );
+
+
+    if (target) {
+        target.classList.remove(
+            "hidden"
+        );
+    }
 
 
     document
-        .querySelectorAll(".nav-item")
-        .forEach(item => {
-            item.classList.remove("active");
+        .querySelectorAll(".nav-btn")
+        .forEach(navButton => {
+
+            navButton.classList.remove(
+                "active"
+            );
+
         });
 
 
     if (button) {
-
-        button.classList.add("active");
-
+        button.classList.add(
+            "active"
+        );
     }
 
 
-    if (section === "dashboard") {
-
-        renderDashboard();
-
-    }
-
-    if (section === "inventory") {
-
-        renderInventory();
-
-    }
-
-    if (section === "customers") {
-
-        renderCustomers();
-
-    }
-
-    if (section === "sales") {
-
-        renderSales();
-
-    }
-
-}
-
-
-function showAdminSectionByName(section) {
-
-    const buttons =
-        document.querySelectorAll(".nav-item");
-
-    buttons.forEach(button => {
-
-        if (
-            button.textContent
-                .toLowerCase()
-                .includes(section)
-        ) {
-
-            showAdminSection(
-                section,
-                button
-            );
-
-        }
-
-    });
-
-}
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll() {
-
-    loadData();
-
-    renderDashboard();
-
-    renderInventory();
-
-    renderCustomers();
-
-    renderSales();
-
-    renderCustomerMenu();
-
-    renderCart();
+    renderAll();
 
 }
 
@@ -1392,36 +2062,109 @@ function renderAll() {
 
 function renderDashboard() {
 
-    const totalSales =
-        sales.reduce(
-            (sum, sale) =>
-                sum + Number(sale.total),
-            0
-        );
-
-
     document
-        .getElementById("dashboardProducts")
+        .getElementById(
+            "dashboardProducts"
+        )
         .textContent =
         products.length;
 
 
     document
-        .getElementById("dashboardCustomers")
+        .getElementById(
+            "dashboardCustomers"
+        )
         .textContent =
         customers.length;
 
 
     document
-        .getElementById("dashboardOrders")
+        .getElementById(
+            "dashboardOrders"
+        )
         .textContent =
         sales.length;
 
 
+    const totalSales =
+        sales.reduce(
+            (sum, sale) =>
+                sum + Number(sale.total || 0),
+            0
+        );
+
+
     document
-        .getElementById("dashboardSales")
+        .getElementById(
+            "dashboardSales"
+        )
         .textContent =
         formatMoney(totalSales);
+
+
+    renderLowStock();
+
+    renderRecentSales();
+
+}
+
+
+function renderLowStock() {
+
+    const container =
+        document.getElementById(
+            "lowStockContainer"
+        );
+
+
+    const lowStock =
+        products.filter(
+            product =>
+                product.stock <= 5
+        );
+
+
+    if (!lowStock.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">✅</div>
+                <p>No products are currently low in stock.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        lowStock.map(product => {
+
+            return `
+                <div class="checkout-row">
+
+                    <span>
+                        ${escapeHtml(product.name)}
+                    </span>
+
+                    <strong>
+                        ${product.stock} left
+                    </strong>
+
+                </div>
+            `;
+
+        }).join("");
+
+}
+
+
+function renderRecentSales() {
+
+    const container =
+        document.getElementById(
+            "recentSalesContainer"
+        );
 
 
     const recent =
@@ -1434,132 +2177,102 @@ function renderDashboard() {
             .slice(0, 5);
 
 
-    const tbody =
-        document.getElementById(
-            "recentSalesTable"
-        );
-
-
     if (!recent.length) {
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6"
-                    style="text-align:center;">
-                    No sales records found.
-                </td>
-            </tr>
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">🧾</div>
+                <p>No sales records found.</p>
+            </div>
         `;
 
         return;
-
     }
 
 
-    tbody.innerHTML =
-        recent
-            .map(
-                sale => `
-                <tr>
+    container.innerHTML =
+        recent.map(sale => {
 
-                    <td>
-                        <strong>
-                            ${escapeHtml(sale.id)}
-                        </strong>
-                    </td>
+            return `
+                <div class="checkout-row">
 
-                    <td>
-                        ${escapeHtml(sale.customerName)}
-                    </td>
+                    <span>
+                        ${escapeHtml(
+                            sale.productName
+                        )}
+                    </span>
 
-                    <td>
-                        ${escapeHtml(sale.productName)}
-                    </td>
+                    <strong>
+                        ${formatMoney(sale.total)}
+                    </strong>
 
-                    <td>
-                        ${sale.quantity}
-                    </td>
+                </div>
+            `;
 
-                    <td>
-                        <strong>
-                            ${formatMoney(sale.total)}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapeHtml(sale.date)}
-                    </td>
-
-                </tr>
-            `
-            )
-            .join("");
+        }).join("");
 
 }
 
 
 /* =========================================================
-   INVENTORY RENDER
+   INVENTORY TABLE
 ========================================================= */
 
 function renderInventory() {
 
-    const tbody =
+    const body =
         document.getElementById(
-            "inventoryTable"
+            "inventoryTableBody"
         );
 
 
     if (!products.length) {
 
-        tbody.innerHTML = `
+        body.innerHTML = `
             <tr>
-                <td colspan="7"
-                    style="text-align:center;">
-                    No products available.
+                <td colspan="7">
+                    <div class="empty-state">
+                        No products found.
+                    </div>
                 </td>
             </tr>
         `;
 
         return;
-
     }
 
 
-    tbody.innerHTML =
-        products
-            .map(product => {
+    body.innerHTML =
+        products.map(product => {
 
-                let statusClass =
-                    "status-in";
+            let statusClass =
+                "status-good";
 
-                let statusText =
-                    "In Stock";
-
-
-                if (product.stock === 0) {
-
-                    statusClass =
-                        "status-out";
-
-                    statusText =
-                        "Out of Stock";
-
-                } else if (
-                    product.stock <= 5
-                ) {
-
-                    statusClass =
-                        "status-low";
-
-                    statusText =
-                        "Low Stock";
-
-                }
+            let statusText =
+                "Available";
 
 
-                return `
+            if (product.stock === 0) {
 
+                statusClass =
+                    "status-out";
+
+                statusText =
+                    "Out of Stock";
+
+            } else if (
+                product.stock <= 5
+            ) {
+
+                statusClass =
+                    "status-low";
+
+                statusText =
+                    "Low Stock";
+            }
+
+
+            return `
                 <tr>
 
                     <td>
@@ -1569,9 +2282,7 @@ function renderInventory() {
                     </td>
 
                     <td>
-                        <strong>
-                            ${escapeHtml(product.name)}
-                        </strong>
+                        ${escapeHtml(product.name)}
                     </td>
 
                     <td>
@@ -1597,15 +2308,21 @@ function renderInventory() {
                         <div class="action-buttons">
 
                             <button
-                                class="btn-edit"
-                                onclick="openProductEdit('${product.id}')">
-                                ✏ Edit
+                                class="btn btn-warning"
+                                onclick="openProductModal(
+                                    '${product.id}'
+                                )"
+                            >
+                                Edit
                             </button>
 
                             <button
-                                class="btn-delete"
-                                onclick="deleteProduct('${product.id}')">
-                                🗑 Delete
+                                class="btn btn-danger"
+                                onclick="deleteProduct(
+                                    '${product.id}'
+                                )"
+                            >
+                                Delete
                             </button>
 
                         </div>
@@ -1613,178 +2330,278 @@ function renderInventory() {
                     </td>
 
                 </tr>
+            `;
 
-                `;
-
-            })
-            .join("");
+        }).join("");
 
 }
 
 
 /* =========================================================
-   PRODUCT MODAL
+   PRODUCT CREATE / EDIT
 ========================================================= */
 
-function openProductModal() {
+function openProductModal(
+    productId = null
+) {
 
-    document
-        .getElementById("productForm")
-        .reset();
+    clearErrors();
 
-    document
-        .getElementById("productEditId")
-        .value = "";
-
-    document
-        .getElementById("productModalTitle")
-        .textContent =
-        "Add Product";
-
-    hideError("productError");
-
-    openModal("productModal");
-
-}
-
-
-/* =========================================================
-   EDIT PRODUCT
-========================================================= */
-
-function openProductEdit(id) {
-
-    const product =
-        products.find(
-            item =>
-                item.id === id
+    const form =
+        document.getElementById(
+            "productForm"
         );
 
+    form.reset();
 
-    if (!product) {
 
-        return;
+    editingProductId =
+        productId;
+
+
+    if (productId) {
+
+        const product =
+            products.find(
+                item =>
+                    item.id ===
+                    productId
+            );
+
+
+        if (!product) {
+            return;
+        }
+
+
+        document
+            .getElementById(
+                "productModalTitle"
+            )
+            .textContent =
+            "Edit Product";
+
+
+        document
+            .getElementById(
+                "productOriginalId"
+            )
+            .value =
+            product.id;
+
+
+        document
+            .getElementById(
+                "productId"
+            )
+            .value =
+            product.id;
+
+
+        document
+            .getElementById(
+                "productId"
+            )
+            .readOnly = true;
+
+
+        document
+            .getElementById(
+                "productName"
+            )
+            .value =
+            product.name;
+
+
+        document
+            .getElementById(
+                "productCategory"
+            )
+            .value =
+            product.category;
+
+
+        document
+            .getElementById(
+                "productPrice"
+            )
+            .value =
+            product.price;
+
+
+        document
+            .getElementById(
+                "productStock"
+            )
+            .value =
+            product.stock;
+
+
+        document
+            .getElementById(
+                "productIcon"
+            )
+            .value =
+            product.icon || "🍗";
+
+    } else {
+
+        document
+            .getElementById(
+                "productModalTitle"
+            )
+            .textContent =
+            "Add Product";
+
+
+        document
+            .getElementById(
+                "productId"
+            )
+            .readOnly = false;
+
+
+        document
+            .getElementById(
+                "productIcon"
+            )
+            .value = "🍗";
 
     }
 
 
-    document
-        .getElementById("productEditId")
-        .value =
-        product.id;
-
-
-    document
-        .getElementById("productName")
-        .value =
-        product.name;
-
-
-    document
-        .getElementById("productCategory")
-        .value =
-        product.category;
-
-
-    document
-        .getElementById("productPrice")
-        .value =
-        product.price;
-
-
-    document
-        .getElementById("productStock")
-        .value =
-        product.stock;
-
-
-    document
-        .getElementById("productModalTitle")
-        .textContent =
-        "Edit Product";
-
-
-    hideError("productError");
-
     openModal("productModal");
 
 }
 
-
-/* =========================================================
-   SAVE PRODUCT
-========================================================= */
 
 function saveProduct(event) {
 
     event.preventDefault();
 
-    hideError("productError");
+    clearErrors();
 
 
     const id =
         document
-            .getElementById("productEditId")
-            .value;
-
+            .getElementById(
+                "productId"
+            )
+            .value.trim()
+            .toUpperCase();
 
     const name =
         document
-            .getElementById("productName")
-            .value
-            .trim();
-
+            .getElementById(
+                "productName"
+            )
+            .value.trim();
 
     const category =
         document
-            .getElementById("productCategory")
-            .value
-            .trim();
-
+            .getElementById(
+                "productCategory"
+            )
+            .value.trim();
 
     const price =
         Number(
             document
-                .getElementById("productPrice")
+                .getElementById(
+                    "productPrice"
+                )
                 .value
         );
-
 
     const stock =
         Number(
             document
-                .getElementById("productStock")
+                .getElementById(
+                    "productStock"
+                )
                 .value
         );
+
+    const icon =
+        document
+            .getElementById(
+                "productIcon"
+            )
+            .value.trim() ||
+        "🍗";
+
+
+    let valid = true;
+
+
+    if (
+        !/^P\d{3,}$/.test(id)
+    ) {
+
+        showError(
+            "productId",
+            "productIdError",
+            "Product ID must use format P001."
+        );
+
+        valid = false;
+    }
+
+
+    if (
+        !editingProductId &&
+        products.some(
+            product =>
+                product.id === id
+        )
+    ) {
+
+        showError(
+            "productId",
+            "productIdError",
+            "Product ID already exists."
+        );
+
+        valid = false;
+    }
 
 
     if (name.length < 2) {
 
-        return showError(
-            "productError",
-            "Product name must contain at least 2 characters."
+        showError(
+            "productName",
+            "productNameError",
+            "Product name is required."
         );
 
+        valid = false;
     }
 
 
     if (category.length < 2) {
 
-        return showError(
-            "productError",
+        showError(
+            "productCategory",
+            "productCategoryError",
             "Category is required."
         );
 
+        valid = false;
     }
 
 
-    if (!Number.isFinite(price) || price <= 0) {
+    if (
+        !Number.isFinite(price) ||
+        price <= 0
+    ) {
 
-        return showError(
-            "productError",
+        showError(
+            "productPrice",
+            "productPriceError",
             "Price must be greater than zero."
         );
 
+        valid = false;
     }
 
 
@@ -1793,86 +2610,71 @@ function saveProduct(event) {
         stock < 0
     ) {
 
-        return showError(
-            "productError",
-            "Stock must be a whole number and cannot be negative."
+        showError(
+            "productStock",
+            "productStockError",
+            "Stock must be a whole number of 0 or greater."
         );
 
+        valid = false;
     }
 
 
-    if (id) {
+    if (!valid) {
 
-        const product =
-            products.find(
-                item =>
-                    item.id === id
+        showToast(
+            "Please correct the product information."
+        );
+
+        return;
+    }
+
+
+    if (editingProductId) {
+
+        const index =
+            products.findIndex(
+                product =>
+                    product.id ===
+                    editingProductId
             );
 
 
-        if (!product) {
-
+        if (index === -1) {
             return;
-
         }
 
 
-        product.name = name;
+        products[index] = {
 
-        product.category = category;
-
-        product.price = price;
-
-        product.stock = stock;
-
-
-        /* UPDATE PRODUCT NAME IN SALES */
-
-        sales.forEach(sale => {
-
-            if (sale.productId === id) {
-
-                sale.productName =
-                    name;
-
-            }
-
-        });
-
-
-        saveProducts();
-
-        saveSales();
-
-        showToast(
-            "Product updated successfully."
-        );
-
-    } else {
-
-        const newProduct = {
-
-            id: generateId(
-                "P",
-                products
-            ),
+            ...products[index],
 
             name,
-
             category,
-
             price,
-
             stock,
-
-            icon: "🍽️"
+            icon
 
         };
 
 
-        products.push(newProduct);
+        showToast(
+            "Product record updated successfully."
+        );
 
-        saveProducts();
+    } else {
+
+        products.push({
+
+            id,
+            name,
+            category,
+            price,
+            stock,
+            icon
+
+        });
+
 
         showToast(
             "Product added successfully."
@@ -1881,9 +2683,19 @@ function saveProduct(event) {
     }
 
 
+    saveStorage(
+        STORAGE.products,
+        products
+    );
+
+
     closeModal("productModal");
 
     renderAll();
+
+    renderCustomerMenu();
+
+    renderCart();
 
 }
 
@@ -1892,67 +2704,83 @@ function saveProduct(event) {
    DELETE PRODUCT
 ========================================================= */
 
-function deleteProduct(id) {
+function deleteProduct(productId) {
 
     const product =
         products.find(
             item =>
-                item.id === id
+                item.id === productId
         );
 
 
     if (!product) {
-
         return;
-
     }
 
 
-    const usedInSales =
+    const referenced =
         sales.some(
             sale =>
-                sale.productId === id
+                sale.productId ===
+                productId
         );
 
 
     let message =
-        `Are you sure you want to delete "${product.name}"?`;
+        `Delete "${product.name}"?`;
 
 
-    if (usedInSales) {
+    if (referenced) {
 
         message +=
-            "\n\nThis product has existing sales records.";
+            "\n\nThis product has existing sales records. Historical sales will remain.";
 
     }
 
 
-    if (!confirm(message)) {
+    const confirmed =
+        confirm(message);
 
+
+    if (!confirmed) {
         return;
-
     }
 
 
     products =
         products.filter(
             item =>
-                item.id !== id
+                item.id !== productId
         );
 
 
-    /* REMOVE FROM CART */
+    /* Remove deleted product from cart */
 
     cart =
         cart.filter(
             item =>
-                item.productId !== id
+                item.productId !==
+                productId
         );
 
 
-    saveProducts();
+    saveStorage(
+        STORAGE.products,
+        products
+    );
+
+    saveStorage(
+        STORAGE.cart,
+        cart
+    );
+
 
     renderAll();
+
+    renderCustomerMenu();
+
+    renderCart();
+
 
     showToast(
         "Product deleted successfully."
@@ -1962,37 +2790,37 @@ function deleteProduct(id) {
 
 
 /* =========================================================
-   CUSTOMER TABLE
+   CUSTOMERS TABLE
 ========================================================= */
 
 function renderCustomers() {
 
-    const tbody =
+    const body =
         document.getElementById(
-            "customersTable"
+            "customersTableBody"
         );
 
 
     if (!customers.length) {
 
-        tbody.innerHTML = `
+        body.innerHTML = `
             <tr>
-                <td colspan="8"
-                    style="text-align:center;">
-                    No customers registered.
+                <td colspan="9">
+                    <div class="empty-state">
+                        No customer records found.
+                    </div>
                 </td>
             </tr>
         `;
 
         return;
-
     }
 
 
-    tbody.innerHTML =
-        customers
-            .map(customer => `
+    body.innerHTML =
+        customers.map(customer => {
 
+            return `
                 <tr>
 
                     <td>
@@ -2008,7 +2836,9 @@ function renderCustomers() {
                     </td>
 
                     <td>
-                        ${escapeHtml(customer.birthdate)}
+                        ${formatDisplayDate(
+                            customer.birthdate
+                        )}
                     </td>
 
                     <td>
@@ -2016,15 +2846,27 @@ function renderCustomers() {
                     </td>
 
                     <td>
-                        +63 ${escapeHtml(customer.contact)}
+                        ${escapeHtml(
+                            customer.gender
+                        )}
                     </td>
 
                     <td>
-                        ${escapeHtml(customer.gender)}
+                        ${escapeHtml(
+                            customer.contact
+                        )}
                     </td>
 
                     <td>
-                        ${escapeHtml(customer.email)}
+                        ${escapeHtml(
+                            customer.email
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            customer.city
+                        )}
                     </td>
 
                     <td>
@@ -2032,15 +2874,21 @@ function renderCustomers() {
                         <div class="action-buttons">
 
                             <button
-                                class="btn-edit"
-                                onclick="openCustomerEdit('${customer.id}')">
-                                ✏ Edit
+                                class="btn btn-warning"
+                                onclick="openCustomerEdit(
+                                    '${customer.id}'
+                                )"
+                            >
+                                Edit
                             </button>
 
                             <button
-                                class="btn-delete"
-                                onclick="deleteCustomer('${customer.id}')">
-                                🗑 Delete
+                                class="btn btn-danger"
+                                onclick="deleteCustomer(
+                                    '${customer.id}'
+                                )"
+                            >
+                                Delete
                             </button>
 
                         </div>
@@ -2048,90 +2896,126 @@ function renderCustomers() {
                     </td>
 
                 </tr>
+            `;
 
-            `)
-            .join("");
+        }).join("");
 
 }
 
 
 /* =========================================================
-   EDIT CUSTOMER
+   CUSTOMER EDIT
 ========================================================= */
 
-function openCustomerEdit(id) {
+function openCustomerEdit(customerId) {
 
     const customer =
         customers.find(
             item =>
-                item.id === id
+                item.id ===
+                customerId
         );
 
 
     if (!customer) {
-
         return;
-
     }
 
 
+    clearErrors();
+
+
     document
-        .getElementById("customerEditId")
+        .getElementById(
+            "editCustomerId"
+        )
         .value =
         customer.id;
 
 
     document
-        .getElementById("editFirstName")
+        .getElementById(
+            "editCustomerName"
+        )
         .value =
-        customer.firstName;
+        customer.name;
 
 
     document
-        .getElementById("editMiddleName")
+        .getElementById(
+            "editCustomerMiddleName"
+        )
         .value =
         customer.middleName;
 
 
     document
-        .getElementById("editSurname")
+        .getElementById(
+            "editCustomerSurname"
+        )
         .value =
         customer.surname;
 
 
     document
-        .getElementById("editBirthdate")
+        .getElementById(
+            "editCustomerBirthdate"
+        )
         .value =
         customer.birthdate;
 
 
     document
-        .getElementById("editAge")
+        .getElementById(
+            "editCustomerAge"
+        )
         .value =
         calculateAge(customer.birthdate);
 
 
     document
-        .getElementById("editGender")
+        .getElementById(
+            "editCustomerGender"
+        )
         .value =
         customer.gender;
 
 
     document
-        .getElementById("editContact")
+        .getElementById(
+            "editCustomerContact"
+        )
         .value =
         customer.contact;
 
 
     document
-        .getElementById("editEmail")
+        .getElementById(
+            "editCustomerEmail"
+        )
         .value =
         customer.email;
 
 
-    hideError("customerEditError");
+    document
+        .getElementById(
+            "editCustomerCity"
+        )
+        .value =
+        customer.city;
 
-    openModal("customerEditModal");
+
+    document
+        .getElementById(
+            "editCustomerAddress"
+        )
+        .value =
+        customer.address;
+
+
+    openModal(
+        "customerEditModal"
+    );
 
 }
 
@@ -2144,265 +3028,384 @@ function saveCustomerEdit(event) {
 
     event.preventDefault();
 
-    hideError("customerEditError");
+    clearErrors();
 
 
-    const id =
+    const customerId =
         document
-            .getElementById("customerEditId")
+            .getElementById(
+                "editCustomerId"
+            )
             .value;
 
 
-    const customer =
-        customers.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!customer) {
-
-        return;
-
-    }
-
-
-    const firstName =
+    const name =
         document
-            .getElementById("editFirstName")
-            .value
-            .trim();
-
+            .getElementById(
+                "editCustomerName"
+            )
+            .value.trim();
 
     const middleName =
         document
-            .getElementById("editMiddleName")
-            .value
-            .trim();
-
+            .getElementById(
+                "editCustomerMiddleName"
+            )
+            .value.trim();
 
     const surname =
         document
-            .getElementById("editSurname")
-            .value
-            .trim();
-
+            .getElementById(
+                "editCustomerSurname"
+            )
+            .value.trim();
 
     const birthdate =
         document
-            .getElementById("editBirthdate")
+            .getElementById(
+                "editCustomerBirthdate"
+            )
             .value;
+
+    const gender =
+        document
+            .getElementById(
+                "editCustomerGender"
+            )
+            .value;
+
+    const contact =
+        document
+            .getElementById(
+                "editCustomerContact"
+            )
+            .value.trim();
+
+    const email =
+        document
+            .getElementById(
+                "editCustomerEmail"
+            )
+            .value.trim()
+            .toLowerCase();
+
+    const city =
+        document
+            .getElementById(
+                "editCustomerCity"
+            )
+            .value.trim();
+
+    const address =
+        document
+            .getElementById(
+                "editCustomerAddress"
+            )
+            .value.trim();
 
 
     const age =
         calculateAge(birthdate);
 
 
-    const gender =
-        document
-            .getElementById("editGender")
-            .value;
+    let valid = true;
 
 
-    const contact =
-        document
-            .getElementById("editContact")
-            .value
-            .trim();
+    if (
+        name.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(name)
+    ) {
 
-
-    const email =
-        document
-            .getElementById("editEmail")
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    /* VALIDATION */
-
-    if (firstName.length < 2) {
-
-        return showError(
-            "customerEditError",
-            "First name must contain at least 2 characters."
+        showError(
+            "editCustomerName",
+            "editCustomerNameError",
+            "Enter a valid name."
         );
 
-    }
-
-
-    if (surname.length < 2) {
-
-        return showError(
-            "customerEditError",
-            "Surname must contain at least 2 characters."
-        );
-
-    }
-
-
-    if (!birthdate) {
-
-        return showError(
-            "customerEditError",
-            "Birthdate is required."
-        );
-
-    }
-
-
-    if (age < 13 || age > 120) {
-
-        return showError(
-            "customerEditError",
-            "Please enter a valid birthdate."
-        );
-
+        valid = false;
     }
 
 
     if (
-        !/^\d{10}$/.test(contact) ||
-        !contact.startsWith("9")
+        middleName.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(middleName)
     ) {
 
-        return showError(
-            "customerEditError",
-            "Contact number must be a valid Philippine mobile number after +63."
+        showError(
+            "editCustomerMiddleName",
+            "editCustomerMiddleNameError",
+            "Enter a valid middle name."
         );
 
+        valid = false;
+    }
+
+
+    if (
+        surname.length < 2 ||
+        !/^[A-Za-zÀ-ÿ\s'-]+$/.test(surname)
+    ) {
+
+        showError(
+            "editCustomerSurname",
+            "editCustomerSurnameError",
+            "Enter a valid surname."
+        );
+
+        valid = false;
+    }
+
+
+    if (!birthdate || age === null) {
+
+        showError(
+            "editCustomerBirthdate",
+            "editCustomerBirthdateError",
+            "Enter a valid birthdate."
+        );
+
+        valid = false;
+
+    } else if (age < 18) {
+
+        showError(
+            "editCustomerBirthdate",
+            "editCustomerBirthdateError",
+            "Customer must be 18 years old or above."
+        );
+
+        valid = false;
     }
 
 
     if (!gender) {
 
-        return showError(
-            "customerEditError",
-            "Please select gender."
+        showError(
+            "editCustomerGender",
+            "editCustomerGenderError",
+            "Gender is required."
         );
 
+        valid = false;
     }
 
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (
+        !/^639\d{9}$/.test(contact)
+    ) {
 
-        return showError(
-            "customerEditError",
-            "Please enter a valid email address."
+        showError(
+            "editCustomerContact",
+            "editCustomerContactError",
+            "Use Philippine format 639XXXXXXXXX."
         );
 
+        valid = false;
     }
 
 
-    /* DUPLICATE EMAIL */
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            email
+        )
+    ) {
 
-    const duplicate =
-        customers.find(
-            item =>
-                item.id !== id &&
-                item.email.toLowerCase() === email
+        showError(
+            "editCustomerEmail",
+            "editCustomerEmailError",
+            "Enter a valid email address."
         );
 
-
-    if (duplicate) {
-
-        return showError(
-            "customerEditError",
-            "Another customer is already using this email."
-        );
-
+        valid = false;
     }
 
 
-    /* UPDATE */
-
-    customer.firstName =
-        firstName;
-
-    customer.middleName =
-        middleName;
-
-    customer.surname =
-        surname;
-
-    customer.birthdate =
-        birthdate;
-
-    customer.age =
-        age;
-
-    customer.contact =
-        contact;
-
-    customer.gender =
-        gender;
-
-    customer.email =
-        email;
-
-
-    /* UPDATE ACCOUNT */
-
-    const account =
-        accounts.find(
-            item =>
-                item.customerId === id
+    const duplicateEmail =
+        customers.some(
+            customer =>
+                customer.id !== customerId &&
+                customer.email.toLowerCase() ===
+                email
         );
 
 
-    if (account) {
+    if (duplicateEmail) {
 
-        account.email =
+        showError(
+            "editCustomerEmail",
+            "editCustomerEmailError",
+            "Another customer already uses this email."
+        );
+
+        valid = false;
+    }
+
+
+    if (city.length < 2) {
+
+        showError(
+            "editCustomerCity",
+            "editCustomerCityError",
+            "City is required."
+        );
+
+        valid = false;
+    }
+
+
+    if (address.length < 5) {
+
+        showError(
+            "editCustomerAddress",
+            "editCustomerAddressError",
+            "Complete address is required."
+        );
+
+        valid = false;
+    }
+
+
+    if (!valid) {
+
+        showToast(
+            "Please correct the customer information."
+        );
+
+        return;
+    }
+
+
+    const index =
+        customers.findIndex(
+            customer =>
+                customer.id ===
+                customerId
+        );
+
+
+    if (index === -1) {
+        return;
+    }
+
+
+    const oldEmail =
+        customers[index].email;
+
+
+    customers[index] = {
+
+        ...customers[index],
+
+        name,
+        middleName,
+        surname,
+        birthdate,
+        age,
+        gender,
+        contact,
+        email,
+        city,
+        address
+
+    };
+
+
+    /* UPDATE CUSTOMER ACCOUNT */
+
+    const accountIndex =
+        accounts.findIndex(
+            account =>
+                account.customerId ===
+                customerId
+        );
+
+
+    if (accountIndex !== -1) {
+
+        accounts[accountIndex].email =
             email;
 
     }
-
-
-    /* UPDATE SALES CUSTOMER NAME */
-
-    sales.forEach(sale => {
-
-        if (sale.customerId === id) {
-
-            sale.customerName =
-                getFullName(customer);
-
-        }
-
-    });
-
-
-    saveCustomers();
-
-    saveAccounts();
-
-    saveSales();
 
 
     /* UPDATE CURRENT CUSTOMER */
 
     if (
         currentCustomer &&
-        currentCustomer.id === id
+        currentCustomer.id ===
+        customerId
     ) {
 
         currentCustomer =
-            customer;
+            customers[index];
 
-        localStorage.setItem(
-            STORAGE.CURRENT_CUSTOMER,
-            JSON.stringify(customer)
+        saveStorage(
+            STORAGE.currentCustomer,
+            currentCustomer
         );
 
     }
 
 
-    closeModal("customerEditModal");
+    /* UPDATE SALES CUSTOMER NAME */
+
+    const newFullName =
+        getFullName(
+            customers[index]
+        );
+
+
+    sales =
+        sales.map(sale => {
+
+            if (
+                sale.customerId ===
+                customerId
+            ) {
+
+                return {
+                    ...sale,
+                    customerName:
+                        newFullName
+                };
+
+            }
+
+            return sale;
+
+        });
+
+
+    saveStorage(
+        STORAGE.customers,
+        customers
+    );
+
+    saveStorage(
+        STORAGE.accounts,
+        accounts
+    );
+
+    saveStorage(
+        STORAGE.sales,
+        sales
+    );
+
+
+    closeModal(
+        "customerEditModal"
+    );
+
 
     renderAll();
 
+    if (currentCustomer) {
+        showCustomerPage();
+    }
+
+
     showToast(
-        "Customer updated successfully."
+        "Customer record updated successfully."
     );
 
 }
@@ -2412,86 +3415,89 @@ function saveCustomerEdit(event) {
    DELETE CUSTOMER
 ========================================================= */
 
-function deleteCustomer(id) {
+function deleteCustomer(customerId) {
 
     const customer =
         customers.find(
             item =>
-                item.id === id
+                item.id ===
+                customerId
         );
 
 
     if (!customer) {
-
         return;
-
     }
 
 
-    const name =
+    const fullName =
         getFullName(customer);
 
 
     const confirmed =
         confirm(
-            `Are you sure you want to delete customer "${name}"?\n\nThe customer's account will also be removed.`
+            `Delete customer "${fullName}"?\n\nThe customer account will also be removed. Existing sales records will remain.`
         );
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
     customers =
         customers.filter(
             item =>
-                item.id !== id
+                item.id !== customerId
         );
 
 
     accounts =
         accounts.filter(
-            item =>
-                item.customerId !== id
+            account =>
+                account.customerId !==
+                customerId
         );
 
 
-    saveCustomers();
+    saveStorage(
+        STORAGE.customers,
+        customers
+    );
 
-    saveAccounts();
+    saveStorage(
+        STORAGE.accounts,
+        accounts
+    );
 
 
     if (
         currentCustomer &&
-        currentCustomer.id === id
+        currentCustomer.id ===
+        customerId
     ) {
 
         currentCustomer = null;
 
-        cart = [];
-
         localStorage.removeItem(
-            STORAGE.CURRENT_CUSTOMER
+            STORAGE.currentCustomer
         );
 
-        document
-            .getElementById("customerPage")
-            .classList.add("hidden");
+        cart = [];
 
-        document
-            .getElementById("authPage")
-            .classList.remove("hidden");
+        saveStorage(
+            STORAGE.cart,
+            cart
+        );
 
     }
 
 
     renderAll();
 
+
     showToast(
-        "Customer deleted successfully."
+        "Customer record deleted successfully."
     );
 
 }
@@ -2503,29 +3509,29 @@ function deleteCustomer(id) {
 
 function renderSales() {
 
-    const tbody =
+    const body =
         document.getElementById(
-            "salesTable"
+            "salesTableBody"
         );
 
 
     if (!sales.length) {
 
-        tbody.innerHTML = `
+        body.innerHTML = `
             <tr>
-                <td colspan="7"
-                    style="text-align:center;">
-                    No sales records found.
+                <td colspan="7">
+                    <div class="empty-state">
+                        No sales records found.
+                    </div>
                 </td>
             </tr>
         `;
 
         return;
-
     }
 
 
-    const sorted =
+    const sortedSales =
         [...sales].sort(
             (a, b) =>
                 new Date(b.date) -
@@ -2533,11 +3539,10 @@ function renderSales() {
         );
 
 
-    tbody.innerHTML =
-        sorted
-            .map(
-                sale => `
+    body.innerHTML =
+        sortedSales.map(sale => {
 
+            return `
                 <tr>
 
                     <td>
@@ -2547,11 +3552,15 @@ function renderSales() {
                     </td>
 
                     <td>
-                        ${escapeHtml(sale.customerName)}
+                        ${escapeHtml(
+                            sale.customerName
+                        )}
                     </td>
 
                     <td>
-                        ${escapeHtml(sale.productName)}
+                        ${escapeHtml(
+                            sale.productName
+                        )}
                     </td>
 
                     <td>
@@ -2559,13 +3568,13 @@ function renderSales() {
                     </td>
 
                     <td>
-                        <strong>
-                            ${formatMoney(sale.total)}
-                        </strong>
+                        ${formatMoney(sale.total)}
                     </td>
 
                     <td>
-                        ${escapeHtml(sale.date)}
+                        ${formatDisplayDate(
+                            sale.date
+                        )}
                     </td>
 
                     <td>
@@ -2573,15 +3582,21 @@ function renderSales() {
                         <div class="action-buttons">
 
                             <button
-                                class="btn-edit"
-                                onclick="openSaleEdit('${sale.id}')">
-                                ✏ Edit
+                                class="btn btn-warning"
+                                onclick="openSaleEdit(
+                                    '${sale.id}'
+                                )"
+                            >
+                                Edit
                             </button>
 
                             <button
-                                class="btn-delete"
-                                onclick="deleteSale('${sale.id}')">
-                                🗑 Delete
+                                class="btn btn-danger"
+                                onclick="deleteSale(
+                                    '${sale.id}'
+                                )"
+                            >
+                                Delete
                             </button>
 
                         </div>
@@ -2589,67 +3604,150 @@ function renderSales() {
                     </td>
 
                 </tr>
+            `;
 
-            `
-            )
-            .join("");
+        }).join("");
 
 }
 
 
 /* =========================================================
-   EDIT SALE
+   SALE EDIT
 ========================================================= */
 
-function openSaleEdit(id) {
+function openSaleEdit(saleId) {
 
     const sale =
         sales.find(
             item =>
-                item.id === id
+                item.id === saleId
         );
 
 
     if (!sale) {
-
         return;
-
     }
 
 
+    clearErrors();
+
+
     document
-        .getElementById("saleEditId")
+        .getElementById(
+            "editSaleId"
+        )
         .value =
         sale.id;
 
 
     document
-        .getElementById("editSaleCustomer")
-        .value =
-        sale.customerName;
-
-
-    document
-        .getElementById("editSaleProduct")
+        .getElementById(
+            "editSaleProduct"
+        )
         .value =
         sale.productName;
 
 
     document
-        .getElementById("editSaleQuantity")
+        .getElementById(
+            "editSaleCustomer"
+        )
+        .value =
+        sale.customerName;
+
+
+    document
+        .getElementById(
+            "editSaleQuantity"
+        )
         .value =
         sale.quantity;
 
 
     document
-        .getElementById("editSaleDate")
+        .getElementById(
+            "editSaleDate"
+        )
         .value =
         sale.date;
 
 
-    hideError("saleEditError");
+    updateSalePreview();
 
-    openModal("saleEditModal");
+
+    openModal(
+        "saleEditModal"
+    );
+
+}
+
+
+/* =========================================================
+   SALE PREVIEW
+========================================================= */
+
+function updateSalePreview() {
+
+    const saleId =
+        document
+            .getElementById(
+                "editSaleId"
+            )
+            .value;
+
+
+    const quantity =
+        Number(
+            document
+                .getElementById(
+                    "editSaleQuantity"
+                )
+                .value
+        );
+
+
+    const sale =
+        sales.find(
+            item =>
+                item.id === saleId
+        );
+
+
+    if (!sale) {
+        return;
+    }
+
+
+    const product =
+        products.find(
+            item =>
+                item.id ===
+                sale.productId
+        );
+
+
+    if (!product) {
+
+        document
+            .getElementById(
+                "editSaleTotal"
+            )
+            .textContent =
+            formatMoney(0);
+
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "editSaleTotal"
+        )
+        .textContent =
+        formatMoney(
+            product.price *
+            (quantity || 0)
+        );
 
 }
 
@@ -2662,123 +3760,153 @@ function saveSaleEdit(event) {
 
     event.preventDefault();
 
-    hideError("saleEditError");
+    clearErrors();
 
 
-    const id =
+    const saleId =
         document
-            .getElementById("saleEditId")
+            .getElementById(
+                "editSaleId"
+            )
+            .value;
+
+
+    const customerName =
+        document
+            .getElementById(
+                "editSaleCustomer"
+            )
+            .value.trim();
+
+
+    const newQuantity =
+        Number(
+            document
+                .getElementById(
+                    "editSaleQuantity"
+                )
+                .value
+        );
+
+
+    const date =
+        document
+            .getElementById(
+                "editSaleDate"
+            )
             .value;
 
 
     const sale =
         sales.find(
             item =>
-                item.id === id
+                item.id === saleId
         );
 
 
     if (!sale) {
-
         return;
-
-    }
-
-
-    const customerName =
-        document
-            .getElementById("editSaleCustomer")
-            .value
-            .trim();
-
-
-    const newQuantity =
-        Number(
-            document
-                .getElementById("editSaleQuantity")
-                .value
-        );
-
-
-    const newDate =
-        document
-            .getElementById("editSaleDate")
-            .value;
-
-
-    if (customerName.length < 2) {
-
-        return showError(
-            "saleEditError",
-            "Customer name is required."
-        );
-
-    }
-
-
-    if (
-        !Number.isInteger(newQuantity) ||
-        newQuantity < 1
-    ) {
-
-        return showError(
-            "saleEditError",
-            "Quantity must be at least 1."
-        );
-
-    }
-
-
-    if (!newDate) {
-
-        return showError(
-            "saleEditError",
-            "Date is required."
-        );
-
     }
 
 
     const product =
         products.find(
             item =>
-                item.id === sale.productId
+                item.id ===
+                sale.productId
         );
 
 
-    if (!product) {
+    let valid = true;
 
-        return showError(
-            "saleEditError",
-            "The product associated with this sale no longer exists."
+
+    if (customerName.length < 2) {
+
+        showError(
+            "editSaleCustomer",
+            "editSaleCustomerError",
+            "Customer name is required."
         );
 
+        valid = false;
     }
 
 
-    /*
-       Restore the previous quantity first.
-       Then subtract the new quantity.
-    */
+    if (
+        !Number.isInteger(
+            newQuantity
+        ) ||
+        newQuantity < 1
+    ) {
 
-    const availableStock =
-        product.stock +
-        sale.quantity;
-
-
-    if (newQuantity > availableStock) {
-
-        return showError(
-            "saleEditError",
-            `Only ${availableStock} item(s) are available for this transaction.`
+        showError(
+            "editSaleQuantity",
+            "editSaleQuantityError",
+            "Quantity must be at least 1."
         );
 
+        valid = false;
     }
 
 
-    product.stock =
-        availableStock -
-        newQuantity;
+    if (!date) {
+
+        showError(
+            "editSaleDate",
+            "editSaleDateError",
+            "Date is required."
+        );
+
+        valid = false;
+    }
+
+
+    if (!valid) {
+        return;
+    }
+
+
+    if (product) {
+
+        /*
+           Restore the old quantity first.
+           Then subtract the new quantity.
+        */
+
+        const availableStock =
+            product.stock +
+            sale.quantity;
+
+
+        if (
+            newQuantity >
+            availableStock
+        ) {
+
+            showError(
+                "editSaleQuantity",
+                "editSaleQuantityError",
+                `Only ${availableStock} units are available for this update.`
+            );
+
+            return;
+        }
+
+
+        product.stock =
+            availableStock -
+            newQuantity;
+
+
+        sale.total =
+            product.price *
+            newQuantity;
+
+
+        sale.productName =
+            product.name;
+
+    }
 
 
     sale.customerName =
@@ -2787,27 +3915,35 @@ function saveSaleEdit(event) {
     sale.quantity =
         newQuantity;
 
-    sale.total =
-        product.price *
-        newQuantity;
-
     sale.date =
-        newDate;
-
-    sale.productName =
-        product.name;
+        date;
 
 
-    saveProducts();
+    saveStorage(
+        STORAGE.products,
+        products
+    );
 
-    saveSales();
+    saveStorage(
+        STORAGE.sales,
+        sales
+    );
 
-    closeModal("saleEditModal");
+
+    closeModal(
+        "saleEditModal"
+    );
+
 
     renderAll();
 
+    renderCustomerMenu();
+
+    renderCart();
+
+
     showToast(
-        "Sale updated successfully."
+        "Sales record updated successfully."
     );
 
 }
@@ -2817,48 +3953,43 @@ function saveSaleEdit(event) {
    DELETE SALE
 ========================================================= */
 
-function deleteSale(id) {
+function deleteSale(saleId) {
 
     const sale =
         sales.find(
             item =>
-                item.id === id
+                item.id === saleId
         );
 
 
     if (!sale) {
-
         return;
-
     }
 
 
-    if (
-        !confirm(
-            `Are you sure you want to delete sale ${sale.id}?\n\nThe transaction will be removed.`
-        )
-    ) {
+    const confirmed =
+        confirm(
+            `Delete sales record ${sale.id}?\n\nThe sold quantity will be returned to inventory if the product still exists.`
+        );
 
+
+    if (!confirmed) {
         return;
-
     }
 
-
-    /* RESTORE STOCK */
 
     const product =
         products.find(
             item =>
-                item.id === sale.productId
+                item.id ===
+                sale.productId
         );
 
 
     if (product) {
 
         product.stock +=
-            Number(sale.quantity);
-
-        saveProducts();
+            sale.quantity;
 
     }
 
@@ -2866,898 +3997,260 @@ function deleteSale(id) {
     sales =
         sales.filter(
             item =>
-                item.id !== id
+                item.id !== saleId
         );
 
 
-    saveSales();
+    saveStorage(
+        STORAGE.sales,
+        sales
+    );
+
+    saveStorage(
+        STORAGE.products,
+        products
+    );
+
 
     renderAll();
 
-    showToast(
-        "Sale deleted successfully."
-    );
-
-}
-
-
-/* =========================================================
-   CUSTOMER MENU
-========================================================= */
-
-function renderCustomerMenu() {
-
-    const menu =
-        document.getElementById(
-            "customerMenu"
-        );
-
-
-    if (!menu) {
-
-        return;
-
-    }
-
-
-    menu.innerHTML =
-        products
-            .map(
-                product => `
-
-                <div class="menu-card">
-
-                    <div class="menu-image">
-                        ${product.icon || "🍽️"}
-                    </div>
-
-                    <div class="menu-info">
-
-                        <span class="menu-category">
-                            ${escapeHtml(product.category)}
-                        </span>
-
-                        <h3>
-                            ${escapeHtml(product.name)}
-                        </h3>
-
-                        <div class="menu-price">
-                            ${formatMoney(product.price)}
-                        </div>
-
-                        <div class="stock-text">
-                            Available Stock:
-                            ${product.stock}
-                        </div>
-
-                        <button
-                            class="btn btn-primary btn-large"
-                            onclick="addToCart('${product.id}')"
-                            ${product.stock <= 0 ? "disabled" : ""}>
-
-                            ${
-                                product.stock <= 0
-                                ? "Out of Stock"
-                                : "Add to Cart"
-                            }
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   ADD TO CART
-========================================================= */
-
-function addToCart(productId) {
-
-    if (!currentCustomer) {
-
-        openCustomerLogin();
-
-        return;
-
-    }
-
-
-    const product =
-        products.find(
-            item =>
-                item.id === productId
-        );
-
-
-    if (!product) {
-
-        return;
-
-    }
-
-
-    if (product.stock <= 0) {
-
-        showToast(
-            "This product is out of stock."
-        );
-
-        return;
-
-    }
-
-
-    const existing =
-        cart.find(
-            item =>
-                item.productId === productId
-        );
-
-
-    if (existing) {
-
-        if (
-            existing.quantity >=
-            product.stock
-        ) {
-
-            showToast(
-                "You cannot add more than the available stock."
-            );
-
-            return;
-
-        }
-
-        existing.quantity++;
-
-    } else {
-
-        cart.push({
-
-            productId,
-
-            quantity: 1
-
-        });
-
-    }
-
+    renderCustomerMenu();
 
     renderCart();
 
+
     showToast(
-        product.name +
-        " added to cart."
+        "Sales record deleted successfully."
     );
 
 }
 
 
 /* =========================================================
-   RENDER CART
+   ACCOUNT VIEW
 ========================================================= */
 
-function renderCart() {
+function showCustomerAccount() {
+
+    if (!currentCustomer) {
+        return;
+    }
+
 
     const container =
         document.getElementById(
-            "cartItems"
+            "accountDetails"
         );
 
 
-    if (!container) {
+    container.innerHTML = `
 
-        return;
+        <div class="account-info">
 
-    }
-
-
-    let subtotal = 0;
-
-    let totalQuantity = 0;
-
-
-    if (!cart.length) {
-
-        container.innerHTML = `
-
-            <div class="empty-cart">
-
-                🛒
-
-                <h3>
-                    Your cart is empty
-                </h3>
-
-                <p>
-                    Add products from the menu.
-                </p>
-
+            <div class="account-row">
+                <span>Customer ID</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.id
+                    )}
+                </strong>
             </div>
 
-        `;
-
-    } else {
-
-        container.innerHTML =
-            cart
-                .map(item => {
-
-                    const product =
-                        products.find(
-                            product =>
-                                product.id ===
-                                item.productId
-                        );
-
-
-                    if (!product) {
-
-                        return "";
-
-                    }
-
-
-                    const itemTotal =
-                        product.price *
-                        item.quantity;
-
-
-                    subtotal +=
-                        itemTotal;
-
-
-                    totalQuantity +=
-                        item.quantity;
-
-
-                    return `
-
-                    <div class="cart-item">
-
-                        <div class="cart-item-info">
-
-                            <h3>
-                                ${escapeHtml(product.name)}
-                            </h3>
-
-                            <p>
-                                ${formatMoney(product.price)}
-                                each
-                            </p>
-
-                        </div>
-
-
-                        <div class="quantity-control">
-
-                            <button
-                                onclick="changeCartQuantity('${product.id}', -1)">
-                                −
-                            </button>
-
-                            <span>
-                                ${item.quantity}
-                            </span>
-
-                            <button
-                                onclick="changeCartQuantity('${product.id}', 1)">
-                                +
-                            </button>
-
-                        </div>
-
-
-                        <div class="cart-item-total">
-
-                            ${formatMoney(itemTotal)}
-
-                        </div>
-
-
-                        <button
-                            class="btn btn-delete btn-small"
-                            onclick="removeFromCart('${product.id}')">
-
-                            🗑
-
-                        </button>
-
-                    </div>
-
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    const deliveryFee =
-        cart.length
-            ? 50
-            : 0;
-
-
-    const total =
-        subtotal +
-        deliveryFee;
-
-
-    document
-        .getElementById("cartSubtotal")
-        .textContent =
-        formatMoney(subtotal);
-
-
-    document
-        .getElementById("cartTotal")
-        .textContent =
-        formatMoney(total);
-
-
-    document
-        .getElementById("cartCount")
-        .textContent =
-        totalQuantity;
-
-
-    const checkoutButton =
-        document.getElementById(
-            "checkoutButton"
-        );
-
-
-    checkoutButton.disabled =
-        cart.length === 0;
-
-}
-
-
-/* =========================================================
-   CHANGE CART QUANTITY
-========================================================= */
-
-function changeCartQuantity(
-    productId,
-    amount
-) {
-
-    const item =
-        cart.find(
-            item =>
-                item.productId === productId
-        );
-
-
-    const product =
-        products.find(
-            product =>
-                product.id === productId
-        );
-
-
-    if (!item || !product) {
-
-        return;
-
-    }
-
-
-    const newQuantity =
-        item.quantity +
-        amount;
-
-
-    if (newQuantity <= 0) {
-
-        removeFromCart(productId);
-
-        return;
-
-    }
-
-
-    if (
-        newQuantity >
-        product.stock
-    ) {
-
-        showToast(
-            "Quantity exceeds available stock."
-        );
-
-        return;
-
-    }
-
-
-    item.quantity =
-        newQuantity;
-
-
-    renderCart();
-
-}
-
-
-/* =========================================================
-   REMOVE FROM CART
-========================================================= */
-
-function removeFromCart(productId) {
-
-    cart =
-        cart.filter(
-            item =>
-                item.productId !==
-                productId
-        );
-
-
-    renderCart();
-
-    showToast(
-        "Item removed from cart."
+            <div class="account-row">
+                <span>Name</span>
+                <strong>
+                    ${escapeHtml(
+                        getFullName(
+                            currentCustomer
+                        )
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Birthdate</span>
+                <strong>
+                    ${formatDisplayDate(
+                        currentCustomer.birthdate
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Age</span>
+                <strong>
+                    ${calculateAge(
+                        currentCustomer.birthdate
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Gender</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.gender
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Contact</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.contact
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Email</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.email
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>City</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.city
+                    )}
+                </strong>
+            </div>
+
+            <div class="account-row">
+                <span>Address</span>
+                <strong>
+                    ${escapeHtml(
+                        currentCustomer.address
+                    )}
+                </strong>
+            </div>
+
+        </div>
+
+    `;
+
+
+    openModal(
+        "accountModal"
     );
 
 }
 
 
 /* =========================================================
-   SCROLL TO CART
+   RENDER ALL
 ========================================================= */
 
-function scrollToCart() {
+function renderAll() {
 
-    document
-        .getElementById("cartSection")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+    renderDashboard();
+
+    renderInventory();
+
+    renderCustomers();
+
+    renderSales();
 
 }
 
 
 /* =========================================================
-   CHECKOUT MODAL
+   MODAL FUNCTIONS
 ========================================================= */
 
-function openCheckoutModal() {
+function openModal(id) {
 
-    if (!currentCustomer) {
+    const modal =
+        document.getElementById(id);
 
-        openCustomerLogin();
-
-        return;
-
-    }
-
-
-    if (!cart.length) {
-
-        showToast(
-            "Your cart is empty."
+    if (modal) {
+        modal.classList.remove(
+            "hidden"
         );
-
-        return;
-
     }
 
-
-    const subtotal =
-        calculateCartSubtotal();
+}
 
 
-    const total =
-        subtotal + 50;
+function closeModal(id) {
 
+    const modal =
+        document.getElementById(id);
 
-    document
-        .getElementById("checkoutName")
-        .value =
-        getFullName(currentCustomer);
-
-
-    document
-        .getElementById("checkoutContact")
-        .value =
-        currentCustomer.contact;
-
-
-    document
-        .getElementById("checkoutEmail")
-        .value =
-        currentCustomer.email;
-
-
-    document
-        .getElementById("checkoutAddress")
-        .value =
-        currentCustomer.address || "";
-
-
-    document
-        .getElementById("checkoutTotal")
-        .textContent =
-        formatMoney(total);
-
-
-    hideError("checkoutError");
-
-
-    openModal("checkoutModal");
+    if (modal) {
+        modal.classList.add(
+            "hidden"
+        );
+    }
 
 }
 
 
 /* =========================================================
-   CALCULATE SUBTOTAL
-========================================================= */
-
-function calculateCartSubtotal() {
-
-    return cart.reduce(
-        (sum, item) => {
-
-            const product =
-                products.find(
-                    product =>
-                        product.id ===
-                        item.productId
-                );
-
-
-            if (!product) {
-
-                return sum;
-
-            }
-
-
-            return (
-                sum +
-                product.price *
-                item.quantity
-            );
-
-        },
-        0
-    );
-
-}
-
-
-/* =========================================================
-   PROCESS ORDER
-========================================================= */
-
-function processOrder(event) {
-
-    event.preventDefault();
-
-    hideError("checkoutError");
-
-
-    if (!currentCustomer) {
-
-        return showError(
-            "checkoutError",
-            "Please sign in first."
-        );
-
-    }
-
-
-    if (!cart.length) {
-
-        return showError(
-            "checkoutError",
-            "Your cart is empty."
-        );
-
-    }
-
-
-    const contact =
-        document
-            .getElementById("checkoutContact")
-            .value
-            .trim();
-
-
-    const address =
-        document
-            .getElementById("checkoutAddress")
-            .value
-            .trim();
-
-
-    /* VALIDATE CONTACT */
-
-    if (
-        !/^\d{10}$/.test(contact) ||
-        !contact.startsWith("9")
-    ) {
-
-        return showError(
-            "checkoutError",
-            "Please enter a valid Philippine contact number."
-        );
-
-    }
-
-
-    /* VALIDATE ADDRESS */
-
-    if (address.length < 10) {
-
-        return showError(
-            "checkoutError",
-            "Please enter a complete delivery address."
-        );
-
-    }
-
-
-    /*
-       CHECK ALL STOCK
-    */
-
-    for (const item of cart) {
-
-        const product =
-            products.find(
-                product =>
-                    product.id ===
-                    item.productId
-            );
-
-
-        if (!product) {
-
-            return showError(
-                "checkoutError",
-                "A product in your cart is no longer available."
-            );
-
-        }
-
-
-        if (
-            item.quantity >
-            product.stock
-        ) {
-
-            return showError(
-                "checkoutError",
-                `${product.name} does not have enough stock.`
-            );
-
-        }
-
-    }
-
-
-    /*
-       UPDATE CUSTOMER
-    */
-
-    currentCustomer.contact =
-        contact;
-
-    currentCustomer.address =
-        address;
-
-
-    const storedCustomer =
-        customers.find(
-            customer =>
-                customer.id ===
-                currentCustomer.id
-        );
-
-
-    if (storedCustomer) {
-
-        storedCustomer.contact =
-            contact;
-
-        storedCustomer.address =
-            address;
-
-    }
-
-
-    /*
-       CREATE SALES RECORDS
-    */
-
-    const orderNumber =
-        generateId(
-            "S",
-            sales
-        );
-
-
-    const orderDate =
-        getToday();
-
-
-    const customerName =
-        getFullName(currentCustomer);
-
-
-    let orderTotal = 0;
-
-
-    cart.forEach(item => {
-
-        const product =
-            products.find(
-                product =>
-                    product.id ===
-                    item.productId
-            );
-
-
-        if (!product) {
-
-            return;
-
-        }
-
-
-        const itemTotal =
-            product.price *
-            item.quantity;
-
-
-        orderTotal +=
-            itemTotal;
-
-
-        /*
-           REDUCE STOCK
-        */
-
-        product.stock -=
-            item.quantity;
-
-
-        /*
-           CREATE SALE
-        */
-
-        sales.push({
-
-            id:
-                sales.length === 0
-                    ? orderNumber
-                    : generateId("S", sales),
-
-            customerId:
-                currentCustomer.id,
-
-            customerName,
-
-            productId:
-                product.id,
-
-            productName:
-                product.name,
-
-            quantity:
-                item.quantity,
-
-            total:
-                itemTotal,
-
-            date:
-                orderDate
-
-        });
-
-    });
-
-
-    /*
-       DELIVERY FEE
-    */
-
-    orderTotal += 50;
-
-
-    saveProducts();
-
-    saveCustomers();
-
-    saveSales();
-
-
-    /*
-       CLEAR CART
-    */
-
-    cart = [];
-
-
-    /*
-       SHOW SUCCESS
-    */
-
-    document
-        .getElementById("successOrderId")
-        .textContent =
-        orderNumber;
-
-
-    document
-        .getElementById("successOrderTotal")
-        .textContent =
-        formatMoney(orderTotal);
-
-
-    closeModal("checkoutModal");
-
-    renderAll();
-
-    openModal("orderSuccessModal");
-
-}
-
-
-/* =========================================================
-   ERROR HELPERS
+   ERROR HANDLING
 ========================================================= */
 
 function showError(
-    elementId,
+    inputId,
+    errorId,
     message
 ) {
 
-    const element =
+    const input =
         document.getElementById(
-            elementId
+            inputId
+        );
+
+    const error =
+        document.getElementById(
+            errorId
         );
 
 
-    element.textContent =
-        message;
+    if (input) {
+        input.classList.add(
+            "input-error"
+        );
+    }
 
 
-    element.classList.remove(
-        "hidden"
-    );
+    if (error) {
+        error.textContent =
+            message;
+    }
 
 }
 
 
-function hideError(elementId) {
+function clearErrors() {
 
-    const element =
-        document.getElementById(
-            elementId
-        );
+    document
+        .querySelectorAll(
+            ".error-message"
+        )
+        .forEach(error => {
+
+            error.textContent = "";
+
+        });
 
 
-    if (element) {
+    document
+        .querySelectorAll(
+            ".input-error"
+        )
+        .forEach(input => {
 
-        element.textContent = "";
+            input.classList.remove(
+                "input-error"
+            );
 
-        element.classList.add(
-            "hidden"
-        );
-
-    }
+        });
 
 }
 
@@ -3766,7 +4259,7 @@ function hideError(elementId) {
    TOAST
 ========================================================= */
 
-let toastTimer;
+let toastTimer = null;
 
 
 function showToast(message) {
@@ -3786,31 +4279,182 @@ function showToast(message) {
     );
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
 
 
     toastTimer =
-        setTimeout(
-            () => {
+        setTimeout(() => {
 
-                toast.classList.remove(
-                    "show"
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 3500);
+
+}
+
+
+/* =========================================================
+   HELPER FUNCTIONS
+========================================================= */
+
+function generateId(
+    prefix,
+    array
+) {
+
+    let highest = 0;
+
+
+    array.forEach(item => {
+
+        const match =
+            String(item.id || "")
+                .match(
+                    new RegExp(
+                        `^${prefix}(\\d+)$`
+                    )
                 );
 
-            },
-            2500
+
+        if (match) {
+
+            highest =
+                Math.max(
+                    highest,
+                    Number(match[1])
+                );
+
+        }
+
+    });
+
+
+    return (
+        prefix +
+        String(highest + 1)
+            .padStart(3, "0")
+    );
+
+}
+
+
+function getFullName(customer) {
+
+    if (!customer) {
+        return "";
+    }
+
+
+    return [
+        customer.name,
+        customer.middleName,
+        customer.surname
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+}
+
+
+function formatMoney(value) {
+
+    return new Intl.NumberFormat(
+        "en-PH",
+        {
+            style: "currency",
+            currency: "PHP"
+        }
+    ).format(
+        Number(value) || 0
+    );
+
+}
+
+
+function getToday() {
+
+    return formatDateInput(
+        new Date()
+    );
+
+}
+
+
+function formatDisplayDate(
+    dateString
+) {
+
+    if (!dateString) {
+        return "";
+    }
+
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    if (Number.isNaN(
+        date.getTime()
+    )) {
+        return dateString;
+    }
+
+
+    return date.toLocaleDateString(
+        "en-PH",
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   HTML SAFETY
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
         );
 
 }
 
 
 /* =========================================================
-   CLOSE MODAL WHEN CLICKING BACKDROP
+   CLOSE MODAL WHEN CLICKING OUTSIDE
 ========================================================= */
 
 document.addEventListener(
     "click",
-    function (event) {
+    event => {
 
         if (
             event.target.classList.contains(
@@ -3829,38 +4473,26 @@ document.addEventListener(
 
 
 /* =========================================================
-   ESCAPE KEY CLOSES MODAL
+   ESCAPE KEY CLOSES MODALS
 ========================================================= */
 
 document.addEventListener(
     "keydown",
-    function (event) {
+    event => {
 
         if (event.key === "Escape") {
 
-            closeAllModals();
+            document
+                .querySelectorAll(
+                    ".modal"
+                )
+                .forEach(modal => {
 
-        }
+                    modal.classList.add(
+                        "hidden"
+                    );
 
-    }
-);
-
-
-/* =========================================================
-   PREVENT NEGATIVE QUANTITIES
-========================================================= */
-
-document.addEventListener(
-    "input",
-    function (event) {
-
-        if (
-            event.target.type ===
-            "number" &&
-            event.target.value < 0
-        ) {
-
-            event.target.value = 0;
+                });
 
         }
 
